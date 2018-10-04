@@ -25,7 +25,7 @@ Syntax highlighted code block
 **Bold** and _Italic_ and `Code` text
 
 [Link](url) and ![Image](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/jonas-verstuyft-787869-unsplash.jpg)
-[test new1 page](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/jonas-verstuyft-787869-unsplash.jpg)
+[test new1 page](http://www.github.com/)
 ```
 ![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
 
