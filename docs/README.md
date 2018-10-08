@@ -37,8 +37,8 @@
 
 ### Ticket ERD Diagram
 
-![Image](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.png)
+<img src = "GeppettoSoftware/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.png">
 
 ### SalesOrder Sequence Diagram
 
-![Images](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).png)
+<img src ="GeppettoSoftware/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).png">
