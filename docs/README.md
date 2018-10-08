@@ -42,5 +42,5 @@
 
 
 ### SalesOrder Sequence Diagram
-![Salesorder](StahlsTest/docs/salesOrderSequenceDiagram(ADMIN).png)
+  ![Salesorder](StahlsTest/docs/salesOrderSequenceDiagram(ADMIN).jpg)
 
