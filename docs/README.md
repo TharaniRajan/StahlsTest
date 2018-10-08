@@ -37,10 +37,10 @@
 
 ### Ticket ERD Diagram
 
- ![TicketImage](StahlsTest/docs/Tickets ER Diagram.jpg)
+ ![Ticketimage](StahlsTest/docs/Tickets ER Diagram.jpg)
       
 
 
 ### SalesOrder Sequence Diagram
+![Salesorder](StahlsTest/docs/salesOrderSequenceDiagram(ADMIN).png)
 
-<img src ="GeppettoSoftware/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).png">
