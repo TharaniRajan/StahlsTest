@@ -35,10 +35,10 @@
     11. Appendices<br/>
 
 
-# Ticket ERD Diagram
+### Ticket ERD Diagram
 
-![Image of Ticket ERD Diagram](https://github.com/KishanRavindran/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.jpg)
+![Image of Ticket ERD Diagram](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.jpg)
 
-# SalesOrder Sequence Diagram
+### SalesOrder Sequence Diagram
 
-![Image of Sales Order Sequence Diagram](https://github.com/KishanRavindran/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).jpg)
+![Image of Sales Order Sequence Diagram](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).jpg)
