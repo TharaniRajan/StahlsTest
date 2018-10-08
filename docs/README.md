@@ -36,11 +36,9 @@
 
 
 ### Ticket ERD Diagram
-
-  ![Ticketimage](StahlsTest/docs/Tickets ER Diagram.jpg)
+![Image of Ticket ERD Diagram](https://github.com/KishanRavindran/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.jpg)
       
 
-
 ### SalesOrder Sequence Diagram
-  ![Salesorder](StahlsTest/docs/salesOrderSequenceDiagram(ADMIN).jpg)
+![Image of Sales Order Sequence Diagram](https://github.com/KishanRavindran/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).jpg)
 
