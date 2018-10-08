@@ -36,9 +36,9 @@
 
 
 ### Ticket ERD Diagram
-![ImaDiagram](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/jonas-verstuyft-787869-unsplash.jpg)
+![ERD](https://github.com/KishanRavindran/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.jpg)
       
 
 ### SalesOrder Sequence Diagram
-[Test](https://github.com/KishanRavindran/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).jpg)
+![Test](https://github.com/KishanRavindran/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).jpg)
 
