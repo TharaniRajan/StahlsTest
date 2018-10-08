@@ -39,32 +39,60 @@ module.exports.migratePackedBoxes = function () {
 
                                             models.sequelize.query("SELECT * FROM P_PackedBoxes where DataExportDate > " + "'" + response[0].DataExportDate.toISOString() + "'", { type: models.sequelize.QueryTypes.SELECT })
                                                 .then(data2 => {
+                                                    models.sequelize.query("SELECT COUNT(*)N'Count' FROM P_PackedBoxes where DataExportDate > " + "'" + response[0].DataExportDate.toISOString() + "'", { type: models.sequelize.QueryTypes.SELECT })
+                                                        .then(Countvalue => {
+                                                            console.log('---------------Countvalue---------->>>', Countvalue[0].Count);
+                                                            log.info('Data Count' + Countvalue[0].Count)
+                                                            models.SyncService.update({ SyncOperation: false, TotalCount: Countvalue[0].Count },
+                                                                { where: { SyncTable: 'PackedBoxes' } }
+                                                            ).then(function (countresponse) {
+                                                            }).catch(function (error) {
+                                                                log.info('Error When updating TotalCount:' + error);
+                                                            })
+                                                            count = Countvalue[0].Count;
+                                                            console.log('---------Total Count----------', count);
+                                                            if (count.length !== 0) {
+                                                                var looplength = count / 100;
+                                                                console.log('---------calculatevalue---------', looplength)
+                                                                var value = Math.trunc(looplength);
+                                                                console.log('--------Value---------->>>', value);
+                                                                if (looplength >= value) {
+                                                                    var looplength = value + 1;
+                                                                }
+                                                                console.log('---------Iterate---------', looplength)
+                                                                for (i = 0; i < looplength; i++) {
 
-                                                    if (data2.length != 0) {
-                                                        models.sequelize.query("select * from P_PackedBoxes a \
+                                                                    if (data2.length != 0) {
+                                                                        models.sequelize.query("select * from P_PackedBoxes a \
                                             where exists (select 1 \
                                                         from PackedBox b \
                                                         where a.PackedBoxID = b.PackedBoxID) \
-                                                        And a.DataExportDate > " + "'" + response[0].DataExportDate.toISOString() + "'", { type: models.sequelize.QueryTypes.SELECT })
-                                                            .then(updateData => {
-                                                                updateRecords(updateData)
-                                                            })
+                                                        And a.DataExportDate > " + "'" + response[0].DataExportDate.toISOString() + "'ORDER BY PackedBoxID OFFSET 0 ROW FETCH NEXT 100 ROW ONLY", { type: models.sequelize.QueryTypes.SELECT })
+                                                                            .then(updateData => {
+                                                                                updateRecords(updateData)
+                                                                            })
 
-                                                        models.sequelize.query("select * from P_PackedBoxes a \
+                                                                        models.sequelize.query("select * from P_PackedBoxes a \
                                                 where not exists (select 1 \
                                                             from PackedBox b \
                                                             where a.PackedBoxID = b.PackedBoxID) \
-                                                            And a.DataExportDate > " + "'" + response[0].DataExportDate.toISOString() + "'", { type: models.sequelize.QueryTypes.SELECT })
-                                                            .then(insertData => {
-                                                                insertRecords(insertData)
-                                                            })
+                                                            And a.DataExportDate > " + "'" + response[0].DataExportDate.toISOString() + "'ORDER BY PackedBoxID OFFSET 0 ROW FETCH NEXT 100 ROW ONLY", { type: models.sequelize.QueryTypes.SELECT })
+                                                                            .then(insertData => {
+                                                                                insertRecords(insertData,response[0].DataExportDate.toISOString())
+                                                                            })
 
 
-                                                    } else {
-                                                        log.info("--------> No Records To Migrate!")
-                                                        nextTable("Complete-NoDataFound");
-                                                    }
+                                                                    } else {
+                                                                        log.info("--------> No Records To Migrate!")
+                                                                        nextTable("Complete-NoDataFound");
+                                                                    }
+                                                                }
+                                                            } else {
+                                                                log.info("-------->PackedBox Uptodate")
+                                                                nextTable("Complete-NoDataFound");
 
+                                                            }
+                                                        })
                                                 })
 
 
@@ -78,7 +106,7 @@ module.exports.migratePackedBoxes = function () {
                                             .then(data3 => {
                                                 if (data3.length != 0) {
                                                     DataExportDate = data3[0].DataExportDate.toISOString()
-                                                    insertRecords(data3);
+                                                    insertRecords(data3,DataExportDate);
                                                 } else { nextTable("Complete-NoDataToExport"); log.info("-------->No data in P_PackedBox") }
                                             }).catch(function (error) {
                                                 log.error('Error PackedBox:' + error);
@@ -95,7 +123,7 @@ module.exports.migratePackedBoxes = function () {
                     .then(data3 => {
                         if (data3.length != 0) {
                             DataExportDate = data3[0].DataExportDate.toISOString()
-                            insertRecords(data3);
+                            insertRecords(data3,DataExportDate);
                         } else { nextTable("Complete-NoDataToExport"); log.info("-------->No data in P_PackedBox") }
                     }).catch(function (error) {
                         log.error('Error PackedBox:' + error);
@@ -105,7 +133,7 @@ module.exports.migratePackedBoxes = function () {
         })
 }
 
-async function insertRecords(data) {
+async function insertRecords(data, date) {
     log.info('in insertRecords PackedBox')
 
     models.PackedBox.bulkCreate(data).then(async function (response) {
@@ -114,6 +142,18 @@ async function insertRecords(data) {
         // log.info("--------> Sleeping for 2secs..")
         // await sleep(2000)
         nextTable("Complete-DataExported");
+        models.sequelize.query("SELECT COUNT(*) N'MigrateCount' FROM PackedBox where DataExportDate > " + "'" + date + "'", { type: models.sequelize.QueryTypes.SELECT })
+            .then(migratedcount => {
+                models.SyncService.update({ SyncOperation: false, MigratedCount: migratedcount[0].MigrateCount },
+                    { where: { SyncTable: 'PackedBoxes' } }
+                ).then(function (countresponse) {
+                }).catch(function (error) {
+                    log.info('Error When updating MigratedCount:' + error);
+                })
+            }).catch(function (error) {
+                log.info('Error in Migrate Count:' + error);
+            })
+
     }).catch(function (error) {
         log.info('Error PackedBox:' + error);
         nextTable("Error-DataExport");
@@ -129,8 +169,8 @@ async function updateRecords(data) {
     for (i = 0; i < data.length; i++) {
         count++;
 
-        models.PackedBox.update(data[i],{
-            where:{
+        models.PackedBox.update(data[i], {
+            where: {
                 PackedBoxID: data[i].PackedBoxID
             }
         }).then(async function (response) {

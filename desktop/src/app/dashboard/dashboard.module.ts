@@ -6,17 +6,17 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
 import { SidenavModule } from '../sidenav/sidenav.module';
 
 import { MatButtonModule } from '@angular/material';
-//import { Ng2Bs3ModalModule } from 'ng2-bs3-modal';
+// import { Ng2Bs3ModalModule } from 'ng2-bs3-modal';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material';
 import { AuthGuard } from '../login/auth.guard';
-import {DashboardService} from '../dashboard/dashboard.service';
+import { DashboardService } from '../dashboard/dashboard.service';
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 
@@ -47,7 +47,7 @@ import { MatSelectModule } from '@angular/material/select';
       secondaryColour: '#f7f986',
       tertiaryColour: '#ffffff'
     }),
-    //Ng2Bs3ModalModule,
+    // Ng2Bs3ModalModule,
     NgCircleProgressModule.forRoot({
       backgroundPadding: -28,
       radius: 33,

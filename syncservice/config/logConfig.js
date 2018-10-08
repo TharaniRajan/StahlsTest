@@ -25,8 +25,9 @@ const logger = createLogger({
       level: 'info',
       dirname: logDir,
       filename: logDir + 'SyncLogs-%DATE%.log',
-      datePattern: 'YYYY-MM-DD-HH:MM:SS',
+      datePattern: 'YYYY-MM-DD',
       zippedArchive: false,
+      prepend: true,
       json: true,
       colorize: false
     })

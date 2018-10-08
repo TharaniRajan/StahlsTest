@@ -135,7 +135,7 @@
       </ng-container>
 
       <ng-container matColumnDef="size">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Size </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> StyleOption </mat-header-cell>
         <mat-cell *matCellDef="let row" [style.color]="green">
             <span *ngIf ="row.StyleOption === null">-</span>
             <span *ngIf ="row.StyleOption !== null">{{row.StyleOption}}</span>

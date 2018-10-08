@@ -12,6 +12,8 @@ module.exports = function (sequelize, DataTypes) {
         SyncTable: DataTypes.STRING,
         DataExportDate:DataTypes.DATEONLY,
         DataImportDate:DataTypes.DATE,
+        TotalCount:  DataTypes.INTEGER,
+        MigratedCount: DataTypes.INTEGER,
 
         createdAt:{
             type: DataTypes.DATE,

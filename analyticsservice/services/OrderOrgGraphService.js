@@ -11,10 +11,22 @@ var sequelize = new Sequelize(config.name, config.username, config.password, con
 module.exports.getOrderonTime = function (CompanyCode, callback) {
   sequelize.query("SELECT Count(*)N'Exportcount' FROM SalesOrder WHERE \
   DATEDIFF(day,DATEADD(hh, -4 ,GETDATE()),OrderDate)<=$dayvalue AND DATEDIFF(day,CustomerDueDate,ShipDate)<1 \
-  AND CompanyCode=$companyCode", { bind: { dayvalue: 7, companyCode: CompanyCode }, type: sequelize.QueryTypes.SELECT })
+  AND CompanyCode=$companyCode", {
+      bind: {
+        dayvalue: 7,
+        companyCode: CompanyCode
+      },
+      type: sequelize.QueryTypes.SELECT
+    })
     .then(record1 => {
       var exportDate = record1[0].Exportcount;
-      sequelize.query("SELECT Count(*)N'orderCount' FROM SalesOrder WHERE DATEDIFF(day,DATEADD(hh, -4 ,GETDATE()),OrderDate)<=$dayvalue AND CompanyCode=$companyCode", { bind: { dayvalue: 7, companyCode: CompanyCode }, type: sequelize.QueryTypes.SELECT })
+      sequelize.query("SELECT Count(*)N'orderCount' FROM SalesOrder WHERE DATEDIFF(day,DATEADD(hh, -4 ,GETDATE()),OrderDate)<=$dayvalue AND CompanyCode=$companyCode", {
+          bind: {
+            dayvalue: 7,
+            companyCode: CompanyCode
+          },
+          type: sequelize.QueryTypes.SELECT
+        })
         .then(record2 => {
           var orderDate = record2[0].orderCount;
           var percent = (exportDate / orderDate) * 100;
@@ -29,7 +41,13 @@ module.exports.getOrderonTime = function (CompanyCode, callback) {
 }
 
 module.exports.getOrderonTimeToday = function (CompanyCode, callback) {
-  sequelize.query("SELECT Count(*)N'customerDueDate' FROM SalesOrder WHERE CONVERT(date,CustomerDueDate)=CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())) AND CompanyCode=$companyCode", { bind: { dayvalue: 7, companyCode: CompanyCode }, type: sequelize.QueryTypes.SELECT })
+  sequelize.query("SELECT Count(*)N'customerDueDate' FROM SalesOrder WHERE CONVERT(date,CustomerDueDate)=CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())) AND CompanyCode=$companyCode", {
+      bind: {
+        dayvalue: 7,
+        companyCode: CompanyCode
+      },
+      type: sequelize.QueryTypes.SELECT
+    })
     .then(record2 => {
       var forcastDate = record2[0].customerDueDate;
       var responsValue = {
@@ -40,7 +58,13 @@ module.exports.getOrderonTimeToday = function (CompanyCode, callback) {
 }
 
 module.exports.getOrderonTimeGraph = function (CompanyCode, callback) {
-   sequelize.query("SELECT Count(*)N'orderCount' FROM SalesOrder WHERE DATEDIFF(day,DATEADD(hh, -4 ,GETDATE()),OrderDate)<=$dayvalue AND CompanyCode=$companyCode", { bind: { dayvalue: 7, companyCode: CompanyCode }, type: sequelize.QueryTypes.SELECT })
+  sequelize.query("SELECT Count(*)N'orderCount' FROM SalesOrder WHERE DATEDIFF(day,DATEADD(hh, -4 ,GETDATE()),OrderDate)<=$dayvalue AND CompanyCode=$companyCode", {
+      bind: {
+        dayvalue: 7,
+        companyCode: CompanyCode
+      },
+      type: sequelize.QueryTypes.SELECT
+    })
     .then(record2 => {
       var orderDate = record2[0].orderCount;
       var responsValue = {
@@ -51,66 +75,200 @@ module.exports.getOrderonTimeGraph = function (CompanyCode, callback) {
 }
 
 
+// module.exports.getOrderonTimeShipped = function (Days, CompanyCode, callback) {
+//   var dayscount = Days;
+//   var Forcastgraph = []
+//   var shipGraph = []
+//   var arrayCount = [];
+//   if (Days === '7') {
+//     for (var daysdiff = 0; daysdiff < 7; daysdiff++) {
+//       arrayCount.push(daysdiff);
+//     }
+//   } else if (Days === '30') {
+//     for (var daysdiff = 4; daysdiff <= 30; daysdiff = daysdiff + 4) {
+//       arrayCount.push(daysdiff);
+
+//     }
+//   } else if (Days == '90') {
+
+//     for (var daysdiff = 15; daysdiff <= 90; daysdiff = daysdiff + 15) {
+//       arrayCount.push(daysdiff);
+
+//     }
+//   }
+
+//   if (daysdiff.length != 0) {
+//     var beforeCount = 0
+//     asyncLoop(arrayCount, (count, next) => {
+//       if (Days == '7') {
+//         sequelize.query("SELECT Count(*) N'shipCount' FROM SalesOrder WHERE CONVERT(date,ShipDate)=CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$dayvalue) AND CompanyCode=$companyCode", { bind: { dayvalue: count, companyCode: CompanyCode }, type: sequelize.QueryTypes.SELECT })
+//           .then(record1 => {
+//             shipGraph.push(record1[0].shipCount);
+//             sequelize.query("SELECT Count(*) N'forcastCount' FROM SalesOrder WHERE CONVERT(date,CustomerDueDate)=CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$dayvalue) AND CompanyCode=$companyCode", { bind: { dayvalue: count, companyCode: CompanyCode }, type: sequelize.QueryTypes.SELECT })
+//               .then(record2 => {
+//                 Forcastgraph.push(record2[0].forcastCount);
+//                 next();
+//               })
+//           })
+//       } else {
+//         sequelize.query("SELECT Count(*) N'shipCount' FROM SalesOrder WHERE CONVERT(date,ShipDate) BETWEEN CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$endvalue) AND CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$startvalue) AND CompanyCode=$companyCode", { bind: { endvalue: count-1, startvalue: beforeCount, companyCode: CompanyCode }, type: sequelize.QueryTypes.SELECT })
+//           .then(record1 => {
+//             shipGraph.push(record1[0].shipCount);
+//             sequelize.query("SELECT Count(*) N'forcastCount' FROM SalesOrder WHERE CONVERT(date,CustomerDueDate) BETWEEN CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$endvalue) AND CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$startvalue) AND CompanyCode=$companyCode", { bind: { endvalue: count-1, startvalue: beforeCount, companyCode: CompanyCode }, type: sequelize.QueryTypes.SELECT })
+//               .then(record2 => {
+//                 Forcastgraph.push(record2[0].forcastCount);
+//                 beforeCount = count;
+//                 next();
+//               })
+//           })
+//       }
+//     }, function (err) {
+//       if (err) {
+//         console.log('error in async loop --- ', err);
+//       } else {
+//         var responseData = {
+//           ShippedGraphCount: shipGraph,
+//           ForcastGraphCount: Forcastgraph
+//         }
+
+//         callback(responseData)
+
+
+//       }
+//     })
+//   }
+// }
+
+
 module.exports.getOrderonTimeShipped = function (Days, CompanyCode, callback) {
-  var dayscount = Days;
-  var Forcastgraph = []
-  var shipGraph = []
-  var arrayCount = [];
-  if (Days === '7') {
-    for (var daysdiff = 0; daysdiff < 7; daysdiff++) {
-      arrayCount.push(daysdiff);
-    }
-  } else if (Days === '30') {
-    for (var daysdiff = 4; daysdiff <= 30; daysdiff = daysdiff + 4) {
-      arrayCount.push(daysdiff);
-
-    }
-  } else if (Days == '90') {
-
-    for (var daysdiff = 15; daysdiff <= 90; daysdiff = daysdiff + 15) {
-      arrayCount.push(daysdiff);
-
-    }
-  }
-
-  if (daysdiff.length != 0) {
-    var beforeCount = 0
-    asyncLoop(arrayCount, (count, next) => {
-      if (Days == '7') {
-        sequelize.query("SELECT Count(*) N'shipCount' FROM SalesOrder WHERE CONVERT(date,ShipDate)=CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$dayvalue) AND CompanyCode=$companyCode", { bind: { dayvalue: count, companyCode: CompanyCode }, type: sequelize.QueryTypes.SELECT })
-          .then(record1 => {
-            shipGraph.push(record1[0].shipCount);
-            sequelize.query("SELECT Count(*) N'forcastCount' FROM SalesOrder WHERE CONVERT(date,CustomerDueDate)=CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$dayvalue) AND CompanyCode=$companyCode", { bind: { dayvalue: count, companyCode: CompanyCode }, type: sequelize.QueryTypes.SELECT })
-              .then(record2 => {
-                Forcastgraph.push(record2[0].forcastCount);
-                next();
-              })
-          })
-      } else {
-        sequelize.query("SELECT Count(*) N'shipCount' FROM SalesOrder WHERE CONVERT(date,ShipDate) BETWEEN CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$endvalue) AND CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$startvalue) AND CompanyCode=$companyCode", { bind: { endvalue: count-1, startvalue: beforeCount, companyCode: CompanyCode }, type: sequelize.QueryTypes.SELECT })
-          .then(record1 => {
-            shipGraph.push(record1[0].shipCount);
-            sequelize.query("SELECT Count(*) N'forcastCount' FROM SalesOrder WHERE CONVERT(date,CustomerDueDate) BETWEEN CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$endvalue) AND CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$startvalue) AND CompanyCode=$companyCode", { bind: { endvalue: count-1, startvalue: beforeCount, companyCode: CompanyCode }, type: sequelize.QueryTypes.SELECT })
-              .then(record2 => {
-                Forcastgraph.push(record2[0].forcastCount);
-                beforeCount = count;
-                next();
-              })
-          })
+    var dayscount = Days;
+    // var Forcastgraph = []
+    // var shipGraph = []
+    var earilerGraph = [];
+    var onTimeGraph = [];
+    var delayGraph = [];
+    var arrayCount = [];
+    if (Days === '7') {
+      for (var daysdiff = 0; daysdiff < 7; daysdiff++) {
+        arrayCount.push(daysdiff);
       }
-    }, function (err) {
-      if (err) {
-        console.log('error in async loop --- ', err);
-      } else {
-        var responseData = {
-          ShippedGraphCount: shipGraph,
-          ForcastGraphCount: Forcastgraph
+    } else if (Days === '30') {
+      for (var daysdiff = 4; daysdiff <= 30; daysdiff = daysdiff + 4) {
+        arrayCount.push(daysdiff);
+
+      }
+    } else if (Days == '90') {
+
+      for (var daysdiff = 15; daysdiff <= 90; daysdiff = daysdiff + 15) {
+        arrayCount.push(daysdiff);
+
+      }
+    }
+
+    if (daysdiff.length != 0) {
+      var beforeCount = 0
+      asyncLoop(arrayCount, (count, next) => {
+        if (Days == '7') {
+          sequelize.query("SELECT Count(*) N'shipCount' FROM SalesOrder \
+        WHERE CONVERT(date,CustomerDueDate)=CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$dayvalue) \
+        AND \
+        DATEDIFF(day,ShipDate,CustomerDueDate)>0 AND CompanyCode=$companyCode", {
+              bind: {
+                dayvalue: count,
+                companyCode: CompanyCode
+              },
+              type: sequelize.QueryTypes.SELECT
+            })
+            .then(record1 => {
+              earilerGraph.push(record1[0].shipCount);
+              sequelize.query("SELECT Count(*) N'shipCount' FROM SalesOrder \
+            WHERE CONVERT(date,CustomerDueDate)=CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$dayvalue) \
+            AND \
+            DATEDIFF(day,ShipDate,CustomerDueDate)=0  AND CompanyCode=$companyCode", {
+                  bind: {
+                    dayvalue: count,
+                    companyCode: CompanyCode
+                  },
+                  type: sequelize.QueryTypes.SELECT
+                })
+                .then(record2 => {
+                  onTimeGraph.push(record2[0].shipCount);
+                  // next();
+                  sequelize.query("SELECT Count(*) N'shipCount' FROM SalesOrder \
+                WHERE CONVERT(date,CustomerDueDate)=CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$dayvalue) \
+                AND \
+                DATEDIFF(day,ShipDate,CustomerDueDate)<0  AND CompanyCode=$companyCode", {
+                      bind: {
+                        dayvalue: count,
+                        companyCode: CompanyCode
+                      },
+                      type: sequelize.QueryTypes.SELECT
+                    })
+                    .then(record3 => {
+                      delayGraph.push(record3[0].shipCount);
+                      next();
+                    })
+                })
+            })
+        } else {
+          sequelize.query("SELECT Count(*) N'shipCount' FROM SalesOrder WHERE CONVERT(date,CustomerDueDate) BETWEEN CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$endvalue) AND CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$startvalue) \
+        AND \
+        DATEDIFF(day,ShipDate,CustomerDueDate)>0  AND CompanyCode=$companyCode", {
+              bind: {
+                endvalue: count - 1,
+                startvalue: beforeCount,
+                companyCode: CompanyCode
+              },
+              type: sequelize.QueryTypes.SELECT
+            })
+            .then(record1 => {
+              earilerGraph.push(record1[0].shipCount);
+              sequelize.query("SELECT Count(*) N'shipCount' FROM SalesOrder WHERE CONVERT(date,CustomerDueDate) BETWEEN CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$endvalue) AND CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$startvalue) \
+            AND \
+            DATEDIFF(day,ShipDate,CustomerDueDate)=0  AND CompanyCode=$companyCode", {
+                  bind: {
+                    endvalue: count - 1,
+                    startvalue: beforeCount,
+                    companyCode: CompanyCode
+                  },
+                  type: sequelize.QueryTypes.SELECT
+                })
+                .then(record2 => {
+                  onTimeGraph.push(record2[0].shipCount);
+                  // beforeCount = count;
+                  // next();
+                  sequelize.query("SELECT Count(*) N'shipCount' FROM SalesOrder WHERE CONVERT(date,CustomerDueDate) BETWEEN CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$endvalue) AND CONVERT(DATE,DATEADD(hh, -4 ,GETDATE())-$startvalue) \
+                AND \
+                DATEDIFF(day,ShipDate,CustomerDueDate)<0  AND CompanyCode=$companyCode", {
+                      bind: {
+                        endvalue: count - 1,
+                        startvalue: beforeCount,
+                        companyCode: CompanyCode
+                      },
+                      type: sequelize.QueryTypes.SELECT
+                    })
+                    .then(record3 => {
+                      delayGraph.push(record3[0].shipCount);
+                      beforeCount = count;
+                      next();
+                    })
+                })
+            })
         }
+      }, function (err) {
+        if (err) {
+          console.log('error in async loop --- ', err);
+        } else {
+          var responseData = {
+            earilerGraph: earilerGraph,
+            onTimeGraph: onTimeGraph,
+            delayGraph: delayGraph
+          }
 
-        callback(responseData)
+          callback(responseData)
 
 
-      }
-    })
+        }
+      })
+    }
   }
-}

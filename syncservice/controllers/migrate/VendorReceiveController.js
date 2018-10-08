@@ -43,34 +43,61 @@ module.exports.migrateVendorReceive = function () {
 
                                             models.sequelize.query("SELECT * FROM P_VendorReceive where DataExportDate > " + "'" + response[0].DataExportDate.toISOString() + "'", { type: models.sequelize.QueryTypes.SELECT })
                                                 .then(data2 => {
+                                                    models.sequelize.query("SELECT COUNT(*)N'Count' FROM P_VendorReceive where DataExportDate > " + "'" + response[0].DataExportDate.toISOString() + "'", { type: models.sequelize.QueryTypes.SELECT })
+                                                        .then(Countvalue => {
+                                                            console.log('---------------Countvalue---------->>>', Countvalue[0].Count);
+                                                            log.info('Data Count' + Countvalue[0].Count)
+                                                            models.SyncService.update({ SyncOperation: false, TotalCount: Countvalue[0].Count },
+                                                                { where: { SyncTable: 'VendorReceive' } }
+                                                            ).then(function (countresponse) {
+                                                            }).catch(function (error) {
+                                                                log.info('Error When updating TotalCount:' + error);
+                                                            })
+                                                            count = Countvalue[0].Count;
 
-                                                    if (data2.length != 0) {
-
-
-                                                        models.sequelize.query("select * from P_VendorReceive a \
+                                                            console.log('---------Total Count----------', count);
+                                                            if (count.length !== 0) {
+                                                                var looplength = count / 100;
+                                                                console.log('---------calculatevalue---------', looplength)
+                                                                var value = Math.trunc(looplength);
+                                                                console.log('--------Value---------->>>', value);
+                                                                if (looplength >= value) {
+                                                                    var looplength = value + 1;
+                                                                }
+                                                                console.log('---------Iterate---------', looplength)
+                                                                for (i = 0; i < looplength; i++) {
+                                                                    if (data2.length != 0) {
+                                                                        models.sequelize.query("select * from P_VendorReceive a \
                                                   where exists (select 1 \
                                                               from VendorReceive b \
                                                               where a.ReceiveID = b.ReceiveID) \
-                                                              And a.DataExportDate > " + "'" + response[0].DataExportDate.toISOString() + "'", { type: models.sequelize.QueryTypes.SELECT })
-                                                            .then(updateData => {
-                                                                updateRecords(updateData)
-                                                            })
+                                                              And a.DataExportDate > " + "'" + response[0].DataExportDate.toISOString() + "'ORDER BY ReceiveID OFFSET 0 ROW FETCH NEXT 100 ROW ONLY", { type: models.sequelize.QueryTypes.SELECT })
+                                                                            .then(updateData => {
+                                                                                updateRecords(updateData)
+                                                                            })
 
-                                                        models.sequelize.query("select * from P_VendorReceive a \
+                                                                        models.sequelize.query("select * from P_VendorReceive a \
                                                       where not exists (select 1 \
                                                                   from VendorReceive b \
                                                                   where a.ReceiveID = b.ReceiveID) \
-                                                                  And a.DataExportDate > " + "'" + response[0].DataExportDate.toISOString() + "'", { type: models.sequelize.QueryTypes.SELECT })
-                                                            .then(insertData => {
-                                                                insertRecords(insertData)
-                                                            })
+                                                                  And a.DataExportDate > " + "'" + response[0].DataExportDate.toISOString() + "'ORDER BY ReceiveID OFFSET 0 ROW FETCH NEXT 100 ROW ONLY", { type: models.sequelize.QueryTypes.SELECT })
+                                                                            .then(insertData => {
+                                                                                insertRecords(insertData,response[0].DataExportDate.toISOString())
+                                                                            })
 
 
-                                                    } else {
-                                                        log.info("--------> VendorReceive Uptodate")
-                                                        nextTable("Complete-NoDataFound");
-                                                    }
+                                                                    } else {
+                                                                        log.info("--------> VendorReceive Uptodate")
+                                                                        nextTable("Complete-NoDataFound");
+                                                                    }
+                                                                }
+                                                            } else {
+                                                                log.info("-------->VendorReceive Uptodate")
+                                                                nextTable("Complete-NoDataFound");
 
+                                                            }
+
+                                                        })
                                                 })
 
 
@@ -84,7 +111,7 @@ module.exports.migrateVendorReceive = function () {
                                             .then(data3 => {
                                                 if (data3.length != 0) {
                                                     DataExportDate = data3[0].DataExportDate.toISOString()
-                                                    insertRecords(data3);
+                                                    insertRecords(data3,DataExportDate);
                                                 } else { nextTable("Complete-NoDataToExport"); log.info("-------->No data in P_VendorReceive") }
                                             }).catch(function (error) {
                                                 log.error('Error VendorReceive:' + error);
@@ -104,7 +131,7 @@ module.exports.migrateVendorReceive = function () {
                     .then(data3 => {
                         if (data3.length != 0) {
                             DataExportDate = data3[0].DataExportDate.toISOString()
-                            insertRecords(data3);
+                            insertRecords(data3,DataExportDate);
                         } else { nextTable("Complete-NoDataToExport"); log.info("-------->No data in P_VendorReceive") }
                     }).catch(function (error) {
                         log.error('Error VendorReceive:' + error);
@@ -118,7 +145,7 @@ module.exports.migrateVendorReceive = function () {
 }
 
 
-async function insertRecords(data) {
+async function insertRecords(data, date) {
     log.info('in insertRecords VendorReceive')
 
     models.VendorReceive.bulkCreate(data).then(async function (response) {
@@ -127,6 +154,18 @@ async function insertRecords(data) {
         //  log.info("--------> Sleeping for 2secs..")
         //  await sleep(2000)   
         nextTable("Complete-DataExported");
+        models.sequelize.query("SELECT COUNT(*) N'MigrateCount' FROM VendorReceive where DataExportDate > " + "'" + date + "'", { type: models.sequelize.QueryTypes.SELECT })
+            .then(migratedcount => {
+                models.SyncService.update({ SyncOperation: false, MigratedCount: migratedcount[0].MigrateCount },
+                    { where: { SyncTable: 'VendorReceive' } }
+                ).then(function (countresponse) {
+                }).catch(function (error) {
+                    log.info('Error When updating MigratedCount:' + error);
+                })
+            }).catch(function (error) {
+                log.info('Error in Migrate Count:' + error);
+            })
+
     }).catch(function (error) {
         log.info('Error VendorReceive:' + error);
         nextTable("Error-DataExport");
@@ -142,9 +181,9 @@ async function updateRecords(data) {
     for (i = 0; i < data.length; i++) {
         count++;
 
-        models.VendorReceive.update(data[i],{
-            where:{
-                ReceiveID:data[i].ReceiveID
+        models.VendorReceive.update(data[i], {
+            where: {
+                ReceiveID: data[i].ReceiveID
             }
         }).then(async function (response) {
 

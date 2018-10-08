@@ -29,23 +29,39 @@ export class TicketService {
         pageSize: number,
         sortLabel: String,
         sortDirection: String,
+        organization: String[],
+        createdBy: String[],
+        assignedTo: String[],
+        status: String[],
         search: any): Observable<any> {
         search.pageIndex = pageIndex;
         search.pageSize = pageSize;
         search.sortLabel = sortLabel;
         search.sortDirection = sortDirection;
+        search.organization = organization;
+        search.createdBy = createdBy;
+        search.assignedTo = assignedTo;
+        search.status = status;
         return this.apiService.post(this.configService.api_url + '/Ticket/search', search);
     }
     getSearchResultByOrgId(pageIndex: number,
         pageSize: number,
         sortLabel: String,
         sortDirection: String,
+        organization: String[],
+        createdBy: String[],
+        assignedTo: String[],
+        status: String[],
         search: any, orgId: any): Observable<any> {
         search.pageIndex = pageIndex;
         search.pageSize = pageSize;
         search.sortLabel = sortLabel;
         search.sortDirection = sortDirection;
         search.orgId = orgId;
+        search.organization = organization;
+        search.createdBy = createdBy;
+        search.assignedTo = assignedTo;
+        search.status = status;
         return this.apiService.post(this.configService.api_url + '/Ticket/searchByOrgId', search);
     }
     getFilterValueByOrgId(orgId): Observable<any> {

@@ -6,7 +6,7 @@ exports.mailConfig = {
     // EMAIL_FROM: 'support@Geppetto.com'
     MailTemplateLocation:'config/SimpleTemplate.html',
     ForgotPasswordTemplateLocation:'config/ForgotpasswordTemplate.html',
-    baseUrl:'https://stahlsportalstage.azurewebsites.net',
+    baseUrl:'https://stahlsportaltest.azurewebsites.net',
     // baseUrl:'https://stahlsportaldev.azurewebsites.net'
 
 }   
