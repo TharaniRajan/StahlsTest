@@ -28,11 +28,11 @@ export class OrderService {
     }
 
     getFilterValueData(data): Observable<Number> {
-        return this.apiService.post(this.config.api_url + '/SalesOrder/getSalesOrderFilterValueData',data);
+        return this.apiService.post(this.config.api_url + '/SalesOrder/getSalesOrderFilterValueData', data);
     }
 
-    getFilterValueDataByCompanyCode(data,companyCode: any): Observable<Number> {
-        return this.apiService.post(this.config.api_url + '/SalesOrder/getSalesOrderFilterValueDataByCode/' + companyCode,data);
+    getFilterValueDataByCompanyCode(data, companyCode: any): Observable<Number> {
+        return this.apiService.post(this.config.api_url + '/SalesOrder/getSalesOrderFilterValueDataByCode/' + companyCode, data);
     }
 
 

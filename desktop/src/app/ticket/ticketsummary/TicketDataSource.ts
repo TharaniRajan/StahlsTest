@@ -120,12 +120,17 @@ export class TicketDataSource implements DataSource<any> {
         pageSize: number,
         sortLabel: String,
         sortDirection: String,
+        organization: String[],
+        createdBy: String[],
+        assignedTo: String[],
+        status: String[],
         search: any, orgId: any) {
         this.loadingSubject.next(true);
-        this.ticketService.getSearchResultByOrgId(pageIndex, pageSize, sortLabel, sortDirection, search, orgId).pipe(
-            catchError(() => of([])),
-            finalize(() => this.loadingSubject.next(false))
-        )
+        this.ticketService.getSearchResultByOrgId(pageIndex, pageSize, sortLabel, sortDirection,
+            organization, createdBy, assignedTo, status, search, orgId).pipe(
+                catchError(() => of([])),
+                finalize(() => this.loadingSubject.next(false))
+            )
             .subscribe(lessons => {
                 // if (lessons['count'] !== null) {
                 //     this.countValue = lessons['count'];
@@ -151,12 +156,17 @@ export class TicketDataSource implements DataSource<any> {
         pageSize: number,
         sortLabel: String,
         sortDirection: String,
+        organization: String[],
+        createdBy: String[],
+        assignedTo: String[],
+        status: String[],
         search: any) {
         this.loadingSubject.next(true);
-        this.ticketService.getSearchResult(pageIndex, pageSize, sortLabel, sortDirection, search).pipe(
-            catchError(() => of([])),
-            finalize(() => this.loadingSubject.next(false))
-        )
+        this.ticketService.getSearchResult(pageIndex, pageSize, sortLabel, sortDirection,
+            organization, createdBy, assignedTo, status, search).pipe(
+                catchError(() => of([])),
+                finalize(() => this.loadingSubject.next(false))
+            )
             .subscribe(lessons => {
                 console.log('lessons are ----- ', lessons);
                 if (lessons !== null) {

@@ -21,32 +21,32 @@ module.exports.createShipments = function (ShipmentsDetails, callback) {
 module.exports.getShipmentFilterValue = function (callback) {
     sequelize.query("SELECT PONumber, COUNT(*) From Shipments WHERE  PONumber NOT IN ('') \
     GROUP BY PONumber HAVING COUNT(*) >= 1 ORDER BY PONumber DESC", {
-            type: sequelize.QueryTypes.SELECT
-        }).then(function (data1) {
-            var filterData = {
-                "Ponumber": data1,
-            }
-            callback(filterData, statusCode.ok);
-        }).catch(function (error) {
-            callback(error, statusCode.error);
-        })
+        type: sequelize.QueryTypes.SELECT
+    }).then(function (data1) {
+        var filterData = {
+            "Ponumber": data1,
+        }
+        callback(filterData, statusCode.ok);
+    }).catch(function (error) {
+        callback(error, statusCode.error);
+    })
 }
 
 module.exports.getShipmentFilterByCompanycode = function (companyCode, callback) {
     sequelize.query("SELECT PONumber, COUNT(*) From Shipments WHERE CompanyCode = $companyCode AND PONumber NOT IN ('') \
     GROUP BY PONumber HAVING COUNT(*) >= 1 ORDER BY PONumber DESC", {
-            bind: {
-                companyCode: companyCode
-            },
-            type: sequelize.QueryTypes.SELECT
-        }).then(function (data1) {
-            var filterData = {
-                "Ponumber": data1,
-            }
-            callback(filterData, statusCode.ok);
-        }).catch(function (error) {
-            callback(error, statusCode.error);
-        })
+        bind: {
+            companyCode: companyCode
+        },
+        type: sequelize.QueryTypes.SELECT
+    }).then(function (data1) {
+        var filterData = {
+            "Ponumber": data1,
+        }
+        callback(filterData, statusCode.ok);
+    }).catch(function (error) {
+        callback(error, statusCode.error);
+    })
 }
 
 module.exports.getallShipments = function (pageNumber, pageSize, sortLabel, sortDirection, search, ponumber, startdate, enddate, callback) {
@@ -54,10 +54,10 @@ module.exports.getallShipments = function (pageNumber, pageSize, sortLabel, sort
     if (ponumber.length === 0) {
         ponumber = [];
     }
-    if (startdate === undefined) {
+    if (startdate === undefined || startdate === null) {
         startdate = [];
     }
-    if (enddate === undefined) {
+    if (enddate === undefined || startdate === null) {
         enddate = [];
     }
     var offsetValue = parseInt(pageSize) * (parseInt(pageNumber));
@@ -74,127 +74,158 @@ module.exports.getallShipments = function (pageNumber, pageSize, sortLabel, sort
         whereQuery = '',
         countCompleteQuery = '';
     // console.log('affset and fetch values are ---- ', pageNumber, pageSize, offsetValue)
-    if (search !== '') {
-        console.log(' ### entering into search condition ')
-        models.Shipments.count({
-            where: {
-                $or: [{
-                    'PONumber': {
-                        like: '%' + search + '%'
-                    }
-                },
-                {
-                    'ShipToName': {
-                        like: '%' + search + '%'
-                    }
-                },
-                {
-                    'ShipToCity': {
-                        like: '%' + search + '%'
-                    }
-                },
-                {
-                    'ShipToState': {
-                        like: '%' + search + '%'
-                    }
-                },
-                {
-                    'WayBill': {
-                        like: '%' + search + '%'
-                    }
-                },
-                {
-                    'ShipDate': {
-                        like: '%' + search + '%'
-                    }
-                },
-                {
-                    'ShipperNumber': {
-                        like: '%' + search + '%'
-                    }
-                }
-                ]
-            }
-        }).then(function (count) {
-            models.Shipments.findAll({
-                where: {
-                    $or: [{
-                        'PONumber': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'ShipToName': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'ShipToCity': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'ShipToState': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'WayBill': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'ShipDate': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'ShipperNumber': {
-                            like: '%' + search + '%'
-                        }
-                    }
-                    ]
-                },
-                offset: offsetValue,
-                limit: parseInt(pageSize),
-                order: [
-                    [sortLabel, sortDirection]
-                ],
-                include: [
-                    {
-                        model: models.TrackingInfo
-                    },
-                    {
-                        model: models.ShipmentsItems
-                    }
-                ]
-            }).then(function (response) {
-                callback({
-                    "count": count,
-                    "response": response
-                }, statusCode.ok)
-            }).catch(function (error) {
-                callback(error, statusCode.error)
-            })
-        }).catch(function (error) {
-            callback(error, statusCode.error)
-        })
+    // if (search !== '') {
+    //     console.log(' ### entering into search condition ')
+    //     models.Shipments.count({
+    //         where: {
+    //             $or: [{
+    //                 'PONumber': {
+    //                     like: '%' + search + '%'
+    //                 }
+    //             },
+    //             {
+    //                 'ShipToName': {
+    //                     like: '%' + search + '%'
+    //                 }
+    //             },
+    //             {
+    //                 'ShipToCity': {
+    //                     like: '%' + search + '%'
+    //                 }
+    //             },
+    //             {
+    //                 'ShipToState': {
+    //                     like: '%' + search + '%'
+    //                 }
+    //             },
+    //             {
+    //                 'WayBill': {
+    //                     like: '%' + search + '%'
+    //                 }
+    //             },
+    //             {
+    //                 'ShipDate': {
+    //                     like: '%' + search + '%'
+    //                 }
+    //             },
+    //             {
+    //                 'ShipperNumber': {
+    //                     like: '%' + search + '%'
+    //                 }
+    //             }
+    //             ]
+    //         }
+    //     }).then(function (count) {
+    //         models.Shipments.findAll({
+    //             where: {
+    //                 $or: [{
+    //                     'PONumber': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'ShipToName': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'ShipToCity': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'ShipToState': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'WayBill': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'ShipDate': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'ShipperNumber': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 }
+    //                 ]
+    //             },
+    //             offset: offsetValue,
+    //             limit: parseInt(pageSize),
+    //             order: [
+    //                 [sortLabel, sortDirection]
+    //             ],
+    //             include: [
+    //                 {
+    //                     model: models.TrackingInfo
+    //                 },
+    //                 {
+    //                     model: models.ShipmentsItems
+    //                 }
+    //             ]
+    //         }).then(function (response) {
+    //             callback({
+    //                 "count": count,
+    //                 "response": response
+    //             }, statusCode.ok)
+    //         }).catch(function (error) {
+    //             callback(error, statusCode.error)
+    //         })
+    //     }).catch(function (error) {
+    //         callback(error, statusCode.error)
+    //     })
+    // } else {
+    console.log('@@@  start date and end date are ------ ', startdate, enddate);
+    if (ponumber.length !== 0) {
+        whereQuery = "WHERE PONumber IN (:ponumber)";
+    } else if (startdate.length !== 0 && enddate.length === 0) {
+        whereQuery = " WHERE CONVERT(DATE,ShipDate) IN (:startdate) "
+    } else if (startdate.length !== 0 && enddate.length !== 0) {
+        whereQuery = " WHERE CONVERT(DATE,ShipDate) BETWEEN (:startdate) AND (:enddate) "
+    } else if (ponumber.length !== 0 && startdate.length !== 0 && enddate.length !== 0) {
+        whereQuery = " WHERE PONumber IN (:ponumber) AND CONVERT(DATE,ShipDate) BETWEEN (:startdate) AND (:enddate) "
     } else {
-        if (ponumber.length !== 0) {
-            whereQuery = "WHERE PONumber IN (:ponumber)";
-        } else if (startdate.length !== 0) {
-            whereQuery = " WHERE CONVERT(DATE,ShipDate) IN (:startdate) "
-        } else if (startdate.length !== 0 && enddate.length !== 0) {
-            whereQuery = " WHERE CONVERT(DATE,ShipDate) BETWEEN (:startdate) AND (:enddate) "
-        } else if (ponumber.length !== 0 && startdate.length !== 0 && enddate.length !== 0) {
-            whereQuery = " WHERE PONumber IN (:ponumber) AND CONVERT(DATE,ShipDate) BETWEEN (:startdate) AND (:enddate) "
-        } else {
-            console.log('nothing if condition is called')
-        }
-        var countCompleteQuery = countQuery + " " + whereQuery
-        var completeQuery = selectQuery + " " + whereQuery + " " + selectOffsetQuery
-        // console.log('full of query are ---- ', countCompleteQuery, completeQuery);
-        sequelize.query(countCompleteQuery, {
+        console.log('nothing if condition is called')
+    }
+    var searchQuery = '';
+    if (search !== '') {
+        searchQuery = "( PONumber LIKE '%" + search + "%' OR ShipToName LIKE '%" + search +
+            "%' OR ShipToCity LIKE '%" + search + "%' OR ShipToState LIKE '%" + search +
+            "%' OR WayBill LIKE '%" + search + "%' OR ShipDate LIKE '%" + search +
+            "%' OR ShipperNumber LIKE '%" + search + "%' )";
+    }
+    if (whereQuery != '' && search != '') {
+        var countCompleteQuery = countQuery + " " + whereQuery + " AND " + searchQuery;
+        var completeQuery = selectQuery + " " + whereQuery + " AND " + searchQuery + " " + selectOffsetQuery
+    } else if (whereQuery == '' && search != '') {
+        var countCompleteQuery = countQuery + " WHERE " + searchQuery;
+        var completeQuery = selectQuery + "  WHERE  " + searchQuery + " " + selectOffsetQuery
+    } else {
+        var countCompleteQuery = countQuery + " " + whereQuery + " " + searchQuery;
+        var completeQuery = selectQuery + " " + whereQuery + " " + searchQuery + " " + selectOffsetQuery
+    }
+    // var countCompleteQuery = countQuery + " " + whereQuery
+    // var completeQuery = selectQuery + " " + whereQuery + " " + selectOffsetQuery
+    // console.log('full of query are ---- ', countCompleteQuery, completeQuery);
+    sequelize.query(countCompleteQuery, {
+        replacements: {
+            sortLabel: sortLabel,
+            offset: offsetValue,
+            fetch: parseInt(pageSize),
+            ponumber: ponumber,
+            startdate: startdate,
+            enddate: enddate
+
+        },
+        type: sequelize.QueryTypes.SELECT
+    }).then(function (countResponse) {
+        // console.log("all filter count values are ------- ", countResponse);
+        sequelize.query(completeQuery, {
             replacements: {
                 sortLabel: sortLabel,
                 offset: offsetValue,
@@ -205,64 +236,51 @@ module.exports.getallShipments = function (pageNumber, pageSize, sortLabel, sort
 
             },
             type: sequelize.QueryTypes.SELECT
-        }).then(function (countResponse) {
-            // console.log("all filter count values are ------- ", countResponse);
-            sequelize.query(completeQuery, {
-                replacements: {
-                    sortLabel: sortLabel,
-                    offset: offsetValue,
-                    fetch: parseInt(pageSize),
-                    ponumber: ponumber,
-                    startdate: startdate,
-                    enddate: enddate
-
-                },
-                type: sequelize.QueryTypes.SELECT
-            }).then(function (response) {
-                // console.log('response length are ---- ', response.length);
-                if (response.length != 0) {
-                    callback({
-                        "count": countResponse[0].count,
-                        "response": response
-                    }, statusCode.ok);
-                } else {
-                    callback("There is no Shipments", statusCode.no_content)
-                }
-            })
+        }).then(function (response) {
+            // console.log('response length are ---- ', response.length);
+            if (response.length != 0) {
+                callback({
+                    "count": countResponse[0].count,
+                    "response": response
+                }, statusCode.ok);
+            } else {
+                callback("There is no Shipments", statusCode.no_content)
+            }
         })
-    }
-    // models.Shipments.findAll({
-    //     order: [
-    //         ['PONumber', 'DESC']
-    //     ],
-    // include: [
-    //     {
-    //         model: models.TrackingInfo
-    //     },
-    //     {
-    //         model: models.ShipmentsItems
-    //     }
-    // ]
-    // }).then(function (response) {
-    //     if (response.length != 0) {
-    //         callback(response, statusCode.ok)
-    //     } else {
-    //         callback("There is no Shipments")
-    //     }
-
-    // }).catch(function (error) {
-    //     callback(error, statusCode.error)
-    // })
-
+    })
 }
+// models.Shipments.findAll({
+//     order: [
+//         ['PONumber', 'DESC']
+//     ],
+// include: [
+//     {
+//         model: models.TrackingInfo
+//     },
+//     {
+//         model: models.ShipmentsItems
+//     }
+// ]
+// }).then(function (response) {
+//     if (response.length != 0) {
+//         callback(response, statusCode.ok)
+//     } else {
+//         callback("There is no Shipments")
+//     }
+
+// }).catch(function (error) {
+//     callback(error, statusCode.error)
+// })
+
+// }
 
 
 module.exports.getallShipmentsOrganisation = function (pageNumber, pageSize, sortLabel, sortDirection, search, companyCode, ponumber, startdate, enddate, callback) {
     console.log('affset and fetch values are ---- ')
-    if (startdate === undefined) {
+    if (startdate === undefined || startdate === null) {
         startdate = [];
     }
-    if (enddate === undefined) {
+    if (enddate === undefined || startdate === null) {
         enddate = [];
     }
 
@@ -280,132 +298,159 @@ module.exports.getallShipmentsOrganisation = function (pageNumber, pageSize, sor
         whereQuery = '',
         countCompleteQuery = '';
     // console.log('affset and fetch values are ---- ', pageNumber, pageSize, offsetValue,companyCode)
-    if (search !== '') {
-        console.log(' ### entering into search condition ')
-        models.Shipments.count({
-            where: {
-                CompanyCode: companyCode,
-                $or: [{
-                    'PONumber': {
-                        like: '%' + search + '%'
-                    }
-                },
-                {
-                    'ShipToName': {
-                        like: '%' + search + '%'
-                    }
-                },
-                {
-                    'ShipToCity': {
-                        like: '%' + search + '%'
-                    }
-                },
-                {
-                    'ShipToState': {
-                        like: '%' + search + '%'
-                    }
-                },
-                {
-                    'WayBill': {
-                        like: '%' + search + '%'
-                    }
-                },
-                {
-                    'ShipDate': {
-                        like: '%' + search + '%'
-                    }
-                },
-                {
-                    'ShipperNumber': {
-                        like: '%' + search + '%'
-                    }
-                }
-                ]
-            }
-        }).then(function (count) {
-            models.Shipments.findAll({
-                where: {
-                    CompanyCode: companyCode,
-                    $or: [{
-                        'PONumber': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'ShipToName': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'ShipToCity': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'ShipToState': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'WayBill': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'ShipDate': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'ShipperNumber': {
-                            like: '%' + search + '%'
-                        }
-                    }
-                    ]
-                },
-                offset: offsetValue,
-                limit: parseInt(pageSize),
-                order: [
-                    [sortLabel, sortDirection]
-                ],
-                include: [
-                    {
-                        model: models.TrackingInfo
-                    },
-                    {
-                        model: models.ShipmentsItems
-                    }
-                ]
-            }).then(function (response) {
-                callback({
-                    "count": count,
-                    "response": response
-                }, statusCode.ok)
-            }).catch(function (error) {
-                callback(error, statusCode.error)
-            })
-        }).catch(function (error) {
-            callback(error, statusCode.error)
-        })
+    // if (search !== '') {
+    //     console.log(' ### entering into search condition ')
+    //     models.Shipments.count({
+    //         where: {
+    //             CompanyCode: companyCode,
+    //             $or: [{
+    //                     'PONumber': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'ShipToName': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'ShipToCity': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'ShipToState': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'WayBill': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'ShipDate': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'ShipperNumber': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 }
+    //             ]
+    //         }
+    //     }).then(function (count) {
+    //         models.Shipments.findAll({
+    //             where: {
+    //                 CompanyCode: companyCode,
+    //                 $or: [{
+    //                         'PONumber': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'ShipToName': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'ShipToCity': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'ShipToState': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'WayBill': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'ShipDate': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'ShipperNumber': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     }
+    //                 ]
+    //             },
+    //             offset: offsetValue,
+    //             limit: parseInt(pageSize),
+    //             order: [
+    //                 [sortLabel, sortDirection]
+    //             ],
+    //             include: [{
+    //                     model: models.TrackingInfo
+    //                 },
+    //                 {
+    //                     model: models.ShipmentsItems
+    //                 }
+    //             ]
+    //         }).then(function (response) {
+    //             callback({
+    //                 "count": count,
+    //                 "response": response
+    //             }, statusCode.ok)
+    //         }).catch(function (error) {
+    //             callback(error, statusCode.error)
+    //         })
+    //     }).catch(function (error) {
+    //         callback(error, statusCode.error)
+    //     })
+    // } else {
+    if (ponumber.length !== 0) {
+        whereQuery = "WHERE CompanyCode =:companyCode AND PONumber IN (:ponumber)";
+    } else if (startdate.length !== 0 && enddate.length === 0) {
+        whereQuery = " WHERE CompanyCode = :companyCode AND CONVERT(DATE,ShipDate) IN (:startdate) "
+    } else if (startdate.length !== 0 && enddate.length !== 0) {
+        whereQuery = " WHERE CompanyCode = :companyCode AND CONVERT(DATE,ShipDate) BETWEEN (:startdate) AND (:enddate) "
+    } else if (ponumber.length !== 0 && startdate.length !== 0 && enddate.length !== 0) {
+        whereQuery = " WHERE CompanyCode = :companyCode AND PONumber IN (:ponumber) AND CONVERT(DATE,ShipDate) BETWEEN (:startdate) AND (:enddate) "
     } else {
-        if (ponumber.length !== 0) {
-            whereQuery = "WHERE CompanyCode =:companyCode AND PONumber IN (:ponumber)";
-        } else if (startdate.length !== 0) {
-            whereQuery = " WHERE CompanyCode = :companyCode AND CONVERT(DATE,ShipDate) IN (:startdate) "
-        }
-        else if (startdate.length !== 0 && enddate.length !== 0) {
-            whereQuery = " WHERE CompanyCode = :companyCode AND CONVERT(DATE,ShipDate) BETWEEN (:startdate) AND (:enddate) "
-        } else if (ponumber.length !== 0 && startdate.length !== 0 && enddate.length !== 0) {
-            whereQuery = " WHERE CompanyCode = :companyCode AND PONumber IN (:ponumber) AND CONVERT(DATE,ShipDate) BETWEEN (:startdate) AND (:enddate) "
-        }
-        else {
-            whereQuery = "WHERE CompanyCode = :companyCode"
-            console.log('nothing if condition is called')
-        }
-        var countCompleteQuery = countQuery + " " + whereQuery
-        var completeQuery = selectQuery + " " + whereQuery + " " + selectOffsetQuery
-        console.log('full of query are ---- ', countCompleteQuery, completeQuery);
-        sequelize.query(countCompleteQuery, {
+        whereQuery = "WHERE CompanyCode = :companyCode"
+        console.log('nothing if condition is called')
+    }
+    var searchQuery = '';
+    if (search !== '') {
+        searchQuery = "( PONumber LIKE '%" + search + "%' OR ShipToName LIKE '%" + search +
+            "%' OR ShipToCity LIKE '%" + search + "%' OR ShipToState LIKE '%" + search +
+            "%' OR WayBill LIKE '%" + search + "%' OR ShipDate LIKE '%" + search +
+            "%' OR ShipperNumber LIKE '%" + search + "%' )";
+    }
+    if (whereQuery != '' && search != '') {
+        var countCompleteQuery = countQuery + " " + whereQuery + " AND " + searchQuery;
+        var completeQuery = selectQuery + " " + whereQuery + " AND " + searchQuery + " " + selectOffsetQuery
+    } else if (whereQuery == '' && search != '') {
+        var countCompleteQuery = countQuery + " WHERE " + searchQuery;
+        var completeQuery = selectQuery + "  WHERE  " + searchQuery + " " + selectOffsetQuery
+    } else {
+        var countCompleteQuery = countQuery + " " + whereQuery + " " + searchQuery;
+        var completeQuery = selectQuery + " " + whereQuery + " " + searchQuery + " " + selectOffsetQuery
+    }
+    // var countCompleteQuery = countQuery + " " + whereQuery
+    // var completeQuery = selectQuery + " " + whereQuery + " " + selectOffsetQuery
+    console.log('full of query are ---- ', countCompleteQuery, completeQuery);
+    sequelize.query(countCompleteQuery, {
+        replacements: {
+            companyCode: companyCode,
+            sortLabel: sortLabel,
+            offset: offsetValue,
+            fetch: parseInt(pageSize),
+            ponumber: ponumber,
+            startdate: startdate,
+            enddate: enddate
+        },
+        type: sequelize.QueryTypes.SELECT
+    }).then(function (countResponse) {
+        // console.log("all filter count values are ------- ", countResponse);
+        sequelize.query(completeQuery, {
             replacements: {
                 companyCode: companyCode,
                 sortLabel: sortLabel,
@@ -416,78 +461,67 @@ module.exports.getallShipmentsOrganisation = function (pageNumber, pageSize, sor
                 enddate: enddate
             },
             type: sequelize.QueryTypes.SELECT
-        }).then(function (countResponse) {
-            // console.log("all filter count values are ------- ", countResponse);
-            sequelize.query(completeQuery, {
-                replacements: {
-                    companyCode: companyCode,
-                    sortLabel: sortLabel,
-                    offset: offsetValue,
-                    fetch: parseInt(pageSize),
-                    ponumber: ponumber,
-                    startdate: startdate,
-                    enddate: enddate
-                },
-                type: sequelize.QueryTypes.SELECT
-            }).then(function (response) {
-                // console.log('response length are ---- ', response.length);
-                if (response.length != 0) {
-                    callback({
-                        "count": countResponse[0].count,
-                        "response": response
-                    }, statusCode.ok);
-                } else {
-                    callback("There is no Shipments", statusCode.no_content)
-                }
-            }).catch(function (error) {
-                console.log('------Error----->>>>', error);
-                callback(error, statusCode.error);
-            })
+        }).then(function (response) {
+            // console.log('response length are ---- ', response.length);
+            if (response.length != 0) {
+                callback({
+                    "count": countResponse[0].count,
+                    "response": response
+                }, statusCode.ok);
+            } else {
+                callback("There is no Shipments", statusCode.no_content)
+            }
+        }).catch(function (error) {
+            console.log('------Error----->>>>', error);
+            callback(error, statusCode.error);
         })
-    }
-
-    // models.Shipments.findAll({
-    //     where: { CompanyCode: CompanyCode },
-    //     order: [
-    //         ['PONumber', 'DESC']
-    //     ],
-    //     include: [
-    //         {
-    //             model: models.TrackingInfo
-    //         },
-    //         {
-    //             model: models.ShipmentsItems
-    //         }
-    //     ]
-    // }).then(function (response) {
-    //     if (response.length != 0) {
-    //         callback(response, statusCode.ok)
-    //     } else {
-    //         callback("There is no Shipments")
-    //     }
-
-    // }).catch(function (error) {
-    //     callback(error, statusCode.error)
-    // })
-
+    })
 }
+
+// models.Shipments.findAll({
+//     where: { CompanyCode: CompanyCode },
+//     order: [
+//         ['PONumber', 'DESC']
+//     ],
+//     include: [
+//         {
+//             model: models.TrackingInfo
+//         },
+//         {
+//             model: models.ShipmentsItems
+//         }
+//     ]
+// }).then(function (response) {
+//     if (response.length != 0) {
+//         callback(response, statusCode.ok)
+//     } else {
+//         callback("There is no Shipments")
+//     }
+
+// }).catch(function (error) {
+//     callback(error, statusCode.error)
+// })
+
+// }
 
 module.exports.getShipmentsById = function (Shipment_id, callback) {
     console.log('entering into get shipment data @#@#$#####');
     models.Shipments.findOne({
-        where: { ShipmentID: Shipment_id },
+        where: {
+            ShipmentID: Shipment_id
+        },
         order: [
             ['PONumber', 'DESC']
         ],
         include: [{
-            model: models.ShipmentsItems,
-        },
-        {
-            model: models.PackedBox,
-            include: [{
-                model: models.PackedItems
-            }]
-        }
+                model: models.ShipmentsItems,
+            },
+            {
+                model: models.PackedBox,
+                include: [{
+                    model: models.PackedItems
+                }]
+            }
         ]
 
     }).then(response => {
@@ -504,11 +538,12 @@ module.exports.getShipmentsById = function (Shipment_id, callback) {
 module.exports.getPackedBoxById = function (PackedBox_id, callback) {
     models.PackedBox.findOne({
 
-        where: { PackedBoxID: PackedBox_id },
+        where: {
+            PackedBoxID: PackedBox_id
+        },
         include: [{
             model: models.PackedItems
-        },
-        ]
+        }, ]
 
     }).then(response => {
         if (response.length != 0) {
@@ -522,7 +557,11 @@ module.exports.getPackedBoxById = function (PackedBox_id, callback) {
 }
 
 module.exports.delete_Shipments = function (Shipment_id, callback) {
-    models.Shipments.destroy({ where: { ShipmentID: Shipment_id } }).then(response => {
+    models.Shipments.destroy({
+        where: {
+            ShipmentID: Shipment_id
+        }
+    }).then(response => {
         callback(response, statusCode.error);
     }).catch(function (error) {
         callback(error, statusCode.error)
@@ -530,7 +569,11 @@ module.exports.delete_Shipments = function (Shipment_id, callback) {
 }
 
 module.exports.update_Shipments = function (ShipmentsDetails, callback) {
-    models.Shipments.update(ShipmentsDetails, { where: { ShipmentID: ShipmentsDetails.ShipmentID } }).then(function (response) {
+    models.Shipments.update(ShipmentsDetails, {
+        where: {
+            ShipmentID: ShipmentsDetails.ShipmentID
+        }
+    }).then(function (response) {
         callback(response, statusCode.ok)
     }).catch(function (error) {
         callback(error, statusCode.error)
@@ -539,17 +582,27 @@ module.exports.update_Shipments = function (ShipmentsDetails, callback) {
 
 module.exports.getPackedItemsById = function (shipmentId, callback) {
     sequelize.query("SELECT * FROM PackedItems INNER JOIN PackedBox ON \
-PackedItems.PackedBoxID = PackedBox.PackedBoxID WHERE PackedBox.ShipmentID = $shipmentID",
-        { bind: { shipmentID: shipmentId }, type: sequelize.QueryTypes.SELECT }).then(function (response) {
-            callback(response, statusCode.ok);
-        }).catch(function (error) {
-            callback(error, statusCode.error);
-        })
+PackedItems.PackedBoxID = PackedBox.PackedBoxID WHERE PackedBox.ShipmentID = $shipmentID", {
+        bind: {
+            shipmentID: shipmentId
+        },
+        type: sequelize.QueryTypes.SELECT
+    }).then(function (response) {
+        callback(response, statusCode.ok);
+    }).catch(function (error) {
+        callback(error, statusCode.error);
+    })
 }
 
 module.exports.getShipmentByDate = function (startdate, enddate, callback) {
     sequelize.query("SELECT * FROM Shipments WHERE CONVERT(DATE,ShipDate) \
-    BETWEEN $startdate AND $enddate", { bind: { startdate: startdate, enddate: enddate }, type: sequelize.QueryTypes.SELECT })
+    BETWEEN $startdate AND $enddate", {
+            bind: {
+                startdate: startdate,
+                enddate: enddate
+            },
+            type: sequelize.QueryTypes.SELECT
+        })
         .then(function (response) {
             callback(response, statusCode.ok);
         }).catch(function (error) {
@@ -560,19 +613,29 @@ module.exports.getShipmentByDate = function (startdate, enddate, callback) {
 module.exports.getPonumberByDate = function (startdate, enddate, callback) {
     if (startdate !== undefined) {
         console.log('------------Startdateonly----------->>>>', startdate);
-        sequelize.query("SELECT PONumber FROM Shipments WHERE CONVERT(DATE,ShipDate) IN (:startdate)",
-            { replacements: { startdate: startdate }, type: sequelize.QueryTypes.SELECT }).then(function (data1) {
-                var filterData = {
-                    "Ponumber": data1,
-                }
-                callback(filterData, statusCode.ok);
-            }).catch(function (error) {
-                console.log('-----------Error-------->>>>>', error);
-                callback(error, statusCode.error);
-            })
+        sequelize.query("SELECT PONumber FROM Shipments WHERE CONVERT(DATE,ShipDate) IN (:startdate)", {
+            replacements: {
+                startdate: startdate
+            },
+            type: sequelize.QueryTypes.SELECT
+        }).then(function (data1) {
+            var filterData = {
+                "Ponumber": data1,
+            }
+            callback(filterData, statusCode.ok);
+        }).catch(function (error) {
+            console.log('-----------Error-------->>>>>', error);
+            callback(error, statusCode.error);
+        })
     } else {
         sequelize.query("SELECT PONumber FROM Shipments WHERE CONVERT(DATE,ShipDate) \
-        BETWEEN $startdate AND $enddate", { bind: { startdate: startdate, enddate: enddate }, type: sequelize.QueryTypes.SELECT })
+        BETWEEN $startdate AND $enddate", {
+                bind: {
+                    startdate: startdate,
+                    enddate: enddate
+                },
+                type: sequelize.QueryTypes.SELECT
+            })
             .then(function (data1) {
                 var filterData = {
                     "Ponumber": data1,
@@ -589,7 +652,14 @@ module.exports.getShipmentByDateCode = function (code, startdate, enddate, callb
     console.log('start date and end date in code ---- ', startdate, enddate, code);
     sequelize.query("SELECT * FROM Shipments WHERE CompanyCode = $companyCode AND \
      CONVERT(DATE,ShipDate)  \
-     BETWEEN $startdate AND $enddate", { bind: { startdate: startdate, enddate: enddate, companyCode: code }, type: sequelize.QueryTypes.SELECT })
+     BETWEEN $startdate AND $enddate", {
+            bind: {
+                startdate: startdate,
+                enddate: enddate,
+                companyCode: code
+            },
+            type: sequelize.QueryTypes.SELECT
+        })
         .then(function (response) {
             callback(response, statusCode.ok);
         }).catch(function (error) {

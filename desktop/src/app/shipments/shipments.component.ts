@@ -232,10 +232,22 @@ export class ShipmentsComponent implements OnInit {
     this.convert(event, 'endDate');
   }
   startDataInput() {
-    this.convert(this.startDate, 'startDate');
+    // console.log('testing starht date input -- ', this.startDate);
+    this.paginator.pageIndex = 0;
+    if (this.startDate != null) {
+      this.convert(this.startDate, 'startDate');
+    } else {
+      this.loadDataPage();
+    }
   }
   endDataInput() {
-    this.convert(this.endDate, 'endDate');
+    // this.convert(this.endDate, 'endDate');
+    this.paginator.pageIndex = 0;
+    if (this.endDate != null) {
+      this.convert(this.endDate, 'endDate');
+    } else {
+      this.loadDataPage();
+    }
   }
   convert(str, methodName) {
     const mnths = {

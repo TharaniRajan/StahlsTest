@@ -307,22 +307,24 @@ module.exports.getFilterValue = function (callback) {
     // })
     //created by filter values
     sequelize.query("SELECT firstname FROM Users WHERE uuid IN (SELECT \
-        createdByUuid FROM Tickets)", {
+        createdByUuid FROM Tickets) ORDER BY firstname DESC", {
         type: Sequelize.QueryTypes.SELECT
     }).then(function (data1) {
         console.log('$$ get filter value response data 1 values are ==------ ', data1);
         // assigned to filter values
         sequelize.query("SELECT firstname FROM Users WHERE uuid IN (SELECT \
                 AssignedUserTickets.UserUuid FROM AssignedUserTickets \
-                INNER JOIN Tickets ON Tickets.uuid = AssignedUserTickets.TicketUuid)", {
+                INNER JOIN Tickets ON Tickets.uuid = AssignedUserTickets.TicketUuid) \
+                ORDER BY firstname DESC", {
             type: Sequelize.QueryTypes.SELECT
         }).then(function (data2) {
             console.log('$$ get filter value response data 2 ## values are ==------ ', data2);
             // status filter values 
-            sequelize.query("SELECT DISTINCT Status from Tickets", {
+            sequelize.query("SELECT DISTINCT Status from Tickets ORDER BY Status DESC", {
                 type: Sequelize.QueryTypes.SELECT
             }).then(function (data3) {
-                sequelize.query("SELECT DISTINCT organizationname FROM Organizations", {
+                sequelize.query("SELECT DISTINCT organizationname FROM Organizations  INNER JOIN Tickets ON \
+                Tickets.organizationUuid = Organizations.uuid ORDER BY Organizations.organizationname DESC", {
                     type: Sequelize.QueryTypes.SELECT
                 }).then(function (data4) {
                     console.log('$$ get filter value response data 3 %%% values are ==------ ', data3);
@@ -343,7 +345,8 @@ module.exports.getFilterValue = function (callback) {
 module.exports.getFilterByOrgId = function (orgID, callback) {
     //created by filter values
     sequelize.query("SELECT firstname FROM Users WHERE uuid IN (SELECT \
-         createdByUuid FROM Tickets WHERE organizationUuid IN (:organizationID,'H1b9MM9zQ') )", {
+         createdByUuid FROM Tickets WHERE organizationUuid IN (:organizationID,'H1b9MM9zQ') ) \
+         ORDER BY firstname DESC", {
         replacements: {
             organizationID: orgID
         },
@@ -354,7 +357,8 @@ module.exports.getFilterByOrgId = function (orgID, callback) {
         sequelize.query("SELECT firstname FROM Users WHERE uuid IN (SELECT \
                  AssignedUserTickets.UserUuid FROM AssignedUserTickets \
                  INNER JOIN Tickets ON Tickets.uuid = AssignedUserTickets.TicketUuid \
-                  WHERE Tickets.organizationUuid IN (:organizationID,'H1b9MM9zQ'))", {
+                  WHERE Tickets.organizationUuid IN (:organizationID,'H1b9MM9zQ')) \
+                  ORDER BY firstname DESC", {
             replacements: {
                 organizationID: orgID
             },
@@ -362,7 +366,8 @@ module.exports.getFilterByOrgId = function (orgID, callback) {
         }).then(function (data2) {
             console.log('response data 2 ## values are ==------ ', data2);
             // status filter values 
-            sequelize.query("SELECT DISTINCT Status from Tickets WHERE organizationUuid IN (:organizationID)", {
+            sequelize.query("SELECT DISTINCT Status from Tickets WHERE organizationUuid IN (:organizationID) \
+            ORDER BY Status DESC", {
                 replacements: {
                     organizationID: orgID
                 },
@@ -392,106 +397,151 @@ module.exports.getAllTickets = function (object, callback) {
         completeQuery = '';
     var querys = [];
     var queryDetails = '';
-    if (object.search != '') {
-        whereQuery = "WHERE  createdByUuid IN (SELECT uuid FROM Users WHERE firstname LIKE :name) \
-OR uuid IN (SELECT TicketUuid FROM \
-AssignedUserTickets INNER JOIN Users ON Users.uuid = AssignedUserTickets.UserUuid WHERE firstname LIKE :name) \
-OR  Status LIKE :name \
-OR  Status LIKE :name \
-OR Type  LIKE :name \
-OR  id LIKE :name \
-OR uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
-             INNER JOIN SalesOrder ON SalesOrder.OrderID = SalesOrderTickets.SalesOrderOrderID \
-              WHERE  PONumber LIKE :name OR OrderNumber LIKE :name) \
-OR  CONVERT(DATE,Date) LIKE :name"
-        var countCompleteQuery = countQuery + " " + whereQuery;
-        var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + " " + whereQuery + " " + selectOffsetQuery;
+    //     if (object.search != '') {
+    //         whereQuery = "WHERE  createdByUuid IN (SELECT uuid FROM Users WHERE firstname LIKE :name) \
+    // OR uuid IN (SELECT TicketUuid FROM \
+    // AssignedUserTickets INNER JOIN Users ON Users.uuid = AssignedUserTickets.UserUuid WHERE firstname LIKE :name) \
+    // OR  Status LIKE :name \
+    // OR  Status LIKE :name \
+    // OR Type  LIKE :name \
+    // OR  id LIKE :name \
+    // OR uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
+    //              INNER JOIN SalesOrder ON SalesOrder.OrderID = SalesOrderTickets.SalesOrderOrderID \
+    //               WHERE  PONumber LIKE :name OR OrderNumber LIKE :name) \
+    // OR  CONVERT(DATE,Date) LIKE :name"
+    //         var countCompleteQuery = countQuery + " " + whereQuery;
+    //         var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + " " + whereQuery + " " + selectOffsetQuery;
 
+    //         sequelize.query(countCompleteQuery, {
+    //             replacements: {
+    //                 name: "%" + object.search + "%"
+    //             },
+    //             type: sequelize.QueryTypes.SELECT
+    //         }).then(function (countResponse) {
+    //             console.log("all filter count values are ------- ", countResponse);
+    //             sequelize.query(completeQuery, {
+    //                 replacements: {
+    //                     sortLabel: object.sortLabel,
+    //                     name: "%" + object.search + "%",
+    //                     offset: offsetValue,
+    //                     fetch: parseInt(object.pageSize)
+    //                 },
+    //                 type: sequelize.QueryTypes.SELECT
+    //             }).then(function (ticketUuid) {
+    //                 console.log('response length are ---- ', ticketUuid);
+
+    //                 var uuid = [];
+    //                 if (ticketUuid.length > 0) {
+    //                     ticketUuid.forEach(element => {
+    //                         uuid.push(element.uuid);
+    //                     })
+    //                 } else {
+    //                     uuid.push('');
+    //                 }
+    //                 console.log('ticket uuid values are -uuid---- ', ticketUuid, uuid);
+    //                 models.Tickets.findAll({
+    //                     where: {
+    //                         uuid: {
+    //                             $in: [uuid]
+    //                         }
+    //                     },
+    //                     order: [
+    //                         [object.sortLabel, object.sortDirection]
+    //                     ],
+    //                     include: [{
+    //                             model: models.Users,
+    //                             as: 'assigned_to',
+    //                             attributes: ['firstname']
+    //                         }, {
+    //                             model: models.Users,
+    //                             as: 'created_by',
+    //                             attributes: ['firstname']
+    //                         }, {
+    //                             model: models.SalesOrder,
+    //                             as: 'salesorder',
+    //                             attributes: ['PONumber', 'OrderNumber']
+    //                         },
+    //                         {
+    //                             model: models.Organizations,
+    //                             as: 'organization',
+    //                             attributes: ['organizationname']
+    //                         }
+    //                     ]
+    //                 }).then(function (response) {
+    //                     if (response.length != 0) {
+    //                         // callback(response)
+    //                         callback({
+    //                             "count": countResponse[0].count,
+    //                             "response": response
+    //                         },status.ok);
+    //                     } else {
+    //                         callback({
+    //                             "count": 0,
+    //                             "response": []
+    //                         },status.no_content);
+    //                     }
+    //                     console.log("after get all ticket in dao --- ", response.length);
+    //                 }).catch(function (error) {
+    //                     console.log("after get all ticket in dao error ---- ", error);
+    //                     callback(error, status.error)
+    //                 })
+
+    //             })
+    //         })
+
+
+    //     } else
+    if (object.createdBy.length === 0 && object.assignedTo.length === 0 && object.status.length === 0 && object.organization.length === 0) {
+
+        var searchQuery = '';
+        if (object.search !== '') {
+            console.log('@@@@@@@@@@@@@@@first query@@@@ entering int oelse poar $$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+            // whereQuery = "WHERE  createdByUuid IN (SELECT uuid FROM Users WHERE firstname LIKE :name) \
+            // // OR uuid IN (SELECT TicketUuid FROM \
+            // // AssignedUserTickets INNER JOIN Users ON Users.uuid = AssignedUserTickets.UserUuid WHERE firstname LIKE :name) \
+            // // OR  Status LIKE :name \
+            // // OR  Status LIKE :name \
+            // // OR Type  LIKE :name \
+            // // OR  id LIKE :name \
+            // // OR uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
+            // //              INNER JOIN SalesOrder ON SalesOrder.OrderID = SalesOrderTickets.SalesOrderOrderID \
+            // //               WHERE  PONumber LIKE :name OR OrderNumber LIKE :name) \
+            // // OR  CONVERT(DATE,Date) LIKE :name"
+
+            searchQuery = "(createdByUuid IN (SELECT uuid FROM Users WHERE firstname LIKE :name) \
+             OR uuid IN (SELECT TicketUuid FROM \
+             AssignedUserTickets INNER JOIN Users ON Users.uuid = AssignedUserTickets.UserUuid WHERE firstname LIKE :name) \
+             OR  Status LIKE :name \
+             OR  Status LIKE :name \
+             OR Type  LIKE :name \
+             OR  id LIKE :name \
+             OR uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
+                          INNER JOIN SalesOrder ON SalesOrder.OrderID = SalesOrderTickets.SalesOrderOrderID \
+                           WHERE  PONumber LIKE :name OR OrderNumber LIKE :name) \
+             OR  CONVERT(DATE,Date) LIKE :name )";
+            var countCompleteQuery = countQuery + "  WHERE  " + searchQuery;
+            var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets WHERE " + searchQuery + " " + selectOffsetQuery;
+        } else {
+            var countCompleteQuery = countQuery;
+            var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets  " + selectOffsetQuery;
+        }
+        // if (whereQuery != '' && object.search != '') {
+        //     var countCompleteQuery = countQuery + "  WHERE  "  searchQuery;
+        //     var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE  " + whereQuery + " " + querys[querys.length - 1] +  " AND " + searchQuery + " " + selectOffsetQuery
+        // } else if (whereQuery == '' && object.search != '') {
+        //     var countCompleteQuery = countQuery + "  WHERE  " + whereQuery + " " + querys[querys.length - 1]+ "  AND  " + searchQuery;
+        //     var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE  " + searchQuery + " " + selectOffsetQuery
+        // } else {
+        //     var countCompleteQuery = countQuery + "  WHERE  " + whereQuery + " " + querys[querys.length - 1];
+        //     var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE  " + whereQuery + " " + querys[querys.length - 1] + " " + selectOffsetQuery
+        // }
+        // var countCompleteQuery = countQuery+"  WHERE  "+searchQuery;
+        // var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets WHERE " +searchQuery+" "+selectOffsetQuery;
+        console.log(' #### full of query are -- get all tickets- ', countCompleteQuery, completeQuery);
         sequelize.query(countCompleteQuery, {
             replacements: {
+                orgId: object.orgId,
                 name: "%" + object.search + "%"
-            },
-            type: sequelize.QueryTypes.SELECT
-        }).then(function (countResponse) {
-            console.log("all filter count values are ------- ", countResponse);
-            sequelize.query(completeQuery, {
-                replacements: {
-                    sortLabel: object.sortLabel,
-                    name: "%" + object.search + "%",
-                    offset: offsetValue,
-                    fetch: parseInt(object.pageSize)
-                },
-                type: sequelize.QueryTypes.SELECT
-            }).then(function (ticketUuid) {
-                console.log('response length are ---- ', ticketUuid);
-
-                var uuid = [];
-                if (ticketUuid.length > 0) {
-                    ticketUuid.forEach(element => {
-                        uuid.push(element.uuid);
-                    })
-                } else {
-                    uuid.push('');
-                }
-                console.log('ticket uuid values are -uuid---- ', ticketUuid, uuid);
-                models.Tickets.findAll({
-                    where: {
-                        uuid: {
-                            $in: [uuid]
-                        }
-                    },
-                    order: [
-                        [object.sortLabel, object.sortDirection]
-                    ],
-                    include: [{
-                            model: models.Users,
-                            as: 'assigned_to',
-                            attributes: ['firstname']
-                        }, {
-                            model: models.Users,
-                            as: 'created_by',
-                            attributes: ['firstname']
-                        }, {
-                            model: models.SalesOrder,
-                            as: 'salesorder',
-                            attributes: ['PONumber', 'OrderNumber']
-                        },
-                        {
-                            model: models.Organizations,
-                            as: 'organization',
-                            attributes: ['organizationname']
-                        }
-                    ]
-                }).then(function (response) {
-                    if (response.length != 0) {
-                        // callback(response)
-                        callback({
-                            "count": countResponse[0].count,
-                            "response": response
-                        },status.ok);
-                    } else {
-                        callback({
-                            "count": 0,
-                            "response": []
-                        },status.no_content);
-                    }
-                    console.log("after get all ticket in dao --- ", response.length);
-                }).catch(function (error) {
-                    console.log("after get all ticket in dao error ---- ", error);
-                    callback(error, status.error)
-                })
-
-            })
-        })
-
-
-    } else if (object.createdBy.length === 0 && object.assignedTo.length === 0 && object.status.length === 0 && object.organization.length === 0) {
-        var countCompleteQuery = countQuery;
-        var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets  " + selectOffsetQuery;
-        console.log(' #### full of query are --admin flow-- ', countCompleteQuery, completeQuery);
-        sequelize.query(countCompleteQuery, {
-            replacements: {
-                orgId: object.orgId
             },
             type: sequelize.QueryTypes.SELECT
         }).then(function (countResponse) {
@@ -501,6 +551,7 @@ OR  CONVERT(DATE,Date) LIKE :name"
                     orgId: object.orgId,
                     sortLabel: object.sortLabel,
                     offset: offsetValue,
+                    name: "%" + object.search + "%",
                     fetch: parseInt(object.pageSize)
                 },
                 type: sequelize.QueryTypes.SELECT
@@ -550,12 +601,12 @@ OR  CONVERT(DATE,Date) LIKE :name"
                         callback({
                             "count": countResponse[0].count,
                             "response": response
-                        },status.ok);
+                        }, status.ok);
                     } else {
                         callback({
                             "count": 0,
                             "response": []
-                        },status.no_content);
+                        }, status.no_content);
                     }
                     console.log("#####after get all ticket in dao --- ", response.length);
                 }).catch(function (error) {
@@ -576,6 +627,7 @@ OR  CONVERT(DATE,Date) LIKE :name"
             querys.push(queryDetails);
         }
         if (object.status.length != 0) {
+            console.log('entering into ^&^^^^^ object status ---- ', object.status);
             queryDetails = "Status IN (:status)"
             querys.push(queryDetails);
         }
@@ -598,14 +650,54 @@ OR  CONVERT(DATE,Date) LIKE :name"
             if (err) {
 
             } else {
-                completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE  " + whereQuery + " " + querys[querys.length - 1] + " " + selectOffsetQuery;
-                countCompleteQuery = countQuery + "  WHERE  " + whereQuery + " " + querys[querys.length - 1];
+                var searchQuery = '';
+                if (object.search !== '') {
+                    console.log('@@@@@@@@@@@@@@@@@@@ entering int oelse poar $$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+                    // whereQuery = "WHERE  createdByUuid IN (SELECT uuid FROM Users WHERE firstname LIKE :name) \
+                    // // OR uuid IN (SELECT TicketUuid FROM \
+                    // // AssignedUserTickets INNER JOIN Users ON Users.uuid = AssignedUserTickets.UserUuid WHERE firstname LIKE :name) \
+                    // // OR  Status LIKE :name \
+                    // // OR  Status LIKE :name \
+                    // // OR Type  LIKE :name \
+                    // // OR  id LIKE :name \
+                    // // OR uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
+                    // //              INNER JOIN SalesOrder ON SalesOrder.OrderID = SalesOrderTickets.SalesOrderOrderID \
+                    // //               WHERE  PONumber LIKE :name OR OrderNumber LIKE :name) \
+                    // // OR  CONVERT(DATE,Date) LIKE :name"
+
+                    searchQuery = "( createdByUuid IN (SELECT uuid FROM Users WHERE firstname LIKE :name) \
+                     OR uuid IN (SELECT TicketUuid FROM \
+                     AssignedUserTickets INNER JOIN Users ON Users.uuid = AssignedUserTickets.UserUuid WHERE firstname LIKE :name) \
+                     OR  Status LIKE :name \
+                     OR  Status LIKE :name \
+                     OR Type  LIKE :name \
+                     OR  id LIKE :name \
+                     OR uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
+                                  INNER JOIN SalesOrder ON SalesOrder.OrderID = SalesOrderTickets.SalesOrderOrderID \
+                                   WHERE  PONumber LIKE :name OR OrderNumber LIKE :name) \
+                     OR  CONVERT(DATE,Date) LIKE :name )";
+                }
+                console.log('where query and search values are ---- ', querys[querys.length - 1], ' ---- ', object.search);
+                if (querys[querys.length - 1] != '' && object.search != '') {
+                    var countCompleteQuery = countQuery + "  WHERE  " + whereQuery + " " + querys[querys.length - 1] + " AND " + searchQuery;
+                    var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE  " + whereQuery + " " + querys[querys.length - 1] + " AND " + searchQuery + " " + selectOffsetQuery
+                } else if (querys[querys.length - 1] == '' && object.search != '') {
+                    var countCompleteQuery = countQuery + "  WHERE  " + whereQuery + " " + querys[querys.length - 1] + "  AND  " + searchQuery;
+                    var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE  " + searchQuery + " " + selectOffsetQuery
+                } else {
+                    var countCompleteQuery = countQuery + "  WHERE  " + whereQuery + " " + querys[querys.length - 1];
+                    var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE  " + whereQuery + " " + querys[querys.length - 1] + " " + selectOffsetQuery
+                }
+                // completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE  " + whereQuery + " " + querys[querys.length - 1] + " " + selectOffsetQuery;
+                // countCompleteQuery = countQuery + "  WHERE  " + whereQuery + " " + querys[querys.length - 1];
                 console.log('$$$ complete query values are ----------- ', completeQuery, countCompleteQuery);
+                console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
                 sequelize.query(countCompleteQuery, {
                     replacements: {
                         createdName: object.createdBy,
                         assignedName: object.assignedTo,
                         status: object.status,
+                        name: "%" + object.search + "%",
                         organizationName: object.organization
                     },
                     type: sequelize.QueryTypes.SELECT
@@ -618,6 +710,7 @@ OR  CONVERT(DATE,Date) LIKE :name"
                             organizationName: object.organization,
                             sortLabel: object.sortLabel,
                             offset: offsetValue,
+                            name: "%" + object.search + "%",
                             fetch: parseInt(object.pageSize)
                         },
                         type: sequelize.QueryTypes.SELECT
@@ -664,12 +757,12 @@ OR  CONVERT(DATE,Date) LIKE :name"
                                 callback({
                                     "count": countResponse[0].count,
                                     "response": response
-                                },status.ok);
+                                }, status.ok);
                             } else {
                                 callback({
                                     "count": 0,
                                     "response": []
-                                },status.no_content);
+                                }, status.no_content);
                             }
                         }).catch(function (error) {
                             console.log("after get all ticket in dao error ---- ", error);
@@ -699,136 +792,67 @@ module.exports.getAllTicketByOrgId = function (object, callback) {
         completeQuery = '';
     var querys = [];
     var queryDetails = '';
-    // if (object.PONumber != '' && object.orderNumber != '') {
-    //     queryDetails = "uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
-    //          INNER JOIN SalesOrder ON SalesOrder.OrderID = SalesOrderTickets.SalesOrderOrderID \
-    //           WHERE  PONumber IN (:PONumber) AND OrderNumber IN (:orderNumber))"
-    //     querys.push(queryDetails);
-    // } else if (object.PONumber != '') {
-    //     queryDetails = "uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
-    //         INNER JOIN SalesOrder ON SalesOrder.OrderID = SalesOrderTickets.SalesOrderOrderID \
-    //          WHERE  PONumber IN (:PONumber))"
-    //     querys.push(queryDetails);
 
-    // } else if (object.orderNumber != '') {
-    //     queryDetails = "uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
-    //         INNER JOIN SalesOrder ON SalesOrder.OrderID = SalesOrderTickets.SalesOrderOrderID \
-    //          WHERE OrderNumber IN (:orderNumber))"
-    //     querys.push(queryDetails);
-
-    // }
-
-    // if (object.comments != '') {
-    //     queryDetails = "uuid IN (SELECT TicketUuid FROM TicketComments WHERE CONTAINS(Comments, :comments))"
-    //     querys.push(queryDetails);
-    // }
-    var single = false;
-    if (object.search != '') {
-        whereQuery = "WHERE  createdByUuid IN (SELECT uuid FROM Users WHERE firstname LIKE :name) \
-OR uuid IN (SELECT TicketUuid FROM \
-AssignedUserTickets INNER JOIN Users ON Users.uuid = AssignedUserTickets.UserUuid WHERE firstname LIKE :name) \
-OR  Status LIKE :name \
-OR  Status LIKE :name \
-OR Type  LIKE :name \
-OR  id LIKE :name \
-OR organizationUuid IN (SELECT uuid FROM Organizations WHERE organizationname LIKE :name) \
-OR uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
-             INNER JOIN SalesOrder ON SalesOrder.OrderID = SalesOrderTickets.SalesOrderOrderID \
-              WHERE  PONumber LIKE :name OR OrderNumber LIKE :name) \
-OR  CONVERT(DATE,Date) LIKE :name"
-        var countCompleteQuery = countQuery + " " + whereQuery;
-        var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + " " + whereQuery + " " + selectOffsetQuery;
-
-        sequelize.query(countCompleteQuery, {
-            replacements: {
-                name: "%" + object.search + "%"
-            },
-            type: sequelize.QueryTypes.SELECT
-        }).then(function (countResponse) {
-            console.log("all filter count values are ------- ", countResponse);
-            sequelize.query(completeQuery, {
-                replacements: {
-                    sortLabel: object.sortLabel,
-                    name: "%" + object.search + "%",
-                    offset: offsetValue,
-                    fetch: parseInt(object.pageSize)
-                },
-                type: sequelize.QueryTypes.SELECT
-            }).then(function (ticketUuid) {
-                console.log('response length are ---- ', ticketUuid);
-
-                var uuid = [];
-                if (ticketUuid.length > 0) {
-                    ticketUuid.forEach(element => {
-                        uuid.push(element.uuid);
-                    })
-                } else {
-                    uuid.push('');
-                }
-                console.log('ticket uuid values are -uuid---- ', ticketUuid, uuid);
-                models.Tickets.findAll({
-                    where: {
-                        uuid: {
-                            $in: [uuid]
-                        }
-                    },
-                    order: [
-                        [object.sortLabel, object.sortDirection]
-                    ],
-                    include: [{
-                            model: models.Users,
-                            as: 'assigned_to',
-                            attributes: ['firstname']
-                        }, {
-                            model: models.Users,
-                            as: 'created_by',
-                            attributes: ['firstname']
-                        }, {
-                            model: models.SalesOrder,
-                            as: 'salesorder',
-                            attributes: ['PONumber', 'OrderNumber']
-                        },
-                        {
-                            model: models.Organizations,
-                            as: 'organization',
-                            attributes: ['organizationname']
-                        }
-                    ]
-                }).then(function (response) {
-                    if (response.length != 0) {
-                        // callback(response)
-                        callback({
-                            "count": countResponse[0].count,
-                            "response": response
-                        },status.ok);
-                    } else {
-                        callback({
-                            "count": 0,
-                            "response": []
-                        },status.no_content);
-                    }
-                    console.log("after get all ticket in dao --- ", response.length);
-                }).catch(function (error) {
-                    console.log("after get all ticket in dao error ---- ", error);
-                    callback(error, status.error)
-                })
-
-            })
-        })
-
-
-    } else if (object.createdBy.length === 0 && object.assignedTo.length === 0 && object.status.length === 0) {
+    if (object.createdBy.length === 0 && object.assignedTo.length === 0 && object.status.length === 0) {
         console.log("@@@@@@@@@@@@@@@@@@@ entering into all array null in get all tickets org id @@@@@@@@@@@@")
-        var countCompleteQuery = countQuery + " WHERE " + OrgIdQuery + " OR uuid IN \
+
+        var searchQuery = '';
+        if (object.search !== '') {
+            console.log('@@@@@@@@@@@@@@@first query@@@@ entering int oelse poar $$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+            // whereQuery = "WHERE  createdByUuid IN (SELECT uuid FROM Users WHERE firstname LIKE :name) \
+            // // OR uuid IN (SELECT TicketUuid FROM \
+            // // AssignedUserTickets INNER JOIN Users ON Users.uuid = AssignedUserTickets.UserUuid WHERE firstname LIKE :name) \
+            // // OR  Status LIKE :name \
+            // // OR  Status LIKE :name \
+            // // OR Type  LIKE :name \
+            // // OR  id LIKE :name \
+            // // OR uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
+            // //              INNER JOIN SalesOrder ON SalesOrder.OrderID = SalesOrderTickets.SalesOrderOrderID \
+            // //               WHERE  PONumber LIKE :name OR OrderNumber LIKE :name) \
+            // // OR  CONVERT(DATE,Date) LIKE :name"
+
+            searchQuery = "(createdByUuid IN (SELECT uuid FROM Users WHERE firstname LIKE :name) \
+             OR uuid IN (SELECT TicketUuid FROM \
+             AssignedUserTickets INNER JOIN Users ON Users.uuid = AssignedUserTickets.UserUuid WHERE firstname LIKE :name) \
+             OR  Status LIKE :name \
+             OR  Status LIKE :name \
+             OR Type  LIKE :name \
+             OR  id LIKE :name \
+             OR uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
+                          INNER JOIN SalesOrder ON SalesOrder.OrderID = SalesOrderTickets.SalesOrderOrderID \
+                           WHERE  PONumber LIKE :name OR OrderNumber LIKE :name) \
+             OR  CONVERT(DATE,Date) LIKE :name )";
+            //     var countCompleteQuery = countQuery+"  WHERE  "+searchQuery;
+            // var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets WHERE " +searchQuery+" "+selectOffsetQuery;
+            var countCompleteQuery = countQuery + " WHERE ( " + OrgIdQuery + " OR uuid IN \
         (SELECT TicketUuid FROM AssignedUserTickets \
-        INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) ";
-        var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets WHERE  " + OrgIdQuery + " OR uuid IN \
+        INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) ) AND  " + searchQuery;
+            var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets WHERE ( " + OrgIdQuery + " OR uuid IN \
         (SELECT TicketUuid FROM AssignedUserTickets \
-        INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) " + selectOffsetQuery;
+        INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) ) AND  " + searchQuery + " " + selectOffsetQuery;
+        } else {
+            var countCompleteQuery = countQuery + " WHERE " + OrgIdQuery + " OR uuid IN \
+            (SELECT TicketUuid FROM AssignedUserTickets \
+            INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) ";
+            var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets WHERE  " + OrgIdQuery + " OR uuid IN \
+            (SELECT TicketUuid FROM AssignedUserTickets \
+            INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) " + selectOffsetQuery;
+            //     var countCompleteQuery = countQuery;
+            // var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets  "+selectOffsetQuery;
+        }
+
+
+        // var countCompleteQuery = countQuery + " WHERE " + OrgIdQuery + " OR uuid IN \
+        // (SELECT TicketUuid FROM AssignedUserTickets \
+        // INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) ";
+        // var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets WHERE  " + OrgIdQuery + " OR uuid IN \
+        // (SELECT TicketUuid FROM AssignedUserTickets \
+        // INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) " + selectOffsetQuery;
         console.log('get all ticket by org id ------------------------------>', completeQuery);
         sequelize.query(countCompleteQuery, {
             replacements: {
-                orgId: object.orgId
+                orgId: object.orgId,
+                name: "%" + object.search + "%"
             },
             type: sequelize.QueryTypes.SELECT
         }).then(function (countResponse) {
@@ -838,6 +862,7 @@ OR  CONVERT(DATE,Date) LIKE :name"
                     orgId: object.orgId,
                     sortLabel: object.sortLabel,
                     offset: offsetValue,
+                    name: "%" + object.search + "%",
                     fetch: parseInt(object.pageSize)
                 },
                 type: sequelize.QueryTypes.SELECT
@@ -887,12 +912,12 @@ OR  CONVERT(DATE,Date) LIKE :name"
                         callback({
                             "count": countResponse[0].count,
                             "response": response
-                        },status.ok);
+                        }, status.ok);
                     } else {
                         callback({
                             "count": 0,
                             "response": []
-                        },status.no_content);
+                        }, status.no_content);
                     }
                     console.log("after get all ticket in dao --- ", response.length);
                 }).catch(function (error) {
@@ -931,12 +956,63 @@ OR  CONVERT(DATE,Date) LIKE :name"
             if (err) {
 
             } else {
-                completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE  " + whereQuery + " " + querys[querys.length - 1] + "OR uuid IN \
-                (SELECT TicketUuid FROM AssignedUserTickets \
-                INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId))  " + selectOffsetQuery;
-                countCompleteQuery = countQuery + "  WHERE  " + whereQuery + " " + querys[querys.length - 1] + "OR uuid IN \
-                (SELECT TicketUuid FROM AssignedUserTickets \
-                INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId))  ";
+                var searchQuery = '';
+                if (object.search !== '') {
+                    console.log('@@@@@@@@@@@@@@@@@@@ entering int oelse poar $$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+                    // whereQuery = "WHERE  createdByUuid IN (SELECT uuid FROM Users WHERE firstname LIKE :name) \
+                    // // OR uuid IN (SELECT TicketUuid FROM \
+                    // // AssignedUserTickets INNER JOIN Users ON Users.uuid = AssignedUserTickets.UserUuid WHERE firstname LIKE :name) \
+                    // // OR  Status LIKE :name \
+                    // // OR  Status LIKE :name \
+                    // // OR Type  LIKE :name \
+                    // // OR  id LIKE :name \
+                    // // OR uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
+                    // //              INNER JOIN SalesOrder ON SalesOrder.OrderID = SalesOrderTickets.SalesOrderOrderID \
+                    // //               WHERE  PONumber LIKE :name OR OrderNumber LIKE :name) \
+                    // // OR  CONVERT(DATE,Date) LIKE :name"
+
+                    searchQuery = "( createdByUuid IN (SELECT uuid FROM Users WHERE firstname LIKE :name) \
+                     OR uuid IN (SELECT TicketUuid FROM \
+                     AssignedUserTickets INNER JOIN Users ON Users.uuid = AssignedUserTickets.UserUuid WHERE firstname LIKE :name) \
+                     OR  Status LIKE :name \
+                     OR  Status LIKE :name \
+                     OR Type  LIKE :name \
+                     OR  id LIKE :name \
+                     OR uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
+                                  INNER JOIN SalesOrder ON SalesOrder.OrderID = SalesOrderTickets.SalesOrderOrderID \
+                                   WHERE  PONumber LIKE :name OR OrderNumber LIKE :name) \
+                     OR  CONVERT(DATE,Date) LIKE :name )";
+                }
+                console.log('where query and search values are ---- ', querys[querys.length - 1], ' ---- ', object.search);
+                if (querys[querys.length - 1] != '' && object.search != '') {
+                    console.log('iiiiiiiiiiiiiii entering into if condition');
+                    var countCompleteQuery = countQuery + "  WHERE ( " + whereQuery + " " + querys[querys.length - 1] + "OR ( uuid IN \
+                        (SELECT TicketUuid FROM AssignedUserTickets \
+                        INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) ) ) " + " AND " + searchQuery;
+                    var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE ( " + whereQuery + " " + querys[querys.length - 1] + "OR uuid IN \
+                    (SELECT TicketUuid FROM AssignedUserTickets \
+                    INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) ) " + " AND " + searchQuery + " " + selectOffsetQuery
+                } else if (querys[querys.length - 1] == '' && object.search != '') {
+                    console.log('iiiiiiiiiiiiiii entering into else if condition');
+                    var countCompleteQuery = countQuery + "  WHERE  " + whereQuery + " " + querys[querys.length - 1] + "OR ( uuid IN \
+                        (SELECT TicketUuid FROM AssignedUserTickets \
+                        INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) ) " + "  AND  " + searchQuery;
+                    var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE  " + searchQuery + " " + selectOffsetQuery
+                } else {
+                    console.log('iiiiiiiiiiiiiii entering else condition');
+                    var countCompleteQuery = countQuery + "  WHERE  " + whereQuery + "  (  " + querys[querys.length - 1] + "OR ( uuid IN \
+                        (SELECT TicketUuid FROM AssignedUserTickets \
+                        INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) ) ) ";
+                    var completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE  " + whereQuery + "  (  " + querys[querys.length - 1] + "OR uuid IN \
+                    (SELECT TicketUuid FROM AssignedUserTickets \
+                    INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) )  " + " " + selectOffsetQuery
+                }
+                // completeQuery = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE  " + whereQuery + " " + querys[querys.length - 1] + "OR uuid IN \
+                // (SELECT TicketUuid FROM AssignedUserTickets \
+                // INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId))  " + selectOffsetQuery;
+                // countCompleteQuery = countQuery + "  WHERE  " + whereQuery + " " + querys[querys.length - 1] + "OR ( uuid IN \
+                // (SELECT TicketUuid FROM AssignedUserTickets \
+                // INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) ) ";
                 console.log('$$$ complete query values are ----------- ', completeQuery, countCompleteQuery);
 
 
@@ -945,7 +1021,8 @@ OR  CONVERT(DATE,Date) LIKE :name"
                         orgId: object.orgId,
                         createdName: object.createdBy,
                         assignedName: object.assignedTo,
-                        status: object.status
+                        status: object.status,
+                        name: "%" + object.search + "%"
                     },
                     type: sequelize.QueryTypes.SELECT
                 }).then(function (countResponse) {
@@ -957,6 +1034,7 @@ OR  CONVERT(DATE,Date) LIKE :name"
                             status: object.status,
                             sortLabel: object.sortLabel,
                             offset: offsetValue,
+                            name: "%" + object.search + "%",
                             fetch: parseInt(object.pageSize)
                         },
                         type: sequelize.QueryTypes.SELECT
@@ -1005,36 +1083,42 @@ OR  CONVERT(DATE,Date) LIKE :name"
                                 response.forEach(element => {
                                     //console.log("element0--------------->",element) 
                                     if (object.createdBy.length != 0) {
-                                        if (object.createdBy[0] === element.created_by.firstname) {
-                                            response2.push(element);
-                                        }
+                                        object.createdBy.forEach(createdBy => {
+                                            if (createdBy === element.created_by.firstname) {
+                                                response2.push(element);
+                                            }
+                                        })
                                     }
 
                                     if (object.assignedTo.length != 0) {
                                         console.log("element0--------------->", element.assigned_to[0].dataValues.firstname)
-                                        if (object.assignedTo[0] === element.assigned_to[0].dataValues.firstname) {
-                                            response2.push(element);
-                                        }
+                                        object.assignedTo.forEach(assignedTo => {
+                                            if (assignedTo === element.assigned_to[0].dataValues.firstname) {
+                                                response2.push(element);
+                                            }
+                                        });
                                     }
 
                                     if (object.status.length != 0) {
-                                        if (object.status[0] === element.dataValues.Status) {
-                                            response2.push(element);
-                                        }
+                                        object.status.forEach(status => {
+                                            if (status === element.dataValues.Status) {
+                                                response2.push(element);
+                                            }
+                                        })
                                     }
 
                                 })
 
                                 callback({
-                                    "count": countResponse[0].count - (countResponse[0].count - response2.length),
-                                    "response": response2
-                                },status.ok);
+                                    "count": countResponse[0].count,
+                                    "response": response
+                                }, status.ok);
 
                             } else {
                                 callback({
                                     "count": 0,
                                     "response": []
-                                },status.no_content);
+                                }, status.no_content);
                             }
                         }).catch(function (error) {
                             console.log("after get all ticket in dao error ---- ", error);
@@ -1097,6 +1181,23 @@ module.exports.searchDetails = function (object, callback) {
         queryDetails = "uuid IN (SELECT TicketUuid FROM TicketComments WHERE CONTAINS(Comments, :comments))"
         querys.push(queryDetails);
     }
+    if (object.createdBy.length != 0) {
+        queryDetails = "createdByUuid IN (SELECT uuid FROM Users WHERE firstname IN (:createdBy))";
+        querys.push(queryDetails);
+    }
+    if (object.assignedTo.length != 0) {
+        queryDetails = "uuid IN (SELECT TicketUuid FROM AssignedUserTickets INNER JOIN Users ON Users.uuid = AssignedUserTickets.UserUuid WHERE firstname IN (:assignedTo))"
+        querys.push(queryDetails);
+    }
+    if (object.status.length != 0) {
+        queryDetails = "Status IN (:status)"
+        querys.push(queryDetails);
+    }
+    if (object.organization.length != 0) {
+        queryDetails = " organizationUuid IN (SELECT uuid FROM Organizations WHERE \
+            organizationname IN (:organizationName))"
+        querys.push(queryDetails)
+    }
     var count = 0;
     asyncLoop(querys, (item, next) => {
         count++;
@@ -1123,12 +1224,17 @@ module.exports.searchDetails = function (object, callback) {
                     createdName: object.createdName,
                     assignedName: object.assignedName,
                     createdDate: object.createDate,
+                    createdBy: object.createdBy,
+                    assignedTo: object.assignedTo,
+                    status: object.status,
+                    organizationName: object.organization,
                     comments: '"' + object.comments + '"',
                     orgId: object.orgId
 
                 },
                 type: sequelize.QueryTypes.SELECT
             }).then(function (countResponse) {
+                console.log('count in search response are ---- ', countResponse);
                 sequelize.query(completeQuery, {
                     replacements: {
                         PONumber: object.PONumber,
@@ -1136,6 +1242,10 @@ module.exports.searchDetails = function (object, callback) {
                         createdName: object.createdName,
                         assignedName: object.assignedName,
                         createdDate: object.createDate,
+                        createdBy: object.createdBy,
+                        assignedTo: object.assignedTo,
+                        status: object.status,
+                        organizationName: object.organization,
                         comments: '"' + object.comments + '"',
                         orgId: object.orgId,
                         sortLabel: object.sortLabel,
@@ -1280,14 +1390,16 @@ module.exports.searchDetailsByOrgId = function (object, callback) {
     var countQuery = "SELECT COUNT(*)N'count' FROM Tickets";
     var whereQuery = '',
         completeQuery = '';
+    whereSecondQuery = '';
     var querys = [];
     var queryDetails = '';
     var offsetValue = parseInt(object.pageSize) * (parseInt(object.pageIndex));
     console.log('offset values are in org id are ---- ', offsetValue);
     selectOffsetQuery = "ORDER BY :sortLabel  " + object.sortDirection.toUpperCase() + "  OFFSET (:offset) ROWS FETCH NEXT (:fetch) ROWS ONLY";
     if (object.orgId != '') {
-        queryDetails = "organizationUuid IN (:orgId)"
-        querys.push(queryDetails);
+        // queryDetails = "organizationUuid IN (:orgId)"
+        // querys.push(queryDetails);
+        whereQuery = "organizationUuid IN (:orgId) AND  "
     }
     if (object.PONumber != '' && object.orderNumber != '') {
         queryDetails = "uuid IN (SELECT TicketUuid FROM SalesOrderTickets \
@@ -1324,6 +1436,23 @@ module.exports.searchDetailsByOrgId = function (object, callback) {
         queryDetails = "uuid IN (SELECT TicketUuid FROM TicketComments WHERE CONTAINS(Comments, :comments))"
         querys.push(queryDetails);
     }
+    if (object.createdBy.length != 0) {
+        queryDetails = "createdByUuid IN (SELECT uuid FROM Users WHERE firstname IN (:createdBy))";
+        querys.push(queryDetails);
+    }
+    if (object.assignedTo.length != 0) {
+        queryDetails = "uuid IN (SELECT TicketUuid FROM AssignedUserTickets INNER JOIN Users ON Users.uuid = AssignedUserTickets.UserUuid WHERE firstname IN (:assignedTo))"
+        querys.push(queryDetails);
+    }
+    if (object.status.length != 0) {
+        queryDetails = "Status IN (:status)"
+        querys.push(queryDetails);
+    }
+    if (object.organization.length != 0) {
+        queryDetails = " organizationUuid IN (SELECT uuid FROM Organizations WHERE \
+            organizationname IN (:organizationName))"
+        querys.push(queryDetails)
+    }
     var count = 0;
     asyncLoop(querys, (item, next) => {
         count++;
@@ -1333,6 +1462,7 @@ module.exports.searchDetailsByOrgId = function (object, callback) {
             next();
         } else {
             whereQuery = whereQuery + item + " " + 'AND' + " "
+            whereSecondQuery = whereSecondQuery + item + " " + 'AND' + " "
             next();
         }
     }, function (err) {
@@ -1352,6 +1482,10 @@ module.exports.searchDetailsByOrgId = function (object, callback) {
                     createdName: object.createdName,
                     assignedName: object.assignedName,
                     createdDate: object.createDate,
+                    createdBy: object.createdBy,
+                    assignedTo: object.assignedTo,
+                    status: object.status,
+                    organizationName: object.organization,
                     comments: '"' + object.comments + '"',
                     orgId: object.orgId
 
@@ -1365,6 +1499,10 @@ module.exports.searchDetailsByOrgId = function (object, callback) {
                         createdName: object.createdName,
                         assignedName: object.assignedName,
                         createdDate: object.createDate,
+                        createdBy: object.createdBy,
+                        assignedTo: object.assignedTo,
+                        status: object.status,
+                        organizationName: object.organization,
                         comments: '"' + object.comments + '"',
                         orgId: object.orgId,
                         sortLabel: object.sortLabel,
@@ -1381,8 +1519,12 @@ module.exports.searchDetailsByOrgId = function (object, callback) {
 
                     var whereQuery2 = "uuid IN (SELECT TicketUuid FROM AssignedUserTickets INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (:orgId)) AND "
 
-                    var completeQuery2 = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE  " + whereQuery2 + " " + querys[querys.length - 1] + " " + selectOffsetQuery;
+                    var completeQuery2 = "SELECT uuid," + object.sortLabel + "  FROM Tickets " + "  WHERE  " + whereSecondQuery + " " + whereQuery2 + " " + querys[querys.length - 1] + " " + selectOffsetQuery;
 
+                    // var completeQuery2 = "SELECT uuid,Date  FROM Tickets  WHERE createdByUuid IN (SELECT uuid FROM Users WHERE firstname IN (N'supriya'))\
+                    // AND uuid IN (SELECT TicketUuid FROM AssignedUserTickets INNER JOIN Users ON AssignedUserTickets.UserUuid = Users.uuid WHERE Users.organizationUuid IN (N'rkZJDf9fm'))\
+                    // AND Status IN (N'Assigned')\
+                    // ORDER BY N'Date' DESC OFFSET(0) ROWS FETCH NEXT(25) ROWS ONLY "
 
                     sequelize.query(completeQuery2, {
                         replacements: {
@@ -1391,6 +1533,10 @@ module.exports.searchDetailsByOrgId = function (object, callback) {
                             createdName: object.createdName,
                             assignedName: object.assignedName,
                             createdDate: object.createDate,
+                            createdBy: object.createdBy,
+                            assignedTo: object.assignedTo,
+                            status: object.status,
+                            organizationName: object.organization,
                             comments: '"' + object.comments + '"',
                             orgId: object.orgId,
                             sortLabel: object.sortLabel,
@@ -1415,6 +1561,7 @@ module.exports.searchDetailsByOrgId = function (object, callback) {
                         } else {
                             uuid.push('');
                         }
+                        console.log('~~~ uuid values in tickets are ---@@@@@#######--- ', uuid);
                         models.Tickets.findAll({
                             where: {
                                 uuid: {
@@ -1448,12 +1595,12 @@ module.exports.searchDetailsByOrgId = function (object, callback) {
                                 callback({
                                     "count": countResponse[0].count + ticketUuid2.length,
                                     "response": response
-                                },status.ok);
+                                }, status.ok);
                             } else {
                                 callback({
                                     "count": 0,
                                     "response": []
-                                },status.no_content);
+                                }, status.no_content);
                             }
                         }).catch(function (error) {
                             console.log("after get all ticket in dao error ---- ", error);

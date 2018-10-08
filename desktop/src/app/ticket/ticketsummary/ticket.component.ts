@@ -276,7 +276,7 @@ export class TicketComponent implements OnInit, AfterViewInit {
       'createDate': '',
       'createdName': '',
       'assignedName': '',
-      'comments': ''
+      'comments': '',
     };
     this.paginator.pageIndex = 0;
     this.loadDataPage();
@@ -292,12 +292,19 @@ export class TicketComponent implements OnInit, AfterViewInit {
         this.dataSource.getSearchResult(this.paginator.pageIndex,
           this.paginator.pageSize,
           this.sort.active,
-          this.sort.direction, this.Search);
+          this.sort.direction, this.organizationSelectedValue,
+          this.createdBySelectedValue,
+          this.assignedToSelectedValue,
+          this.statusSelectedValue,
+          this.Search);
       } else {
         this.dataSource.getSearchResultByOrgId(this.paginator.pageIndex,
           this.paginator.pageSize,
           this.sort.active,
-          this.sort.direction, this.Search, this.orgUUID);
+          this.sort.direction, this.organizationSelectedValue,
+          this.createdBySelectedValue,
+          this.assignedToSelectedValue,
+          this.statusSelectedValue, this.Search, this.orgUUID);
       }
     }
   }

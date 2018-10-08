@@ -68,7 +68,7 @@ module.exports.createInvoices = function (InvoicesDetails, callback) {
 
 //get Invoices by active status
 module.exports.getallInvoices = function (pageNumber, pageSize, sortLabel, sortDirection, search, item, status, callback) {
-    console.log('entering into get all invoices are ------ ');
+    console.log('entering into get all invoices are ------ ', search);
     if (item === "undefined") {
         console.log('getall invoice ----- item')
         location = []
@@ -93,216 +93,142 @@ module.exports.getallInvoices = function (pageNumber, pageSize, sortLabel, sortD
         whereQuery = '',
         countCompleteQuery = '';
     console.log('affset and fetch values are ---- ', pageNumber, pageSize, offsetValue)
-    if (search !== '') {
-        whereQuery = " WHERE  InvoiceNumber LIKE :name \
-        OR InvoiceDate LIKE :name \
-        OR TotalPrice LIKE :name \
-        OR ShipmentID IN (SELECT ShipmentID FROM Shipments INNER JOIN SalesOrder ON \
-        Shipments.OrderID = SalesOrder.OrderID WHERE SalesOrder.OrderID LIKE :name OR SalesOrder.StatusName LIKE :name)"
-        var countCompleteQuery = countQuery + " " + whereQuery;
-        var completeQuery = "SELECT uuid," + sortLabel + "  FROM Invoices " + " " + whereQuery + " " + selectOffsetQuery;
-
-        sequelize.query(countCompleteQuery, {
-            replacements: {
-                name: "%" + search + "%"
-            },
-            type: sequelize.QueryTypes.SELECT
-        }).then(function (countResponse) {
-            console.log("all filter count values are ------- ", countResponse);
-            sequelize.query(completeQuery, {
-                replacements: {
-                    sortLabel: sortLabel,
-                    name: "%" + search + "%",
-                    offset: offsetValue,
-                    fetch: parseInt(pageSize)
-                },
-                type: sequelize.QueryTypes.SELECT
-            }).then(function (invoiceUuid) {
-                console.log('response length are ---- ', invoiceUuid);
-
-                var uuid = [];
-                if (invoiceUuid.length > 0) {
-                    invoiceUuid.forEach(element => {
-                        uuid.push(element.uuid);
-                    })
-                } else {
-                    uuid.push('');
-                }
-                console.log('ticket uuid values are -uuid---- ', invoiceUuid, uuid);
-                models.Invoices.findAll({
-                    where: {
-                        uuid: {
-                            $in: [uuid]
-                        }
-                    },
-                    order: [
-                        [sortLabel, sortDirection]
-                    ],
-                    include: [{
-                        model: models.InvoiceDetails,
-                        include: [{
-                            model: models.Shipments,
-                        }]
-                    }]
-                }).then(function (response) {
-                    if (response.length != 0) {
-
-                        var count = 0;
-                        asyncLoop(response, (element, next) => {
-                            models.SalesOrder.findOne({
-                                where: {
-                                    PONumber: element.PONumber
-                                }
-                            }).then(order => {
-                                if (order) {
-                                    element.dataValues.SalesOrder = order;
-                                } else {
-                                    element.dataValues.SalesOrder = {};
-                                }
-                                next();
-                            }).catch(error => {
-                                next();
-                            })
-                        }, function (err) {
-                            if (err) {
-                                callback(err, statusCode.error)
-                            } else {
-                                console.log("$$$$$ final callback")
-                                callback({
-                                    "count": countResponse[0].count,
-                                    "response": response
-                                }, statusCode.ok);
-                            }
-                        })
-
-                    } else {
-                        callback({
-                            "count": 0,
-                            "response": []
-                        }, statusCode.ok);
-                    }
-                }).catch(function (error) {
-                    console.log("after get all ticket in dao error ---- ", error);
-                    callback(error, statusCode.error)
-                })
-
-            })
-        })
-    } else {
-
-        if (item.length !== 0 && status.length === 0) {
-            whereQuery = "WHERE ShipmentID IN (:shipmentId)";
-        } else if (item.length === 0 && status.length !== 0) {
-            whereQuery = "WHERE ShipmentID IN (SELECT ShipmentID FROM Shipments INNER JOIN SalesOrder ON \
+    if (item.length !== 0 && status.length === 0) {
+        whereQuery = "WHERE ShipmentID IN (:shipmentId)";
+    } else if (item.length === 0 && status.length !== 0) {
+        whereQuery = "WHERE ShipmentID IN (SELECT ShipmentID FROM Shipments INNER JOIN SalesOrder ON \
                 Shipments.OrderID = SalesOrder.OrderID WHERE SalesOrder.StatusName IN (:statusName))";
-        } else if (item.length !== 0 && status.length !== 0) {
-            whereQuery = "WHERE ShipmentID IN (SELECT ShipmentID FROM Shipments INNER JOIN SalesOrder ON \
+    } else if (item.length !== 0 && status.length !== 0) {
+        whereQuery = "WHERE ShipmentID IN (SELECT ShipmentID FROM Shipments INNER JOIN SalesOrder ON \
                 Shipments.OrderID = SalesOrder.OrderID WHERE SalesOrder.StatusName IN (:statusName)) \
                AND ShipmentID IN (:shipmentId)";
-        } else {
-            // callback([])
-            console.log('nothing if condition is called')
-        }
+    } else {
+        // callback([])
+        console.log('nothing if condition is called')
+    }
+    var searchQuery = '';
+    if (search !== '') {
+        searchQuery = "(InvoiceNumber LIKE :name \
+            OR InvoiceDate LIKE :name \
+            OR TotalPrice LIKE :name \
+            OR ShipmentID IN (SELECT ShipmentID FROM Shipments INNER JOIN SalesOrder ON \
+            Shipments.OrderID = SalesOrder.OrderID WHERE SalesOrder.OrderID LIKE :name OR SalesOrder.StatusName LIKE :name) )"
+    }
+    if (whereQuery != '' && search != '') {
+        var countCompleteQuery = countQuery + " " + whereQuery + " AND " + searchQuery;
+        var completeQuery = selectQuery + " " + whereQuery + " AND " + searchQuery + " " + selectOffsetQuery
+    } else if (whereQuery == '' && search != '') {
+        var countCompleteQuery = countQuery + " WHERE " + searchQuery;
+        var completeQuery = selectQuery + "  WHERE  " + searchQuery + " " + selectOffsetQuery
+    } else {
         var countCompleteQuery = countQuery + " " + whereQuery
         var completeQuery = selectQuery + " " + whereQuery + " " + selectOffsetQuery
-        console.log('count  query --------> ', countCompleteQuery);
-        console.log('get all  query --------> ', completeQuery);
-        sequelize.query(countCompleteQuery, {
+
+        // var countCompleteQuery = countQuery + " " + whereQuery + " " + searchQuery;
+        // var completeQuery = selectQuery + " " + whereQuery + " " + searchQuery + " " + selectOffsetQuery
+    }
+    // var countCompleteQuery = countQuery + " " + whereQuery
+    // var completeQuery = selectQuery + " " + whereQuery + " " + selectOffsetQuery
+    console.log('count  query --------> ', countCompleteQuery);
+    console.log('get all  query --------> ', completeQuery);
+    sequelize.query(countCompleteQuery, {
+        replacements: {
+            shipmentId: item,
+            statusName: status,
+            sortLabel: sortLabel,
+            offset: offsetValue,
+            name: "%" + search + "%",
+            fetch: parseInt(pageSize)
+        },
+        type: sequelize.QueryTypes.SELECT
+    }).then(function (countResponse) {
+        console.log("all filter count values are -------> ", countResponse);
+        sequelize.query(completeQuery, {
             replacements: {
                 shipmentId: item,
                 statusName: status,
                 sortLabel: sortLabel,
+                name: "%" + search + "%",
                 offset: offsetValue,
                 fetch: parseInt(pageSize)
             },
             type: sequelize.QueryTypes.SELECT
-        }).then(function (countResponse) {
-            console.log("all filter count values are -------> ", countResponse);
-            sequelize.query(completeQuery, {
-                replacements: {
-                    shipmentId: item,
-                    statusName: status,
-                    sortLabel: sortLabel,
-                    offset: offsetValue,
-                    fetch: parseInt(pageSize)
-                },
-                type: sequelize.QueryTypes.SELECT
-            }).then(function (response) {
-                console.log('response length are ---- ', response.length);
-                if (response.length != 0) {
-                    // callback({
-                    //     "count": countResponse[0].count,
-                    //     "response": response
-                    // });
+        }).then(function (response) {
+            console.log('response length are ---- ', response.length);
+            if (response.length != 0) {
+                // callback({
+                //     "count": countResponse[0].count,
+                //     "response": response
+                // });
 
-                    var count = 0;
-                    var count2 = 0;
-                    response.forEach((element, i) => {
+                var count = 0;
+                var count2 = 0;
+                response.forEach((element, i) => {
 
-                        if (element.PONumber !== null) {
-                            models.SalesOrder.findOne({
-                                where: {
-                                    PONumber: element.PONumber
-                                }
-                            }).then(Order => {
-                                count++;
-                                if (Order) {
-                                    element.SalesOrder = Order;
-                                } else {
-                                    element.SalesOrder = {};
-                                }
-                                if (count === response.length) {
+                    if (element.PONumber !== null) {
+                        models.SalesOrder.findOne({
+                            where: {
+                                PONumber: element.PONumber
+                            }
+                        }).then(Order => {
+                            count++;
+                            if (Order) {
+                                element.SalesOrder = Order;
+                            } else {
+                                element.SalesOrder = {};
+                            }
+                            if (count === response.length) {
 
 
-                                    response.forEach((element, i) => {
+                                response.forEach((element, i) => {
 
-                                        if (element.ShipmentID !== null) {
-                                            models.InvoiceDetails.findAll({
-                                                where: {
-                                                    ShipmentID: element.ShipmentID
-                                                },
-                                                include: [{
-                                                    model: models.Shipments
-                                                }]
-                                            }).then(Details => {
-                                                count2++;
-                                                if (Details) {
-                                                    element.InvoiceDetails = Details;
-                                                } else {
-                                                    element.InvoiceDetails = [];
-                                                }
-                                                if (count2 === response.length) {
+                                    if (element.ShipmentID !== null) {
+                                        models.InvoiceDetails.findAll({
+                                            where: {
+                                                ShipmentID: element.ShipmentID
+                                            },
+                                            include: [{
+                                                model: models.Shipments
+                                            }]
+                                        }).then(Details => {
+                                            count2++;
+                                            if (Details) {
+                                                element.InvoiceDetails = Details;
+                                            } else {
+                                                element.InvoiceDetails = [];
+                                            }
+                                            if (count2 === response.length) {
 
-                                                    callback({
-                                                        "count": countResponse[0].count,
-                                                        "response": response
-                                                    }, statusCode.ok);
-                                                }
-                                            })
-                                        } else {
-                                            element.InvoiceDetails = [];
-                                        }
-                                    });
+                                                callback({
+                                                    "count": countResponse[0].count,
+                                                    "response": response
+                                                }, statusCode.ok);
+                                            }
+                                        })
+                                    } else {
+                                        element.InvoiceDetails = [];
+                                    }
+                                });
 
 
 
 
-                                }
-                            })
-                        } else {
-                            element.SalesOrder = {};
-                        }
-                    });
+                            }
+                        })
+                    } else {
+                        element.SalesOrder = {};
+                    }
+                });
 
 
-                } else {
-                    callback("There is no Invoice", statusCode.no_content)
-                }
-            })
+            } else {
+                callback("There is no Invoice", statusCode.no_content)
+            }
         })
+    })
 
-    }
 }
+// }
 
 
 module.exports.getallInvoicesByOrg = function (pageNumber, pageSize,
@@ -333,220 +259,144 @@ module.exports.getallInvoicesByOrg = function (pageNumber, pageSize,
         whereQuery = '',
         countCompleteQuery = '';
     console.log('affset and fetch values are ---- ', pageNumber, pageSize, offsetValue)
-    if (search !== '') {
-        whereQuery = " WHERE  CompanyCode IN (:code) AND  (InvoiceNumber LIKE :name \
-        OR InvoiceDate LIKE :name \
-        OR TotalPrice LIKE :name \
-        OR ShipmentID IN (SELECT ShipmentID FROM Shipments INNER JOIN SalesOrder ON \
-        Shipments.OrderID = SalesOrder.OrderID WHERE SalesOrder.OrderID LIKE :name OR SalesOrder.StatusName LIKE :name))"
-        var countCompleteQuery = countQuery + " " + whereQuery;
-        var completeQuery = "SELECT uuid," + sortLabel + "  FROM Invoices " + " " + whereQuery + " " + selectOffsetQuery;
-
-        sequelize.query(countCompleteQuery, {
-            replacements: {
-                code: companyCode,
-                name: "%" + search + "%"
-            },
-            type: sequelize.QueryTypes.SELECT
-        }).then(function (countResponse) {
-            console.log("all filter count values are ------- ", countResponse);
-            sequelize.query(completeQuery, {
-                replacements: {
-                    code: companyCode,
-                    sortLabel: sortLabel,
-                    name: "%" + search + "%",
-                    offset: offsetValue,
-                    fetch: parseInt(pageSize)
-                },
-                type: sequelize.QueryTypes.SELECT
-            }).then(function (invoiceUuid) {
-                console.log('response length are ---- ', invoiceUuid);
-
-                var uuid = [];
-                if (invoiceUuid.length > 0) {
-                    invoiceUuid.forEach(element => {
-                        uuid.push(element.uuid);
-                    })
-                } else {
-                    uuid.push('');
-                }
-                console.log('ticket uuid values are -uuid---- ', invoiceUuid, uuid);
-                models.Invoices.findAll({
-                    where: {
-                        uuid: {
-                            $in: [uuid]
-                        }
-                    },
-                    order: [
-                        [sortLabel, sortDirection]
-                    ],
-                    include: [{
-                        model: models.InvoiceDetails,
-                        include: [{
-                            model: models.Shipments,
-                        }]
-                    }]
-                }).then(function (response) {
-                    if (response.length != 0) {
-
-                        var count = 0;
-                        asyncLoop(response, (element, next) => {
-                            models.SalesOrder.findOne({
-                                where: {
-                                    PONumber: element.PONumber
-                                }
-                            }).then(order => {
-                                if (order) {
-                                    element.dataValues.SalesOrder = order;
-                                } else {
-                                    element.dataValues.SalesOrder = {};
-                                }
-                                next();
-                            }).catch(error => {
-                                next();
-                            })
-                        }, function (err) {
-                            if (err) {
-                                callback(err)
-                            } else {
-                                console.log("$$$$$ final callback")
-                                callback({
-                                    "count": countResponse[0].count,
-                                    "response": response
-                                },statusCode.ok);
-                            }
-                        })
-
-                    } else {
-                        callback({
-                            "count": 0,
-                            "response": []
-                        },statusCode.no_content);
-                    }
-                }).catch(function (error) {
-                    console.log("after get all ticket in dao error ---- ", error);
-                    callback(error, statusCode.error);
-                })
-
-            })
-        })
-    } else {
-
-        if (item.length !== 0 && status.length === 0) {
-            whereQuery = "WHERE ShipmentID IN (:shipmentId) AND CompanyCode IN (:companyCode)";
-        } else if (item.length === 0 && status.length !== 0) {
-            whereQuery = "WHERE ShipmentID IN (SELECT ShipmentID FROM Shipments INNER JOIN SalesOrder ON \
+    if (item.length !== 0 && status.length === 0) {
+        whereQuery = "WHERE ShipmentID IN (:shipmentId) AND CompanyCode IN (:companyCode)";
+    } else if (item.length === 0 && status.length !== 0) {
+        whereQuery = "WHERE ShipmentID IN (SELECT ShipmentID FROM Shipments INNER JOIN SalesOrder ON \
                     Shipments.OrderID = SalesOrder.OrderID WHERE SalesOrder.StatusName IN (:statusName)) AND CompanyCode IN (:companyCode)";
-        } else if (item.length !== 0 && status.length !== 0) {
-            whereQuery = "WHERE ShipmentID IN (SELECT ShipmentID FROM Shipments INNER JOIN SalesOrder ON \
+    } else if (item.length !== 0 && status.length !== 0) {
+        whereQuery = "WHERE ShipmentID IN (SELECT ShipmentID FROM Shipments INNER JOIN SalesOrder ON \
                     Shipments.OrderID = SalesOrder.OrderID WHERE SalesOrder.StatusName IN (:statusName)) \
                    AND ShipmentID IN (:shipmentId) AND CompanyCode IN (:companyCode)";
-        } else {
-            // callback([])
-            console.log('nothing if condition is called')
-        }
+    } else {
+        // callback([])
+        console.log('nothing if condition is called')
+    }
+    var searchQuery = '';
+    if (search !== '') {
+        searchQuery = "( InvoiceNumber LIKE :name \
+                OR InvoiceDate LIKE :name \
+                 OR TotalPrice LIKE :name \
+                 OR ShipmentID IN (SELECT ShipmentID FROM Shipments INNER JOIN SalesOrder ON \
+                 Shipments.OrderID = SalesOrder.OrderID WHERE SalesOrder.OrderID LIKE :name OR SalesOrder.StatusName LIKE :name) )"
+    }
+    if (whereQuery != '' && search != '') {
+        var countCompleteQuery = countQuery + " " + whereQuery + " AND " + searchQuery;
+        var completeQuery = selectQuery + " " + whereQuery + " AND " + searchQuery + " " + selectOffsetQuery
+    } else if (whereQuery == '' && search != '') {
+        var countCompleteQuery = countQuery + " WHERE " + searchQuery;
+        var completeQuery = selectQuery + "  WHERE  " + searchQuery + " " + selectOffsetQuery
+    } else {
         var countCompleteQuery = countQuery + " " + whereQuery
         var completeQuery = selectQuery + " " + whereQuery + " " + selectOffsetQuery
-        console.log('count  query --------> ', countCompleteQuery);
-        console.log('get all  query --------> ', completeQuery);
-        sequelize.query(countCompleteQuery, {
+
+        // var countCompleteQuery = countQuery + " " + whereQuery + " " + searchQuery;
+        // var completeQuery = selectQuery + " " + whereQuery + " " + searchQuery + " " + selectOffsetQuery
+    }
+    // var countCompleteQuery = countQuery + " " + whereQuery
+    // var completeQuery = selectQuery + " " + whereQuery + " " + selectOffsetQuery
+    console.log('count  query --------> ', countCompleteQuery);
+    console.log('get all  query --------> ', completeQuery);
+    sequelize.query(countCompleteQuery, {
+        replacements: {
+            shipmentId: item,
+            statusName: status,
+            companyCode: companyCode,
+            sortLabel: sortLabel,
+            offset: offsetValue,
+            name: "%" + search + "%",
+            fetch: parseInt(pageSize)
+        },
+        type: sequelize.QueryTypes.SELECT
+    }).then(function (countResponse) {
+        console.log("all filter count values are -------> ", countResponse);
+        sequelize.query(completeQuery, {
             replacements: {
                 shipmentId: item,
                 statusName: status,
                 companyCode: companyCode,
                 sortLabel: sortLabel,
                 offset: offsetValue,
+                name: "%" + search + "%",
                 fetch: parseInt(pageSize)
             },
             type: sequelize.QueryTypes.SELECT
-        }).then(function (countResponse) {
-            console.log("all filter count values are -------> ", countResponse);
-            sequelize.query(completeQuery, {
-                replacements: {
-                    shipmentId: item,
-                    statusName: status,
-                    companyCode: companyCode,
-                    sortLabel: sortLabel,
-                    offset: offsetValue,
-                    fetch: parseInt(pageSize)
-                },
-                type: sequelize.QueryTypes.SELECT
-            }).then(function (response) {
-                console.log('response length are ---- ', response.length);
-                if (response.length != 0) {
-                    // callback({
-                    //     "count": countResponse[0].count,
-                    //     "response": response
-                    // });
+        }).then(function (response) {
+            console.log('response length are ---- ', response.length);
+            if (response.length != 0) {
+                // callback({
+                //     "count": countResponse[0].count,
+                //     "response": response
+                // });
 
-                    var count = 0;
-                    var count2 = 0;
-                    response.forEach((element, i) => {
+                var count = 0;
+                var count2 = 0;
+                response.forEach((element, i) => {
 
-                        if (element.PONumber !== null) {
-                            models.SalesOrder.findOne({
-                                where: {
-                                    PONumber: element.PONumber
-                                }
-                            }).then(Order => {
-                                count++;
-                                if (Order) {
-                                    element.SalesOrder = Order;
-                                } else {
-                                    element.SalesOrder = {};
-                                }
-                                if (count === response.length) {
+                    if (element.PONumber !== null) {
+                        models.SalesOrder.findOne({
+                            where: {
+                                PONumber: element.PONumber
+                            }
+                        }).then(Order => {
+                            count++;
+                            if (Order) {
+                                element.SalesOrder = Order;
+                            } else {
+                                element.SalesOrder = {};
+                            }
+                            if (count === response.length) {
 
 
-                                    response.forEach((element, i) => {
+                                response.forEach((element, i) => {
 
-                                        if (element.ShipmentID !== null) {
-                                            models.InvoiceDetails.findAll({
-                                                where: {
-                                                    ShipmentID: element.ShipmentID
-                                                },
-                                                include: [{
-                                                    model: models.Shipments
-                                                }]
-                                            }).then(Details => {
-                                                count2++;
-                                                if (Details) {
-                                                    element.InvoiceDetails = Details;
-                                                } else {
-                                                    element.InvoiceDetails = [];
-                                                }
-                                                if (count2 === response.length) {
+                                    if (element.ShipmentID !== null) {
+                                        models.InvoiceDetails.findAll({
+                                            where: {
+                                                ShipmentID: element.ShipmentID
+                                            },
+                                            include: [{
+                                                model: models.Shipments
+                                            }]
+                                        }).then(Details => {
+                                            count2++;
+                                            if (Details) {
+                                                element.InvoiceDetails = Details;
+                                            } else {
+                                                element.InvoiceDetails = [];
+                                            }
+                                            if (count2 === response.length) {
 
-                                                    callback({
-                                                        "count": countResponse[0].count,
-                                                        "response": response
-                                                    }, statusCode.ok);
-                                                }
-                                            })
-                                        } else {
-                                            element.InvoiceDetails = [];
-                                        }
-                                    });
+                                                callback({
+                                                    "count": countResponse[0].count,
+                                                    "response": response
+                                                }, statusCode.ok);
+                                            }
+                                        })
+                                    } else {
+                                        element.InvoiceDetails = [];
+                                    }
+                                });
 
 
 
 
-                                }
-                            })
-                        } else {
-                            element.SalesOrder = {};
-                        }
-                    });
+                            }
+                        })
+                    } else {
+                        element.SalesOrder = {};
+                    }
+                });
 
 
-                } else {
-                    callback("There is no Invoice", statusCode.no_content)
-                }
-            })
+            } else {
+                callback("There is no Invoice", statusCode.no_content)
+            }
         })
+    })
 
-    }
 }
+// }
 
 
 

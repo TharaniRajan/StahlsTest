@@ -15,7 +15,7 @@ export class DashboardService {
     }
 
     get_priority(days) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_priority+days);
+        return this.apiService.get(this.configService.analytics_url + Constants.get_priority + days);
     }
 
     get_ordersReceived() {
@@ -31,11 +31,11 @@ export class DashboardService {
     }
 
     get_ordersOnTimeShipped(days) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersOnTimeShipped + days );
+        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersOnTimeShipped + days);
     }
 
     get_ordersOnTimeForecast(days) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersOnTimeForecast + days );
+        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersOnTimeForecast + days);
     }
 
     get_ordersTopSelling(days) {
@@ -55,15 +55,15 @@ export class DashboardService {
     }
 
     get_barGraphData(days) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_barGraphData + days );
+        return this.apiService.get(this.configService.analytics_url + Constants.get_barGraphData + days);
     }
 
     get_timeGraphData(days) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_timeGraphData + days );
+        return this.apiService.get(this.configService.analytics_url + Constants.get_timeGraphData + days);
     }
 
     get_barGraphDataShipped(days) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_barGraphDataShipped + days );
+        return this.apiService.get(this.configService.analytics_url + Constants.get_barGraphDataShipped + days);
     }
 
 
@@ -73,57 +73,57 @@ export class DashboardService {
 
 
 
-    get_priorityOrg(days,code) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_priorityOrg+days+"/"+code);
+    get_priorityOrg(days, code) {
+        return this.apiService.get(this.configService.analytics_url + Constants.get_priorityOrg + days + '/' + code);
     }
 
     get_ordersReceivedOrg(code) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersReceivedOrg+code);
+        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersReceivedOrg + code);
     }
 
     get_ordersOnTimeOrg(code) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersOnTimeOrg+code);
+        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersOnTimeOrg + code);
     }
 
     get_ordersOnTimeTodayOrg(code) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersOnTimeTodayOrg+code);
+        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersOnTimeTodayOrg + code);
     }
 
-    get_ordersOnTimeShippedOrg(days,code) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersOnTimeShippedOrg + days+"/"+code );
+    get_ordersOnTimeShippedOrg(days, code) {
+        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersOnTimeShippedOrg + days + '/' + code);
     }
 
-    get_ordersOnTimeForecastOrg(days,code) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersOnTimeForecastOrg + days +"/"+code );
+    get_ordersOnTimeForecastOrg(days, code) {
+        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersOnTimeForecastOrg + days + '/' + code);
     }
 
 
-    get_ordersTopSellingOrg(days,code) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersTopSellingOrg + days +"/"+code);
+    get_ordersTopSellingOrg(days, code) {
+        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersTopSellingOrg + days + '/' + code);
     }
 
     get_ordersReceivedTodayOrg(code) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersReceivedTodayOrg+code);
+        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersReceivedTodayOrg + code);
     }
 
     get_orderShippedOrg(code) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersShippedOrg+code);
+        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersShippedOrg + code);
     }
 
     get_orderShippedTodayOrg(code) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersShippedTodayOrg+code);
+        return this.apiService.get(this.configService.analytics_url + Constants.get_ordersShippedTodayOrg + code);
     }
 
-    get_barGraphDataOrg(days,code) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_barGraphDataOrg + days+"/"+code );
+    get_barGraphDataOrg(days, code) {
+        return this.apiService.get(this.configService.analytics_url + Constants.get_barGraphDataOrg + days + '/' + code);
     }
 
-    get_timeGraphDataOrg(days,code) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_timeGraphDataOrg + days+"/"+code );
+    get_timeGraphDataOrg(days, code) {
+        return this.apiService.get(this.configService.analytics_url + Constants.get_timeGraphDataOrg + days + '/' + code);
     }
 
-    get_barGraphDataShippedOrg(days,code) {
-        return this.apiService.get(this.configService.analytics_url + Constants.get_barGraphDataShippedOrg + days+"/"+code );
+    get_barGraphDataShippedOrg(days, code) {
+        return this.apiService.get(this.configService.analytics_url + Constants.get_barGraphDataShippedOrg + days + '/' + code);
     }
 
 }

@@ -7,7 +7,7 @@ export class SharedService {
     public analyticsUrl = 'https://stahlsportalanalyticsdev.azurewebsites.net';
     //public analyticsUrl = 'http://localhost:5000';
 
-    public syncserviceUrl = 'https://stahlsportalsyncdev.azurewebsites.net';
+    public syncserviceUrl = 'http://localhost:3000';
     public reporturl = '';
     public browser_language: string;
 }

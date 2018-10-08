@@ -9,7 +9,7 @@ var statusCode = require('../../config/status');
 
 module.exports.createinventory = function (InventoryDetails, callback) {
     models.FinishedGoods.create(InventoryDetails).then(function (response) {
-        console.log("i am in dao  in", InventoryDetails)
+        // console.log("i am in dao  in", InventoryDetails)
         callback(response, statusCode.created)
     }).catch(function (error) {
         callback(error, statusCode.error)
@@ -17,7 +17,7 @@ module.exports.createinventory = function (InventoryDetails, callback) {
 }
 
 module.exports.getallinventories = function (callback) {
-    console.log("i am in dao  in", models.Inventory);
+    // console.log("i am in dao  in", models.Inventory);
     models.FinishedGoods.findAll({
         order: [
             ['StyleNumber', 'DESC']
@@ -627,343 +627,1284 @@ module.exports.getinventorybyActiveStatus = function (pageNumber, pageSize, sort
         countCompleteQuery = '';
 
     console.log('entering into inventory active data in dao --offsetValues--- ', pageNumber, pageSize, offsetValue, code);
-    if (search !== '') {
-        console.log("@#@#@## entering into else part ")
-        models.FinishedGoods.count({
-            where: {
-                StatusName: 'Active',
-                $or: [{
-                        'StyleNumber': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    //{ '$Comment.body$': { like: '%' + search + '%' } }
-                    {
-                        'StyleColor': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'GarmentSize': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'StyleOption': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'StyleName': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'QuantityOnHand': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'QuantityAllocated': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'AdjustedQuantityOnHand': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'QuantitySeconds': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'QuantityThirds': {
-                            like: '%' + search + '%'
-                        }
-                    }
-                ]
-            }
-        }).then(function (count) {
-            models.FinishedGoods.findAll({
-                where: {
-                    StatusName: 'Active',
-                    $or: [{
-                            'StyleNumber': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        //{ '$Comment.body$': { like: '%' + search + '%' } }
-                        {
-                            'StyleColor': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'GarmentSize': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'StyleOption': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'StyleName': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'QuantityOnHand': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'QuantityAllocated': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'AdjustedQuantityOnHand': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'QuantitySeconds': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'QuantityThirds': {
-                                like: '%' + search + '%'
-                            }
-                        }
-                    ]
-                },
-                offset: offsetValue,
-                limit: parseInt(pageSize),
-                order: [
-                    [sortLabel, sortDirection]
-                ],
-                include: [{
-                    model: models.FinishedGoodsAdjustment
-                }]
+    // if (search !== '') {
+    //     console.log("@#@#@## entering into else part ")
+    //     models.FinishedGoods.count({
+    //         where: {
+    //             StatusName: 'Active',
+    //             $or: [{
+    //                     'StyleNumber': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 //{ '$Comment.body$': { like: '%' + search + '%' } }
+    //                 {
+    //                     'StyleColor': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'GarmentSize': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'StyleOption': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'StyleName': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'QuantityOnHand': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'QuantityAllocated': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'AdjustedQuantityOnHand': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'QuantitySeconds': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'QuantityThirds': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 }
+    //             ]
+    //         }
+    //     }).then(function (count) {
+    //         models.FinishedGoods.findAll({
+    //             where: {
+    //                 StatusName: 'Active',
+    //                 $or: [{
+    //                         'StyleNumber': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     //{ '$Comment.body$': { like: '%' + search + '%' } }
+    //                     {
+    //                         'StyleColor': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'GarmentSize': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'StyleOption': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'StyleName': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'QuantityOnHand': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'QuantityAllocated': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'AdjustedQuantityOnHand': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'QuantitySeconds': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'QuantityThirds': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     }
+    //                 ]
+    //             },
+    //             offset: offsetValue,
+    //             limit: parseInt(pageSize),
+    //             order: [
+    //                 [sortLabel, sortDirection]
+    //             ],
+    //             include: [{
+    //                 model: models.FinishedGoodsAdjustment
+    //             }]
 
-            }).then(function (response) {
-                callback({
-                    "count": count,
-                    "response": response
-                }, statusCode.ok)
-            }).catch(function (error) {
-                callback(error, statusCode.error)
-            })
-        }).catch(function (error) {
-            callback(error, statusCode.error)
-        })
+    //         }).then(function (response) {
+    //             callback({
+    //                 "count": count,
+    //                 "response": response
+    //             }, statusCode.ok)
+    //         }).catch(function (error) {
+    //             callback(error, statusCode.error)
+    //         })
+    //     }).catch(function (error) {
+    //         callback(error, statusCode.error)
+    //     })
+    // } else {
+    if (style.length !== 0 && color.length !== 0 && size.length !== 0 && code.length !== 0) {
+        console.log('entering into all filter values true ----- ', style, color, size, code);
+        whereQuery = " WHERE StatusName = :statusName AND CompanyCode IN (:code) AND StyleNumber IN (:style) AND StyleColor IN (:color) AND GarmentSize IN (:size)"
+    } // two filter values comparison of styleNumber
+    else if (style.length !== 0 && ((color.length === 0 && size.length !== 0 && code.length == 0) ||
+            (color.length !== 0 && code.length == 0 && size.length === 0) ||
+            (color.length == 0 && code.length != 0 && size.length === 0))) {
+        console.log('entering into style number two filter values', code, style, color, size)
+        if (code.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND StyleNumber IN (:style) AND CompanyCode IN (:code)"
+        } else if (color.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND StyleNumber in (:style) AND StyleColor IN (:color)"
+        } else if (size.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND StyleNumber in (:style) AND GarmentSize IN (:size)"
+        }
+
+    } // three filter values comparison of styleNumber
+    else if (style.length !== 0 && ((color.length === 0 && size.length !== 0 && code.length != 0) ||
+            (color.length !== 0 && code.length !== 0 && size.length === 0) ||
+            (color.length != 0 && code.length == 0 && size.length != 0))) {
+        console.log('entering into style number three filter values ', code, style, color, size);
+        if (code.length !== 0 && color.length !== 0) {
+            whereQuery = "WHERE StatusName = :statusName AND (CompanyCode IN (:code) AND StyleNumber in (:style) AND StyleColor IN (:color))"
+        } else if (code.length !== 0 && size.length !== 0) {
+            whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND StyleNumber in (:style) AND GarmentSize IN (:size)"
+        } else if (color.length !== 0 && size.length !== 0) {
+            whereQuery = "WHERE StatusName = :statusName AND StyleNumber in (:style) AND StyleColor IN (:color) AND GarmentSize IN (:size)"
+        }
+    }
+    // two filter values comparison of style color
+    else if (color.length !== 0 && ((style.length === 0 && size.length !== 0 && code.length == 0) ||
+            (style.length !== 0 && code.length == 0 && size.length === 0) ||
+            (style.length == 0 && code.length != 0 && size.length === 0))) {
+        console.log('entering into style color two filter values', code, style, color, size);
+        if (code.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND StyleColor IN (:color) AND CompanyCode IN (:code)"
+        } else if (style.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND StyleColor IN (:color) AND StyleNumber IN (:style)"
+        } else if (size.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND StyleColor IN (:color) AND GarmentSize IN (:size)"
+        }
+
+    } // three filter values comparison of style color
+    else if (color.length !== 0 && ((style.length === 0 && size.length !== 0 && code.length != 0) ||
+            (style.length !== 0 && code.length !== 0 && size.length === 0) ||
+            (style.length != 0 && code.length == 0 && size.length != 0))) {
+        console.log('entering into style color three filter values ', code, style, color, size);
+        if (code.length !== 0 && style.length !== 0) {
+            whereQuery = "WHERE StatusName = :statusName AND (CompanyCode IN (:code) AND StyleColor IN (:color) AND StyleNumber IN (:style))"
+        } else if (code.length !== 0 && size.length !== 0) {
+            whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND StyleColor IN (:color) AND GarmentSize IN (:size)"
+        } else if (style.length !== 0 && size.length !== 0) {
+            whereQuery = "WHERE StatusName = :statusName AND StyleColor IN (:color) AND StyleNumber IN (:style) AND GarmentSize IN (:size)"
+        }
+    } // two filter values comparison of Garment size
+    else if (size.length !== 0 && ((color.length === 0 && style.length !== 0 && code.length == 0) ||
+            (color.length !== 0 && code.length == 0 && style.length === 0) ||
+            (color.length == 0 && code.length != 0 && style.length === 0))) {
+        console.log('entering into garment size two filter values', code, style, color, size);
+        if (code.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND GarmentSize IN (:size) AND CompanyCode IN (:code)"
+        } else if (color.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND GarmentSize IN (:size) AND StyleColor IN (:color)"
+        } else if (style.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND GarmentSize IN (:size) AND StyleNumber IN (:style)"
+        }
+
+    } // three filter values comparison of Garment size
+    else if (size.length !== 0 && ((color.length === 0 && style.length !== 0 && code.length != 0) ||
+            (color.length !== 0 && code.length !== 0 && style.length === 0) ||
+            (color.length != 0 && code.length == 0 && style.length != 0))) {
+        console.log('entering into garment size three filter values ', code, style, color, size);
+        if (code.length !== 0 && color.length !== 0) {
+            whereQuery = "WHERE StatusName = :statusName AND (CompanyCode IN (:code) AND GarmentSize IN (:size) AND StyleColor IN (:color))"
+        } else if (code.length !== 0 && style.length !== 0) {
+            whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND GarmentSize IN (:size) AND StyleNumber IN (:style)"
+        } else if (color.length !== 0 && style.length !== 0) {
+            whereQuery = "WHERE StatusName = :statusName AND GarmentSize IN (:size) AND StyleColor IN (:color) AND StyleNumber IN (:style)"
+        }
+    }
+    // two filter values comparison of code
+    else if (code.length !== 0 && ((color.length === 0 && size.length !== 0 && style.length == 0) ||
+            (color.length !== 0 && style.length == 0 && size.length === 0) ||
+            (color.length == 0 && style.length != 0 && size.length === 0))) {
+        console.log('entering into code two filter values', code, style, color, size);
+        if (style.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND StyleNumber IN (:style)"
+        } else if (color.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND StyleColor IN (:color)"
+        } else if (size.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND GarmentSize IN (:size)"
+        }
+
+    } // three filter values comparison of code
+    else if (code.length !== 0 && ((color.length === 0 && size.length !== 0 && style.length != 0) ||
+            (color.length !== 0 && style.length !== 0 && size.length === 0) ||
+            (color.length != 0 && style.length == 0 && size.length != 0))) {
+        console.log('entering into code three filter values ', code, style, color, size);
+        if (style.length !== 0 && color.length !== 0) {
+            whereQuery = "WHERE StatusName = :statusName AND (CompanyCode IN (:code) AND StyleNumber in (:style) AND StyleColor IN (:color))"
+        } else if (style.length !== 0 && size.length !== 0) {
+            whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND StyleNumber in (:style) AND GarmentSize IN (:size)"
+        } else if (color.length !== 0 && size.length !== 0) {
+            whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND StyleColor IN (:color) AND GarmentSize IN (:size)"
+        }
+
+
+    } //style number single filter
+    else if (style.length !== 0 && color.length === 0 && size.length === 0 && code.length === 0) {
+        console.log('entering into style number single filter ', code, style, color, size);
+        whereQuery = "WHERE StatusName = :statusName AND StyleNumber IN (:style)"
+    } //style color single filter
+    else if (color.length !== 0 && style.length === 0 && size.length === 0 && code.length === 0) {
+        console.log('entering into style color single filter ', code, style, color, size);
+        whereQuery = "WHERE StatusName = :statusName AND StyleColor IN (:color)"
+    } // Garment size single filter
+    else if (size.length !== 0 && color.length === 0 && style.length === 0 && code.length === 0) {
+        console.log('entering into garment size single filter ', code, style, color, size);
+        whereQuery = "WHERE StatusName = :statusName AND GarmentSize IN (:size)"
+    } // code single filter
+    else if (code.length !== 0 && color.length === 0 && size.length === 0 && style.length === 0) {
+        console.log('entering into style number single filter ', code, style, color, size);
+        whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code)"
     } else {
-        if (style.length !== 0 && color.length !== 0 && size.length !== 0 && code.length !== 0) {
-            console.log('entering into all filter values true ----- ', style, color, size, code);
-            whereQuery = " WHERE StatusName = :statusName AND CompanyCode IN (:code) AND StyleNumber IN (:style) AND StyleColor IN (:color) AND GarmentSize IN (:size)"
-        } // two filter values comparison of styleNumber
-        else if (style.length !== 0 && ((color.length === 0 && size.length !== 0 && code.length == 0) ||
-                (color.length !== 0 && code.length == 0 && size.length === 0) ||
-                (color.length == 0 && code.length != 0 && size.length === 0))) {
-            console.log('entering into style number two filter values', code, style, color, size)
-            if (code.length != 0) {
-                whereQuery = "WHERE StatusName = :statusName AND StyleNumber IN (:style) AND CompanyCode IN (:code)"
-            } else if (color.length != 0) {
-                whereQuery = "WHERE StatusName = :statusName AND StyleNumber in (:style) AND StyleColor IN (:color)"
-            } else if (size.length != 0) {
-                whereQuery = "WHERE StatusName = :statusName AND StyleNumber in (:style) AND GarmentSize IN (:size)"
-            }
-
-        } // three filter values comparison of styleNumber
-        else if (style.length !== 0 && ((color.length === 0 && size.length !== 0 && code.length != 0) ||
-                (color.length !== 0 && code.length !== 0 && size.length === 0) ||
-                (color.length != 0 && code.length == 0 && size.length != 0))) {
-            console.log('entering into style number three filter values ', code, style, color, size);
-            if (code.length !== 0 && color.length !== 0) {
-                whereQuery = "WHERE StatusName = :statusName AND (CompanyCode IN (:code) AND StyleNumber in (:style) AND StyleColor IN (:color))"
-            } else if (code.length !== 0 && size.length !== 0) {
-                whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND StyleNumber in (:style) AND GarmentSize IN (:size)"
-            } else if (color.length !== 0 && size.length !== 0) {
-                whereQuery = "WHERE StatusName = :statusName AND StyleNumber in (:style) AND StyleColor IN (:color) AND GarmentSize IN (:size)"
-            }
-        }
-        // two filter values comparison of style color
-        else if (color.length !== 0 && ((style.length === 0 && size.length !== 0 && code.length == 0) ||
-                (style.length !== 0 && code.length == 0 && size.length === 0) ||
-                (style.length == 0 && code.length != 0 && size.length === 0))) {
-            console.log('entering into style color two filter values', code, style, color, size);
-            if (code.length != 0) {
-                whereQuery = "WHERE StatusName = :statusName AND StyleColor IN (:color) AND CompanyCode IN (:code)"
-            } else if (style.length != 0) {
-                whereQuery = "WHERE StatusName = :statusName AND StyleColor IN (:color) AND StyleNumber IN (:style)"
-            } else if (size.length != 0) {
-                whereQuery = "WHERE StatusName = :statusName AND StyleColor IN (:color) AND GarmentSize IN (:size)"
-            }
-
-        } // three filter values comparison of style color
-        else if (color.length !== 0 && ((style.length === 0 && size.length !== 0 && code.length != 0) ||
-                (style.length !== 0 && code.length !== 0 && size.length === 0) ||
-                (style.length != 0 && code.length == 0 && size.length != 0))) {
-            console.log('entering into style color three filter values ', code, style, color, size);
-            if (code.length !== 0 && style.length !== 0) {
-                whereQuery = "WHERE StatusName = :statusName AND (CompanyCode IN (:code) AND StyleColor IN (:color) AND StyleNumber IN (:style))"
-            } else if (code.length !== 0 && size.length !== 0) {
-                whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND StyleColor IN (:color) AND GarmentSize IN (:size)"
-            } else if (style.length !== 0 && size.length !== 0) {
-                whereQuery = "WHERE StatusName = :statusName AND StyleColor IN (:color) AND StyleNumber IN (:style) AND GarmentSize IN (:size)"
-            }
-        } // two filter values comparison of Garment size
-        else if (size.length !== 0 && ((color.length === 0 && style.length !== 0 && code.length == 0) ||
-                (color.length !== 0 && code.length == 0 && style.length === 0) ||
-                (color.length == 0 && code.length != 0 && style.length === 0))) {
-            console.log('entering into garment size two filter values', code, style, color, size);
-            if (code.length != 0) {
-                whereQuery = "WHERE StatusName = :statusName AND GarmentSize IN (:size) AND CompanyCode IN (:code)"
-            } else if (color.length != 0) {
-                whereQuery = "WHERE StatusName = :statusName AND GarmentSize IN (:size) AND StyleColor IN (:color)"
-            } else if (style.length != 0) {
-                whereQuery = "WHERE StatusName = :statusName AND GarmentSize IN (:size) AND StyleNumber IN (:style)"
-            }
-
-        } // three filter values comparison of Garment size
-        else if (size.length !== 0 && ((color.length === 0 && style.length !== 0 && code.length != 0) ||
-                (color.length !== 0 && code.length !== 0 && style.length === 0) ||
-                (color.length != 0 && code.length == 0 && style.length != 0))) {
-            console.log('entering into garment size three filter values ', code, style, color, size);
-            if (code.length !== 0 && color.length !== 0) {
-                whereQuery = "WHERE StatusName = :statusName AND (CompanyCode IN (:code) AND GarmentSize IN (:size) AND StyleColor IN (:color))"
-            } else if (code.length !== 0 && style.length !== 0) {
-                whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND GarmentSize IN (:size) AND StyleNumber IN (:style)"
-            } else if (color.length !== 0 && style.length !== 0) {
-                whereQuery = "WHERE StatusName = :statusName AND GarmentSize IN (:size) AND StyleColor IN (:color) AND StyleNumber IN (:style)"
-            }
-        }
-        // two filter values comparison of code
-        else if (code.length !== 0 && ((color.length === 0 && size.length !== 0 && style.length == 0) ||
-                (color.length !== 0 && style.length == 0 && size.length === 0) ||
-                (color.length == 0 && style.length != 0 && size.length === 0))) {
-            console.log('entering into code two filter values', code, style, color, size);
-            if (style.length != 0) {
-                whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND StyleNumber IN (:style)"
-            } else if (color.length != 0) {
-                whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND StyleColor IN (:color)"
-            } else if (size.length != 0) {
-                whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND GarmentSize IN (:size)"
-            }
-
-        } // three filter values comparison of code
-        else if (code.length !== 0 && ((color.length === 0 && size.length !== 0 && style.length != 0) ||
-                (color.length !== 0 && style.length !== 0 && size.length === 0) ||
-                (color.length != 0 && style.length == 0 && size.length != 0))) {
-            console.log('entering into code three filter values ', code, style, color, size);
-            if (style.length !== 0 && color.length !== 0) {
-                whereQuery = "WHERE StatusName = :statusName AND (CompanyCode IN (:code) AND StyleNumber in (:style) AND StyleColor IN (:color))"
-            } else if (style.length !== 0 && size.length !== 0) {
-                whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND StyleNumber in (:style) AND GarmentSize IN (:size)"
-            } else if (color.length !== 0 && size.length !== 0) {
-                whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code) AND StyleColor IN (:color) AND GarmentSize IN (:size)"
-            }
-
-
-        } //style number single filter
-        else if (style.length !== 0 && color.length === 0 && size.length === 0 && code.length === 0) {
-            console.log('entering into style number single filter ', code, style, color, size);
-            whereQuery = "WHERE StatusName = :statusName AND StyleNumber IN (:style)"
-        } //style color single filter
-        else if (color.length !== 0 && style.length === 0 && size.length === 0 && code.length === 0) {
-            console.log('entering into style color single filter ', code, style, color, size);
-            whereQuery = "WHERE StatusName = :statusName AND StyleColor IN (:color)"
-        } // Garment size single filter
-        else if (size.length !== 0 && color.length === 0 && style.length === 0 && code.length === 0) {
-            console.log('entering into garment size single filter ', code, style, color, size);
-            whereQuery = "WHERE StatusName = :statusName AND GarmentSize IN (:size)"
-        } // code single filter
-        else if (code.length !== 0 && color.length === 0 && size.length === 0 && style.length === 0) {
-            console.log('entering into style number single filter ', code, style, color, size);
-            whereQuery = "WHERE StatusName = :statusName AND CompanyCode IN (:code)"
-        } else {
-            console.log('nothing if condition is called')
-        }
-        var countCompleteQuery = countQuery + " " + whereQuery
-        var completeQuery = selectQuery + " " + whereQuery + " " + selectOffsetQuery
-        console.log('full of query are ---- ', countCompleteQuery, completeQuery);
-        sequelize.query(countCompleteQuery, {
+        console.log('nothing if condition is called')
+    }
+    var searchQuery = '';
+    if (search !== '') {
+        searchQuery = "( StyleNumber LIKE '%" + search + "%' OR StyleColor LIKE '%" + search +
+            "%' OR GarmentSize LIKE '%" + search + "%' OR StyleOption LIKE '%" + search +
+            "%' OR StyleName LIKE '%" + search + "%' OR QuantityOnHand LIKE '%" + search +
+            "%' OR QuantityAllocated LIKE '%" + search + "%' OR AdjustedQuantityOnHand LIKE '%" + search +
+            "%' OR QuantitySeconds LIKE '%" + search + "%' OR QuantityThirds LIKE '%" + search + "%' )";
+    }
+    if (whereQuery != '' && search != '') {
+        var countCompleteQuery = countQuery + " " + whereQuery + " AND " + searchQuery;
+        var completeQuery = selectQuery + " " + whereQuery + " AND " + searchQuery + " " + selectOffsetQuery
+    } else if (whereQuery == '' && search != '') {
+        var countCompleteQuery = countQuery + " WHERE " + searchQuery;
+        var completeQuery = selectQuery + "  WHERE  " + searchQuery + " " + selectOffsetQuery
+    } else {
+        var countCompleteQuery = countQuery + " " + whereQuery + " " + searchQuery;
+        var completeQuery = selectQuery + " " + whereQuery + " " + searchQuery + " " + selectOffsetQuery
+    }
+    // var countCompleteQuery = countQuery + " " + whereQuery
+    // var completeQuery = selectQuery + " " + whereQuery + " " + selectOffsetQuery
+    console.log('full of query are ---- ', countCompleteQuery, completeQuery);
+    sequelize.query(countCompleteQuery, {
+        replacements: {
+            code: code,
+            style: style,
+            color: color,
+            size: size,
+            statusName: 'Active'
+        },
+        type: sequelize.QueryTypes.SELECT
+    }).then(function (countResponse) {
+        console.log("all filter count values are ------- ", countResponse);
+        sequelize.query(completeQuery, {
             replacements: {
                 code: code,
                 style: style,
                 color: color,
                 size: size,
-                statusName: 'Active'
+                statusName: 'Active',
+                sortLabel: sortLabel,
+                offset: offsetValue,
+                fetch: parseInt(pageSize)
             },
             type: sequelize.QueryTypes.SELECT
-        }).then(function (countResponse) {
-            console.log("all filter count values are ------- ", countResponse);
-            sequelize.query(completeQuery, {
-                replacements: {
-                    code: code,
-                    style: style,
-                    color: color,
-                    size: size,
-                    statusName: 'Active',
-                    sortLabel: sortLabel,
-                    offset: offsetValue,
-                    fetch: parseInt(pageSize)
-                },
-                type: sequelize.QueryTypes.SELECT
-            }).then(function (FinishedGoodsUuid) {
-                // console.log('FinishedGoodsUuid length are ---- ', FinishedGoodsUuid);
-                var uuid = [];
-                if (FinishedGoodsUuid.length > 0) {
-                    FinishedGoodsUuid.forEach(element => {
-                        uuid.push(element.uuid);
-                    })
-                } else {
-                    uuid.push('');
-                }
-                // find all finishedGoods including FinishedGoodsAdjustment based on Uuid 
-                models.FinishedGoods.findAll({
-                    where: {
-                        uuid: {
-                            $in: [uuid]
-                        }
-                    },
-                    include: [{
-                        model: models.FinishedGoodsAdjustment
-                    }]
-                }).then(function (response) {
-                    if (response.length != 0) {
-                        // callback(response)
-                        callback({
-                            "count": countResponse[0].count,
-                            "response": response
-                        }, statusCode.ok);
-                    } else {
-                        callback("There is no Inventory", statusCode.no_content)
-                    }
-                    // console.log("after get all ticket in dao --- ", response);
-                }).catch(function (error) {
-                    console.log("after get all ticket in dao error ---- ", error);
-                    callback(error, statusCode.error)
+        }).then(function (FinishedGoodsUuid) {
+            // console.log('FinishedGoodsUuid length are ---- ', FinishedGoodsUuid);
+            var uuid = [];
+            if (FinishedGoodsUuid.length > 0) {
+                FinishedGoodsUuid.forEach(element => {
+                    uuid.push(element.uuid);
                 })
-                // if (response.length != 0) {
-                //     callback({
-                //         "count": countResponse[0].count,
-                //         "response": response
-                //     });
-                // } else {
-                //     callback("There is no Inventory")
-                // }
+            } else {
+                uuid.push('');
+            }
+            // find all finishedGoods including FinishedGoodsAdjustment based on Uuid 
+            models.FinishedGoods.findAll({
+                where: {
+                    uuid: {
+                        $in: [uuid]
+                    }
+                },
+                include: [{
+                    model: models.FinishedGoodsAdjustment
+                }],
+                order: [
+                    [sortLabel, sortDirection]
+                ]
+            }).then(function (response) {
+                if (response.length != 0) {
+                    // callback(response)
+                    callback({
+                        "count": countResponse[0].count,
+                        "response": response
+                    }, statusCode.ok);
+                } else {
+                    callback("There is no Inventory", statusCode.no_content)
+                }
+            }).catch(function (error) {
+                console.log("after get all ticket in dao error ---- ", error);
+                callback(error, statusCode.error)
             })
         })
-
-    }
+    })
 
 }
+
+// }
+
+//getActiveInventory by company code
+module.exports.getinventorybycompanycode = function (pageNumber, pageSize, sortLabel,
+    sortDirection, search, style, color, size, companyCode, callback) {
+
+
+    var offsetValue = parseInt(pageSize) * (parseInt(pageNumber));
+    // var selectQuery = "SELECT * FROM FinishedGoods";
+    // var offsetQuery = "ORDER BY :sortLabel :sortDirection OFFSET (:offset) ROWS FETCH NEXT (:fetch) ROWS ONLY";
+    // var completeQuery = '',
+    //     whereQuery = '';
+    var selectQuery = "SELECT * FROM FinishedGoods";
+    var countQuery = "SELECT COUNT(*)N'count' FROM FinishedGoods";
+    var selectOffsetQuery;
+    var others = true;
+    if (sortDirection == 'asc') {
+        selectOffsetQuery = "ORDER BY :sortLabel ASC OFFSET :offset ROWS FETCH NEXT :fetch ROWS ONLY";
+    } else {
+        selectOffsetQuery = "ORDER BY :sortLabel DESC OFFSET :offset ROWS FETCH NEXT :fetch ROWS ONLY";
+    }
+    var completeQuery = '',
+        whereQuery = '',
+        countCompleteQuery = '';
+
+    console.log('entering into inventory active data in dao --offsetValues--- ', pageNumber, pageSize, offsetValue);
+    if (style.length !== 0 && color.length !== 0 && size.length !== 0) {
+        console.log('entering into all filter values true ----- ', style, color, size);
+        whereQuery = " WHERE StatusName = :statusName AND CompanyCode = :companyCode AND StyleNumber IN (:style) AND StyleColor IN (:color) AND GarmentSize IN (:size)"
+    } // two filter values comparison of styleNumber
+    else if (style.length !== 0 && ((color.length === 0 && size.length !== 0) ||
+            (color.length !== 0 && size.length === 0))) {
+        if (color.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND CompanyCode = :companyCode AND StyleNumber in (:style) AND StyleColor IN (:color)"
+        } else if (size.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND CompanyCode = :companyCode AND StyleNumber in (:style) AND GarmentSize IN (:size)"
+        }
+
+    }
+    // two filter values comparison of style color
+    else if (color.length !== 0 && ((style.length === 0 && size.length !== 0) ||
+            (style.length !== 0 && size.length === 0))) {
+        if (style.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND CompanyCode = :companyCode AND StyleColor IN (:color) AND StyleNumber IN (:style)"
+        } else if (size.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND CompanyCode = :companyCode AND StyleColor IN (:color) AND GarmentSize IN (:size)"
+        }
+
+    } // two filter values comparison of Garment size
+    else if (size.length !== 0 && ((color.length === 0 && style.length !== 0) ||
+            (color.length !== 0 && style.length === 0))) {
+        if (color.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND CompanyCode = :companyCode AND GarmentSize IN (:size) AND StyleColor IN (:color)"
+        } else if (style.length != 0) {
+            whereQuery = "WHERE StatusName = :statusName AND CompanyCode = :companyCode AND GarmentSize IN (:size) AND StyleNumber IN (:style)"
+        }
+
+    } //style number single filter
+    else if (style.length !== 0 && color.length === 0 && size.length === 0) {
+        console.log('entering into style number single filter ', style, color, size);
+        whereQuery = "WHERE StatusName = :statusName AND CompanyCode = :companyCode AND StyleNumber IN (:style)"
+    } //style color single filter
+    else if (color.length !== 0 && style.length === 0 && size.length === 0) {
+        console.log('entering into style color single filter ', style, color, size);
+        whereQuery = "WHERE StatusName = :statusName AND CompanyCode = :companyCode AND StyleColor IN (:color)"
+    } // Garment size single filter
+    else if (size.length !== 0 && color.length === 0 && style.length === 0) {
+        console.log('entering into garment size single filter ', style, color, size);
+        whereQuery = "WHERE StatusName = :statusName AND CompanyCode = :companyCode AND GarmentSize IN (:size)"
+    } else {
+        console.log('nothing if condition is called')
+    }
+    var searchQuery = '';
+    if (search !== '') {
+        searchQuery = "( StyleNumber LIKE '%" + search + "%' OR StyleColor LIKE '%" + search +
+            "%' OR GarmentSize LIKE '%" + search + "%' OR StyleOption LIKE '%" + search +
+            "%' OR StyleName LIKE '%" + search + "%' OR QuantityOnHand LIKE '%" + search +
+            "%' OR QuantityAllocated LIKE '%" + search + "%' OR AdjustedQuantityOnHand LIKE '%" + search +
+            "%' OR QuantitySeconds LIKE '%" + search + "%' OR QuantityThirds LIKE '%" + search + "%' )";
+    }
+    if (whereQuery != '' && search != '') {
+        var countCompleteQuery = countQuery + " " + whereQuery + " AND " + searchQuery;
+        var completeQuery = selectQuery + " " + whereQuery + " AND " + searchQuery + " " + selectOffsetQuery
+    } else if (whereQuery == '' && search != '') {
+        var countCompleteQuery = countQuery + " WHERE " + searchQuery;
+        var completeQuery = selectQuery + "  WHERE  " + searchQuery + " " + selectOffsetQuery
+    } else {
+        var countCompleteQuery = countQuery + " " + whereQuery + " " + searchQuery;
+        var completeQuery = selectQuery + " " + whereQuery + " " + searchQuery + " " + selectOffsetQuery
+    }
+    // var countCompleteQuery = countQuery + " " + whereQuery
+    // var completeQuery = selectQuery + " " + whereQuery + " " + selectOffsetQuery
+    console.log('full of query are ---- ', countCompleteQuery, completeQuery);
+    sequelize.query(countCompleteQuery, {
+        replacements: {
+            companyCode: companyCode,
+            style: style,
+            color: color,
+            size: size,
+            statusName: 'Active'
+        },
+        type: sequelize.QueryTypes.SELECT
+    }).then(function (countResponse) {
+        console.log("all filter count values are ------- ", countResponse);
+        sequelize.query(completeQuery, {
+            replacements: {
+                companyCode: companyCode,
+                style: style,
+                color: color,
+                size: size,
+                statusName: 'Active',
+                sortLabel: sortLabel,
+                offset: offsetValue,
+                fetch: parseInt(pageSize)
+            },
+            type: sequelize.QueryTypes.SELECT
+        }).then(function (FinishedGoodsUuid) {
+            // console.log('FinishedGoodsUuid length are ---- ', FinishedGoodsUuid);
+            var uuid = [];
+            if (FinishedGoodsUuid.length > 0) {
+                FinishedGoodsUuid.forEach(element => {
+                    uuid.push(element.uuid);
+                })
+            } else {
+                uuid.push('');
+            }
+            // find all finishedGoods including FinishedGoodsAdjustment based on Uuid 
+            models.FinishedGoods.findAll({
+                where: {
+                    uuid: {
+                        $in: [uuid]
+                    }
+                },
+                include: [{
+                    model: models.FinishedGoodsAdjustment
+                }],
+                order: [
+                    [sortLabel, sortDirection]
+                ]
+            }).then(function (response) {
+                if (response.length != 0) {
+                    // callback(response)
+                    callback({
+                        "count": countResponse[0].count,
+                        "response": response
+                    }, statusCode.ok);
+                } else {
+                    callback("There is no Inventory", statusCode.no_content)
+                }
+            }).catch(function (error) {
+                console.log("after get all ticket in dao error ---- ", error);
+                callback(error, statusCode.error)
+            })
+        })
+    })
+
+
+    // var offsetValue = parseInt(pageSize) * (parseInt(pageNumber));
+    // console.log('entering into inventory active data in dao --offsetValues--- ', pageNumber, pageSize, offsetValue);
+    // if (search === '' && (style.length === 0 && color.length === 0 && size.length === 0)) {
+    //     console.log('!!!! entering into if part')
+    //     models.FinishedGoods.count({
+    //         where: {
+    //             StatusName: 'Active',
+    //             CompanyCode: companyCode
+    //         }
+    //     }).then(function (count) {
+    //         models.FinishedGoods.findAll({
+    //             offset: offsetValue,
+    //             limit: parseInt(pageSize),
+    //             where: {
+    //                 StatusName: 'Active',
+    //                 CompanyCode: companyCode
+    //             },
+    //             order: [
+    //                 [sortLabel, sortDirection]
+    //             ],
+    //             include: [{
+    //                 model: models.FinishedGoodsAdjustment
+    //             }]
+    //         }).then(function (response) {
+    //             if (response.length != 0) {
+    //                 callback({
+    //                     "count": count,
+    //                     "response": response
+    //                 }, statusCode.ok);
+    //             } else {
+    //                 callback("There is no Inventory", statusCode.no_content)
+    //             }
+    //         }).catch(function (error) {
+    //             callback(error, statusCode.error)
+    //         })
+    //     }).catch(function (error) {
+    //         callback(error, statusCode.error)
+    //     })
+    // } else if (search !== '') {
+    //     console.log("@#@#@## entering into else part ")
+    //     models.FinishedGoods.count({
+    //         where: {
+    //             StatusName: 'Active',
+    //             CompanyCode: companyCode,
+    //             $or: [{
+    //                     'StyleNumber': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 //{ '$Comment.body$': { like: '%' + search + '%' } }
+    //                 {
+    //                     'StyleColor': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'GarmentSize': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'StyleOption': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'StyleName': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'QuantityOnHand': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'QuantityAllocated': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'AdjustedQuantityOnHand': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'QuantitySeconds': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 },
+    //                 {
+    //                     'QuantityThirds': {
+    //                         like: '%' + search + '%'
+    //                     }
+    //                 }
+    //             ]
+    //         }
+    //     }).then(function (count) {
+    //         models.FinishedGoods.findAll({
+    //             where: {
+    //                 StatusName: 'Active',
+    //                 CompanyCode: companyCode,
+    //                 $or: [{
+    //                         'StyleNumber': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     //{ '$Comment.body$': { like: '%' + search + '%' } }
+    //                     {
+    //                         'StyleColor': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'GarmentSize': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'StyleOption': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'StyleName': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'QuantityOnHand': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'QuantityAllocated': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'AdjustedQuantityOnHand': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'QuantitySeconds': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     },
+    //                     {
+    //                         'QuantityThirds': {
+    //                             like: '%' + search + '%'
+    //                         }
+    //                     }
+    //                 ]
+    //             },
+    //             offset: offsetValue,
+    //             limit: parseInt(pageSize),
+    //             order: [
+    //                 [sortLabel, sortDirection]
+    //             ],
+    //             include: [{
+    //                 model: models.FinishedGoodsAdjustment
+    //             }]
+
+    //         }).then(function (response) {
+    //             callback({
+    //                 "count": count,
+    //                 "response": response
+    //             }, statusCode.ok)
+    //         }).catch(function (error) {
+    //             callback(error, statusCode.error)
+    //         })
+    //     }).catch(function (error) {
+    //         callback(error, statusCode.error)
+    //     })
+    // } else if (style.length !== 0 && color.length !== 0 && size.length !== 0) {
+    //     console.log('entering into all filter values true ----- ', style, color, size);
+    //     models.FinishedGoods.count({
+    //             where: {
+    //                 StatusName: 'Active',
+    //                 CompanyCode: companyCode,
+    //                 $and: {
+    //                     StyleNumber: {
+    //                         $in: [style]
+    //                     },
+    //                     StyleColor: {
+    //                         $in: [color]
+    //                     },
+    //                     GarmentSize: {
+    //                         $in: [size]
+    //                     }
+    //                 }
+    //             }
+    //         })
+    //         .then(function (count) {
+    //             console.log('all filter values count are ---- ', count);
+    //             models.FinishedGoods.findAll({
+    //                 offset: offsetValue,
+    //                 limit: parseInt(pageSize),
+    //                 where: {
+    //                     StatusName: 'Active',
+    //                     CompanyCode: companyCode,
+    //                     $and: {
+    //                         StyleNumber: {
+    //                             $in: [style]
+    //                         },
+    //                         StyleColor: {
+    //                             $in: [color]
+    //                         },
+    //                         GarmentSize: {
+    //                             $in: [size]
+    //                         }
+    //                     }
+    //                 },
+    //                 order: [
+    //                     [sortLabel, sortDirection]
+    //                 ],
+    //                 include: [{
+    //                     model: models.FinishedGoodsAdjustment
+    //                 }]
+    //             }).then(function (response) {
+    //                 console.log('response value of all filter valeus are  -- ', response.length)
+    //                 if (response.length != 0) {
+    //                     callback({
+    //                         "count": count,
+    //                         "response": response
+    //                     }, statusCode.ok);
+    //                 } else {
+    //                     callback("There is no Inventory", statusCode.no_content)
+    //                 }
+    //             }).catch(function (error) {
+    //                 console.log('error in count ---- ', error)
+    //                 callback(error, statusCode.error)
+    //             })
+    //         }).catch(function (error) {
+    //             callback(error, statusCode.error);
+    //         })
+    // } else if (style.length !== 0 && ((color.length === 0 && size.length !== 0) || (color.length !== 0 && size.length === 0))) {
+    //     // var statement;
+    //     console.log('entering into style filter values SSSS ---statement-- ', style, color, size);
+    //     if (color.length !== 0) {
+    //         console.log('entering into if part')
+    //         // statement = '$and: { StyleNumber: { $in: [style] }, StyleColor: { $in: [color] } }';
+    //         models.FinishedGoods.count({
+    //                 where: {
+    //                     StatusName: 'Active',
+    //                     CompanyCode: companyCode,
+    //                     $and: {
+    //                         StyleNumber: {
+    //                             $in: [style]
+    //                         },
+    //                         StyleColor: {
+    //                             $in: [color]
+    //                         }
+    //                     }
+    //                 }
+    //             })
+    //             .then(function (count) {
+    //                 console.log('all filter values count are ---- ', count);
+    //                 models.FinishedGoods.findAll({
+    //                     offset: offsetValue,
+    //                     limit: parseInt(pageSize),
+    //                     where: {
+    //                         StatusName: 'Active',
+    //                         CompanyCode: companyCode,
+    //                         $and: {
+    //                             StyleNumber: {
+    //                                 $in: [style]
+    //                             },
+    //                             StyleColor: {
+    //                                 $in: [color]
+    //                             }
+    //                         }
+    //                     },
+    //                     order: [
+    //                         [sortLabel, sortDirection]
+    //                     ],
+    //                     include: [{
+    //                         model: models.FinishedGoodsAdjustment
+    //                     }]
+    //                 }).then(function (response) {
+    //                     console.log('response value style filter values SSSS  -- ', response.length)
+    //                     if (response.length != 0) {
+    //                         callback({
+    //                             "count": count,
+    //                             "response": response
+    //                         }, statusCode.ok);
+    //                     } else {
+    //                         callback("There is no Inventory", statusCode.no_content)
+    //                     }
+    //                 }).catch(function (error) {
+    //                     console.log('error in count ---- ', error)
+    //                     callback(error, statusCode.error)
+    //                 })
+    //             }).catch(function (error) {
+    //                 callback(error, statusCode.error);
+    //             })
+    //     } else {
+    //         console.log('entering into else part')
+    //         models.FinishedGoods.count({
+    //                 where: {
+    //                     StatusName: 'Active',
+    //                     CompanyCode: companyCode,
+    //                     $and: {
+    //                         StyleNumber: {
+    //                             $in: [style]
+    //                         },
+    //                         GarmentSize: {
+    //                             $in: [size]
+    //                         }
+    //                     }
+    //                 }
+    //             })
+    //             .then(function (count) {
+    //                 console.log('all filter values count are ---- ', count);
+    //                 models.FinishedGoods.findAll({
+    //                     offset: offsetValue,
+    //                     limit: parseInt(pageSize),
+    //                     where: {
+    //                         StatusName: 'Active',
+    //                         CompanyCode: companyCode,
+    //                         $and: {
+    //                             StyleNumber: {
+    //                                 $in: [style]
+    //                             },
+    //                             GarmentSize: {
+    //                                 $in: [size]
+    //                             }
+    //                         }
+    //                     },
+    //                     order: [
+    //                         [sortLabel, sortDirection]
+    //                     ],
+    //                     include: [{
+    //                         model: models.FinishedGoodsAdjustment
+    //                     }]
+    //                 }).then(function (response) {
+    //                     console.log('response value style filter values SSSS  -- ', response.length)
+    //                     if (response.length != 0) {
+    //                         callback({
+    //                             "count": count,
+    //                             "response": response
+    //                         }, statusCode.ok);
+    //                     } else {
+    //                         callback("There is no Inventory", statusCode.no_content)
+    //                     }
+    //                 }).catch(function (error) {
+    //                     console.log('error in count ---- ', error)
+    //                     callback(error, statusCode.error)
+    //                 })
+    //             }).catch(function (error) {
+    //                 callback(error, statusCode.error);
+    //             })
+    //         // statement = '$and: { StyleNumber: { $in: [style] }, GarmentSize: { $in: [size] } }';
+    //     }
+    // } else if (color.length !== 0 && ((style.length === 0 && size.length !== 0) || (style.length !== 0 && size.length === 0))) {
+    //     console.log('entering into color filter values CCCCC ----- ', style, color, size);
+    //     if (style.length !== 0) {
+    //         models.FinishedGoods.count({
+    //                 where: {
+    //                     StatusName: 'Active',
+    //                     CompanyCode: companyCode,
+    //                     $and: {
+    //                         StyleColor: {
+    //                             $in: [color]
+    //                         },
+    //                         StyleNumber: {
+    //                             $in: [style]
+    //                         }
+    //                     }
+    //                 }
+    //             })
+    //             .then(function (count) {
+    //                 console.log('all filter values count are ---- ', count);
+    //                 models.FinishedGoods.findAll({
+    //                     offset: offsetValue,
+    //                     limit: parseInt(pageSize),
+    //                     where: {
+    //                         StatusName: 'Active',
+    //                         CompanyCode: companyCode,
+    //                         $and: {
+    //                             StyleColor: {
+    //                                 $in: [color]
+    //                             },
+    //                             StyleNumber: {
+    //                                 $in: [style]
+    //                             }
+    //                         }
+    //                     },
+    //                     order: [
+    //                         [sortLabel, sortDirection]
+    //                     ],
+    //                     include: [{
+    //                         model: models.FinishedGoodsAdjustment
+    //                     }]
+    //                 }).then(function (response) {
+    //                     console.log('response value color filter values CCCCC  -- ', response.length)
+    //                     if (response.length != 0) {
+    //                         callback({
+    //                             "count": count,
+    //                             "response": response
+    //                         }, statusCode.ok);
+    //                     } else {
+    //                         callback("There is no Inventory", statusCode.no_content)
+    //                     }
+    //                 }).catch(function (error) {
+    //                     console.log('error in count ---- ', error)
+    //                     callback(error, statusCode.error)
+    //                 })
+    //             }).catch(function (error) {
+    //                 callback(error, statusCode.error);
+    //             })
+    //     } else {
+    //         models.FinishedGoods.count({
+    //                 where: {
+    //                     StatusName: 'Active',
+    //                     CompanyCode: companyCode,
+    //                     $and: {
+    //                         StyleColor: {
+    //                             $in: [color]
+    //                         },
+    //                         GarmentSize: {
+    //                             $in: [size]
+    //                         }
+    //                     }
+    //                 }
+    //             })
+    //             .then(function (count) {
+    //                 console.log('all filter values count are ---- ', count);
+    //                 models.FinishedGoods.findAll({
+    //                     offset: offsetValue,
+    //                     limit: parseInt(pageSize),
+    //                     where: {
+    //                         StatusName: 'Active',
+    //                         CompanyCode: companyCode,
+    //                         $and: {
+    //                             StyleColor: {
+    //                                 $in: [color]
+    //                             },
+    //                             GarmentSize: {
+    //                                 $in: [size]
+    //                             }
+    //                         }
+    //                     },
+    //                     order: [
+    //                         [sortLabel, sortDirection]
+    //                     ],
+    //                     include: [{
+    //                         model: models.FinishedGoodsAdjustment
+    //                     }]
+    //                 }).then(function (response) {
+    //                     console.log('response value color filter values CCCCC  -- ', response.length)
+    //                     if (response.length != 0) {
+    //                         callback({
+    //                             "count": count,
+    //                             "response": response
+    //                         }, statusCode.ok);
+    //                     } else {
+    //                         callback("There is no Inventory", statusCode.no_content)
+    //                     }
+    //                 }).catch(function (error) {
+    //                     console.log('error in count ---- ', error)
+    //                     callback(error, statusCode.error)
+    //                 })
+    //             }).catch(function (error) {
+    //                 callback(error, statusCode.error);
+    //             })
+    //     }
+    // } else if (size.length !== 0 && ((color.length === 0 && style.length !== 0) || (color.length !== 0 && style.length === 0))) {
+    //     //need to work
+    //     console.log('entering into size filter values SSSSize ----- ', style, color, size);
+    //     if (style.length !== 0) {
+    //         models.FinishedGoods.count({
+    //                 where: {
+    //                     StatusName: 'Active',
+    //                     CompanyCode: companyCode,
+    //                     $and: {
+    //                         GarmentSize: {
+    //                             $in: [size]
+    //                         },
+    //                         StyleNumber: {
+    //                             $in: [style]
+    //                         }
+    //                     }
+    //                 }
+    //             })
+    //             .then(function (count) {
+    //                 console.log('all filter values count are ---- ', count);
+    //                 models.FinishedGoods.findAll({
+    //                     offset: offsetValue,
+    //                     limit: parseInt(pageSize),
+    //                     where: {
+    //                         StatusName: 'Active',
+    //                         CompanyCode: companyCode,
+    //                         $and: {
+    //                             GarmentSize: {
+    //                                 $in: [size]
+    //                             },
+    //                             StyleNumber: {
+    //                                 $in: [style]
+    //                             }
+    //                         }
+    //                     },
+    //                     order: [
+    //                         [sortLabel, sortDirection]
+    //                     ],
+    //                     include: [{
+    //                         model: models.FinishedGoodsAdjustment
+    //                     }]
+    //                 }).then(function (response) {
+    //                     console.log('response value color filter values sizeeeee  -- ', response.length)
+    //                     if (response.length != 0) {
+    //                         callback({
+    //                             "count": count,
+    //                             "response": response
+    //                         }, statusCode.ok);
+    //                     } else {
+    //                         callback("There is no Inventory", statusCode.no_content)
+    //                     }
+    //                 }).catch(function (error) {
+    //                     console.log('error in count ---- ', error)
+    //                     callback(error, statusCode.error)
+    //                 })
+    //             }).catch(function (error) {
+    //                 callback(error, statusCode.error);
+    //             })
+    //     } else {
+    //         models.FinishedGoods.count({
+    //                 where: {
+    //                     StatusName: 'Active',
+    //                     CompanyCode: companyCode,
+    //                     $and: {
+    //                         GarmentSize: {
+    //                             $in: [size]
+    //                         },
+    //                         StyleColor: {
+    //                             $in: [color]
+    //                         }
+    //                     }
+    //                 }
+    //             })
+    //             .then(function (count) {
+    //                 console.log('all filter values count are ---- ', count);
+    //                 models.FinishedGoods.findAll({
+    //                     offset: offsetValue,
+    //                     limit: parseInt(pageSize),
+    //                     where: {
+    //                         StatusName: 'Active',
+    //                         CompanyCode: companyCode,
+    //                         $and: {
+    //                             GarmentSize: {
+    //                                 $in: [size]
+    //                             },
+    //                             StyleColor: {
+    //                                 $in: [color]
+    //                             }
+    //                         }
+    //                     },
+    //                     order: [
+    //                         [sortLabel, sortDirection]
+    //                     ],
+    //                     include: [{
+    //                         model: models.FinishedGoodsAdjustment
+    //                     }]
+    //                 }).then(function (response) {
+    //                     console.log('response value color filter values sizeeeee  -- ', response.length)
+    //                     if (response.length != 0) {
+    //                         callback({
+    //                             "count": count,
+    //                             "response": response
+    //                         }, statusCode.ok);
+    //                     } else {
+    //                         callback("There is no Inventory", statusCode.no_content)
+    //                     }
+    //                 }).catch(function (error) {
+    //                     console.log('error in count ---- ', error)
+    //                     callback(error, statusCode.error)
+    //                 })
+    //             }).catch(function (error) {
+    //                 callback(error, statusCode.error);
+    //             })
+    //     }
+    // } else if (style.length !== 0 && color.length === 0 && size.length === 0) {
+    //     console.log('~~~~ entering into style option in inventory dao  ', style);
+    //     models.FinishedGoods.count({
+    //         where: {
+    //             StatusName: 'Active',
+    //             CompanyCode: companyCode,
+    //             StyleNumber: {
+    //                 $in: [style]
+    //             }
+    //         }
+    //     }).then(function (count) {
+    //         console.log('#### count values are ----- ', count);
+    //         models.FinishedGoods.findAll({
+    //             offset: offsetValue,
+    //             limit: parseInt(pageSize),
+    //             where: {
+    //                 StatusName: 'Active',
+    //                 CompanyCode: companyCode,
+    //                 StyleNumber: {
+    //                     $in: [style]
+    //                 }
+    //             },
+    //             order: [
+    //                 [sortLabel, sortDirection]
+    //             ],
+    //             include: [{
+    //                 model: models.FinishedGoodsAdjustment
+    //             }]
+    //         }).then(function (response) {
+    //             console.log('response value are -- ', response.length)
+    //             if (response.length != 0) {
+    //                 callback({
+    //                     "count": count,
+    //                     "response": response
+    //                 }, statusCode.ok);
+    //             } else {
+    //                 callback("There is no Inventory", statusCode.no_content)
+    //             }
+    //         }).catch(function (error) {
+    //             console.log('error in count ---- ', error)
+    //             callback(error, statusCode.error)
+    //         })
+    //     }).catch(function (error) {
+    //         callback(error, statusCode.error)
+    //     })
+
+    // } else if (color.length !== 0 && style.length === 0 && size.length === 0) {
+    //     console.log('~~~~ entering into color option in inventory dao  ', color);
+    //     models.FinishedGoods.count({
+    //         where: {
+    //             StatusName: 'Active',
+    //             CompanyCode: companyCode,
+    //             StyleColor: {
+    //                 $in: [color]
+    //             }
+    //         }
+    //     }).then(function (count) {
+    //         console.log('#### count values are ----- ', count);
+    //         models.FinishedGoods.findAll({
+    //             offset: offsetValue,
+    //             limit: parseInt(pageSize),
+    //             where: {
+    //                 StatusName: 'Active',
+    //                 CompanyCode: companyCode,
+    //                 StyleColor: {
+    //                     $in: [color]
+    //                 }
+    //             },
+    //             order: [
+    //                 [sortLabel, sortDirection]
+    //             ],
+    //             include: [{
+    //                 model: models.FinishedGoodsAdjustment
+    //             }]
+    //         }).then(function (response) {
+    //             console.log('response value are -- ', response.length)
+    //             if (response.length != 0) {
+    //                 callback({
+    //                     "count": count,
+    //                     "response": response
+    //                 }, statusCode.ok);
+    //             } else {
+    //                 callback("There is no Inventory", statusCode.no_content)
+    //             }
+    //         }).catch(function (error) {
+    //             console.log('error in count ---- ', error)
+    //             callback(error, statusCode.error)
+    //         })
+    //     }).catch(function (error) {
+    //         callback(error, statusCode.error)
+    //     })
+
+    // } else if (size.length !== 0 && style.length === 0 && color.length === 0) {
+    //     console.log('~~~~ entering into size option in inventory dao  ', style);
+    //     models.FinishedGoods.count({
+    //         where: {
+    //             StatusName: 'Active',
+    //             GarmentSize: {
+    //                 $in: [size]
+    //             }
+    //         }
+    //     }).then(function (count) {
+    //         console.log('#### count values are ----- ', count);
+    //         models.FinishedGoods.findAll({
+    //             offset: offsetValue,
+    //             limit: parseInt(pageSize),
+    //             where: {
+    //                 StatusName: 'Active',
+    //                 GarmentSize: {
+    //                     $in: [size]
+    //                 }
+    //             },
+    //             order: [
+    //                 [sortLabel, sortDirection]
+    //             ],
+    //             include: [{
+    //                 model: models.FinishedGoodsAdjustment
+    //             }]
+    //         }).then(function (response) {
+    //             console.log('response value are -- ', response.length)
+    //             if (response.length != 0) {
+    //                 callback({
+    //                     "count": count,
+    //                     "response": response
+    //                 }, statusCode.ok);
+    //             } else {
+    //                 callback("There is no Inventory", statusCode.no_content)
+    //             }
+    //         }).catch(function (error) {
+    //             console.log('error in count ---- ', error)
+    //             callback(error, statusCode.error)
+    //         })
+    //     }).catch(function (error) {
+    //         callback(error, statusCode.error)
+    //     })
+
+    // } else {
+    //     console.log('nothing if condition is called')
+    // }
+}
+
+
+module.exports.deleteinventory = function (inventoryID, callback) {
+    models.FinishedGoods.destroy({
+        where: {
+            uuid: inventoryID
+        }
+    }).then(function (response) {
+        callback(response, statusCode.ok)
+    }).catch(function (error) {
+        callback(error, statusCode.error)
+    })
+}
+
+module.exports.updateinventory = function (InventoryDetails, callback) {
+    models.FinishedGoods.update(InventoryDetails, {
+        where: {
+            uuid: InventoryDetails.uuid
+        }
+    }).then(function (response) {
+        callback(response, statusCode.ok)
+    }).catch(function (error) {
+        callback(error, statusCode.error)
+    })
+}
+
+module.exports.getinventorybyid = function (inventoryID, callback) {
+    models.FinishedGoods.findOne({
+
+        where: {
+            FinishedGoodsID: inventoryID
+        },
+        order: [
+            ['StyleNumber', 'DESC']
+        ],
+        include: [{
+            model: models.FinishedGoodsAdjustment
+        }]
+
+    }).then(function (response) {
+        if (response.length != 0) {
+            callback(response, statusCode.ok)
+        } else {
+            callback("There is no Inventory", statusCode.no_content)
+        }
+    }).catch(function (error) {
+        callback(error, statusCode.error)
+    })
+}
+
+
 
 
 // //get inventory by active status
@@ -2125,780 +3066,3 @@ module.exports.getinventorybyActiveStatus = function (pageNumber, pageSize, sort
 //     }
 
 // }
-
-
-
-//getActiveInventory by company code
-module.exports.getinventorybycompanycode = function (pageNumber, pageSize, sortLabel,
-    sortDirection, search, style, color, size, companyCode, callback) {
-    var offsetValue = parseInt(pageSize) * (parseInt(pageNumber));
-    console.log('entering into inventory active data in dao --offsetValues--- ', pageNumber, pageSize, offsetValue);
-    if (search === '' && (style.length === 0 && color.length === 0 && size.length === 0)) {
-        console.log('!!!! entering into if part')
-        models.FinishedGoods.count({
-            where: {
-                StatusName: 'Active',
-                CompanyCode: companyCode
-            }
-        }).then(function (count) {
-            models.FinishedGoods.findAll({
-                offset: offsetValue,
-                limit: parseInt(pageSize),
-                where: {
-                    StatusName: 'Active',
-                    CompanyCode: companyCode
-                },
-                order: [
-                    [sortLabel, sortDirection]
-                ],
-                include: [{
-                    model: models.FinishedGoodsAdjustment
-                }]
-            }).then(function (response) {
-                if (response.length != 0) {
-                    callback({
-                        "count": count,
-                        "response": response
-                    }, statusCode.ok);
-                } else {
-                    callback("There is no Inventory", statusCode.no_content)
-                }
-            }).catch(function (error) {
-                callback(error, statusCode.error)
-            })
-        }).catch(function (error) {
-            callback(error, statusCode.error)
-        })
-    } else if (search !== '') {
-        console.log("@#@#@## entering into else part ")
-        models.FinishedGoods.count({
-            where: {
-                StatusName: 'Active',
-                CompanyCode: companyCode,
-                $or: [{
-                        'StyleNumber': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    //{ '$Comment.body$': { like: '%' + search + '%' } }
-                    {
-                        'StyleColor': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'GarmentSize': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'StyleOption': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'StyleName': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'QuantityOnHand': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'QuantityAllocated': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'AdjustedQuantityOnHand': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'QuantitySeconds': {
-                            like: '%' + search + '%'
-                        }
-                    },
-                    {
-                        'QuantityThirds': {
-                            like: '%' + search + '%'
-                        }
-                    }
-                ]
-            }
-        }).then(function (count) {
-            models.FinishedGoods.findAll({
-                where: {
-                    StatusName: 'Active',
-                    CompanyCode: companyCode,
-                    $or: [{
-                            'StyleNumber': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        //{ '$Comment.body$': { like: '%' + search + '%' } }
-                        {
-                            'StyleColor': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'GarmentSize': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'StyleOption': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'StyleName': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'QuantityOnHand': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'QuantityAllocated': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'AdjustedQuantityOnHand': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'QuantitySeconds': {
-                                like: '%' + search + '%'
-                            }
-                        },
-                        {
-                            'QuantityThirds': {
-                                like: '%' + search + '%'
-                            }
-                        }
-                    ]
-                },
-                offset: offsetValue,
-                limit: parseInt(pageSize),
-                order: [
-                    [sortLabel, sortDirection]
-                ],
-                include: [{
-                    model: models.FinishedGoodsAdjustment
-                }]
-
-            }).then(function (response) {
-                callback({
-                    "count": count,
-                    "response": response
-                }, statusCode.ok)
-            }).catch(function (error) {
-                callback(error, statusCode.error)
-            })
-        }).catch(function (error) {
-            callback(error, statusCode.error)
-        })
-    } else if (style.length !== 0 && color.length !== 0 && size.length !== 0) {
-        console.log('entering into all filter values true ----- ', style, color, size);
-        models.FinishedGoods.count({
-                where: {
-                    StatusName: 'Active',
-                    CompanyCode: companyCode,
-                    $and: {
-                        StyleNumber: {
-                            $in: [style]
-                        },
-                        StyleColor: {
-                            $in: [color]
-                        },
-                        GarmentSize: {
-                            $in: [size]
-                        }
-                    }
-                }
-            })
-            .then(function (count) {
-                console.log('all filter values count are ---- ', count);
-                models.FinishedGoods.findAll({
-                    offset: offsetValue,
-                    limit: parseInt(pageSize),
-                    where: {
-                        StatusName: 'Active',
-                        CompanyCode: companyCode,
-                        $and: {
-                            StyleNumber: {
-                                $in: [style]
-                            },
-                            StyleColor: {
-                                $in: [color]
-                            },
-                            GarmentSize: {
-                                $in: [size]
-                            }
-                        }
-                    },
-                    order: [
-                        [sortLabel, sortDirection]
-                    ],
-                    include: [{
-                        model: models.FinishedGoodsAdjustment
-                    }]
-                }).then(function (response) {
-                    console.log('response value of all filter valeus are  -- ', response.length)
-                    if (response.length != 0) {
-                        callback({
-                            "count": count,
-                            "response": response
-                        }, statusCode.ok);
-                    } else {
-                        callback("There is no Inventory", statusCode.no_content)
-                    }
-                }).catch(function (error) {
-                    console.log('error in count ---- ', error)
-                    callback(error, statusCode.error)
-                })
-            }).catch(function (error) {
-                callback(error, statusCode.error);
-            })
-    } else if (style.length !== 0 && ((color.length === 0 && size.length !== 0) || (color.length !== 0 && size.length === 0))) {
-        // var statement;
-        console.log('entering into style filter values SSSS ---statement-- ', style, color, size);
-        if (color.length !== 0) {
-            console.log('entering into if part')
-            // statement = '$and: { StyleNumber: { $in: [style] }, StyleColor: { $in: [color] } }';
-            models.FinishedGoods.count({
-                    where: {
-                        StatusName: 'Active',
-                        CompanyCode: companyCode,
-                        $and: {
-                            StyleNumber: {
-                                $in: [style]
-                            },
-                            StyleColor: {
-                                $in: [color]
-                            }
-                        }
-                    }
-                })
-                .then(function (count) {
-                    console.log('all filter values count are ---- ', count);
-                    models.FinishedGoods.findAll({
-                        offset: offsetValue,
-                        limit: parseInt(pageSize),
-                        where: {
-                            StatusName: 'Active',
-                            CompanyCode: companyCode,
-                            $and: {
-                                StyleNumber: {
-                                    $in: [style]
-                                },
-                                StyleColor: {
-                                    $in: [color]
-                                }
-                            }
-                        },
-                        order: [
-                            [sortLabel, sortDirection]
-                        ],
-                        include: [{
-                            model: models.FinishedGoodsAdjustment
-                        }]
-                    }).then(function (response) {
-                        console.log('response value style filter values SSSS  -- ', response.length)
-                        if (response.length != 0) {
-                            callback({
-                                "count": count,
-                                "response": response
-                            }, statusCode.ok);
-                        } else {
-                            callback("There is no Inventory", statusCode.no_content)
-                        }
-                    }).catch(function (error) {
-                        console.log('error in count ---- ', error)
-                        callback(error, statusCode.error)
-                    })
-                }).catch(function (error) {
-                    callback(error, statusCode.error);
-                })
-        } else {
-            console.log('entering into else part')
-            models.FinishedGoods.count({
-                    where: {
-                        StatusName: 'Active',
-                        CompanyCode: companyCode,
-                        $and: {
-                            StyleNumber: {
-                                $in: [style]
-                            },
-                            GarmentSize: {
-                                $in: [size]
-                            }
-                        }
-                    }
-                })
-                .then(function (count) {
-                    console.log('all filter values count are ---- ', count);
-                    models.FinishedGoods.findAll({
-                        offset: offsetValue,
-                        limit: parseInt(pageSize),
-                        where: {
-                            StatusName: 'Active',
-                            CompanyCode: companyCode,
-                            $and: {
-                                StyleNumber: {
-                                    $in: [style]
-                                },
-                                GarmentSize: {
-                                    $in: [size]
-                                }
-                            }
-                        },
-                        order: [
-                            [sortLabel, sortDirection]
-                        ],
-                        include: [{
-                            model: models.FinishedGoodsAdjustment
-                        }]
-                    }).then(function (response) {
-                        console.log('response value style filter values SSSS  -- ', response.length)
-                        if (response.length != 0) {
-                            callback({
-                                "count": count,
-                                "response": response
-                            }, statusCode.ok);
-                        } else {
-                            callback("There is no Inventory", statusCode.no_content)
-                        }
-                    }).catch(function (error) {
-                        console.log('error in count ---- ', error)
-                        callback(error, statusCode.error)
-                    })
-                }).catch(function (error) {
-                    callback(error, statusCode.error);
-                })
-            // statement = '$and: { StyleNumber: { $in: [style] }, GarmentSize: { $in: [size] } }';
-        }
-    } else if (color.length !== 0 && ((style.length === 0 && size.length !== 0) || (style.length !== 0 && size.length === 0))) {
-        console.log('entering into color filter values CCCCC ----- ', style, color, size);
-        if (style.length !== 0) {
-            models.FinishedGoods.count({
-                    where: {
-                        StatusName: 'Active',
-                        CompanyCode: companyCode,
-                        $and: {
-                            StyleColor: {
-                                $in: [color]
-                            },
-                            StyleNumber: {
-                                $in: [style]
-                            }
-                        }
-                    }
-                })
-                .then(function (count) {
-                    console.log('all filter values count are ---- ', count);
-                    models.FinishedGoods.findAll({
-                        offset: offsetValue,
-                        limit: parseInt(pageSize),
-                        where: {
-                            StatusName: 'Active',
-                            CompanyCode: companyCode,
-                            $and: {
-                                StyleColor: {
-                                    $in: [color]
-                                },
-                                StyleNumber: {
-                                    $in: [style]
-                                }
-                            }
-                        },
-                        order: [
-                            [sortLabel, sortDirection]
-                        ],
-                        include: [{
-                            model: models.FinishedGoodsAdjustment
-                        }]
-                    }).then(function (response) {
-                        console.log('response value color filter values CCCCC  -- ', response.length)
-                        if (response.length != 0) {
-                            callback({
-                                "count": count,
-                                "response": response
-                            }, statusCode.ok);
-                        } else {
-                            callback("There is no Inventory", statusCode.no_content)
-                        }
-                    }).catch(function (error) {
-                        console.log('error in count ---- ', error)
-                        callback(error, statusCode.error)
-                    })
-                }).catch(function (error) {
-                    callback(error, statusCode.error);
-                })
-        } else {
-            models.FinishedGoods.count({
-                    where: {
-                        StatusName: 'Active',
-                        CompanyCode: companyCode,
-                        $and: {
-                            StyleColor: {
-                                $in: [color]
-                            },
-                            GarmentSize: {
-                                $in: [size]
-                            }
-                        }
-                    }
-                })
-                .then(function (count) {
-                    console.log('all filter values count are ---- ', count);
-                    models.FinishedGoods.findAll({
-                        offset: offsetValue,
-                        limit: parseInt(pageSize),
-                        where: {
-                            StatusName: 'Active',
-                            CompanyCode: companyCode,
-                            $and: {
-                                StyleColor: {
-                                    $in: [color]
-                                },
-                                GarmentSize: {
-                                    $in: [size]
-                                }
-                            }
-                        },
-                        order: [
-                            [sortLabel, sortDirection]
-                        ],
-                        include: [{
-                            model: models.FinishedGoodsAdjustment
-                        }]
-                    }).then(function (response) {
-                        console.log('response value color filter values CCCCC  -- ', response.length)
-                        if (response.length != 0) {
-                            callback({
-                                "count": count,
-                                "response": response
-                            }, statusCode.ok);
-                        } else {
-                            callback("There is no Inventory", statusCode.no_content)
-                        }
-                    }).catch(function (error) {
-                        console.log('error in count ---- ', error)
-                        callback(error, statusCode.error)
-                    })
-                }).catch(function (error) {
-                    callback(error, statusCode.error);
-                })
-        }
-    } else if (size.length !== 0 && ((color.length === 0 && style.length !== 0) || (color.length !== 0 && style.length === 0))) {
-        //need to work
-        console.log('entering into size filter values SSSSize ----- ', style, color, size);
-        if (style.length !== 0) {
-            models.FinishedGoods.count({
-                    where: {
-                        StatusName: 'Active',
-                        CompanyCode: companyCode,
-                        $and: {
-                            GarmentSize: {
-                                $in: [size]
-                            },
-                            StyleNumber: {
-                                $in: [style]
-                            }
-                        }
-                    }
-                })
-                .then(function (count) {
-                    console.log('all filter values count are ---- ', count);
-                    models.FinishedGoods.findAll({
-                        offset: offsetValue,
-                        limit: parseInt(pageSize),
-                        where: {
-                            StatusName: 'Active',
-                            CompanyCode: companyCode,
-                            $and: {
-                                GarmentSize: {
-                                    $in: [size]
-                                },
-                                StyleNumber: {
-                                    $in: [style]
-                                }
-                            }
-                        },
-                        order: [
-                            [sortLabel, sortDirection]
-                        ],
-                        include: [{
-                            model: models.FinishedGoodsAdjustment
-                        }]
-                    }).then(function (response) {
-                        console.log('response value color filter values sizeeeee  -- ', response.length)
-                        if (response.length != 0) {
-                            callback({
-                                "count": count,
-                                "response": response
-                            }, statusCode.ok);
-                        } else {
-                            callback("There is no Inventory", statusCode.no_content)
-                        }
-                    }).catch(function (error) {
-                        console.log('error in count ---- ', error)
-                        callback(error, statusCode.error)
-                    })
-                }).catch(function (error) {
-                    callback(error, statusCode.error);
-                })
-        } else {
-            models.FinishedGoods.count({
-                    where: {
-                        StatusName: 'Active',
-                        CompanyCode: companyCode,
-                        $and: {
-                            GarmentSize: {
-                                $in: [size]
-                            },
-                            StyleColor: {
-                                $in: [color]
-                            }
-                        }
-                    }
-                })
-                .then(function (count) {
-                    console.log('all filter values count are ---- ', count);
-                    models.FinishedGoods.findAll({
-                        offset: offsetValue,
-                        limit: parseInt(pageSize),
-                        where: {
-                            StatusName: 'Active',
-                            CompanyCode: companyCode,
-                            $and: {
-                                GarmentSize: {
-                                    $in: [size]
-                                },
-                                StyleColor: {
-                                    $in: [color]
-                                }
-                            }
-                        },
-                        order: [
-                            [sortLabel, sortDirection]
-                        ],
-                        include: [{
-                            model: models.FinishedGoodsAdjustment
-                        }]
-                    }).then(function (response) {
-                        console.log('response value color filter values sizeeeee  -- ', response.length)
-                        if (response.length != 0) {
-                            callback({
-                                "count": count,
-                                "response": response
-                            }, statusCode.ok);
-                        } else {
-                            callback("There is no Inventory", statusCode.no_content)
-                        }
-                    }).catch(function (error) {
-                        console.log('error in count ---- ', error)
-                        callback(error, statusCode.error)
-                    })
-                }).catch(function (error) {
-                    callback(error, statusCode.error);
-                })
-        }
-    } else if (style.length !== 0 && color.length === 0 && size.length === 0) {
-        console.log('~~~~ entering into style option in inventory dao  ', style);
-        models.FinishedGoods.count({
-            where: {
-                StatusName: 'Active',
-                CompanyCode: companyCode,
-                StyleNumber: {
-                    $in: [style]
-                }
-            }
-        }).then(function (count) {
-            console.log('#### count values are ----- ', count);
-            models.FinishedGoods.findAll({
-                offset: offsetValue,
-                limit: parseInt(pageSize),
-                where: {
-                    StatusName: 'Active',
-                    CompanyCode: companyCode,
-                    StyleNumber: {
-                        $in: [style]
-                    }
-                },
-                order: [
-                    [sortLabel, sortDirection]
-                ],
-                include: [{
-                    model: models.FinishedGoodsAdjustment
-                }]
-            }).then(function (response) {
-                console.log('response value are -- ', response.length)
-                if (response.length != 0) {
-                    callback({
-                        "count": count,
-                        "response": response
-                    }, statusCode.ok);
-                } else {
-                    callback("There is no Inventory", statusCode.no_content)
-                }
-            }).catch(function (error) {
-                console.log('error in count ---- ', error)
-                callback(error, statusCode.error)
-            })
-        }).catch(function (error) {
-            callback(error, statusCode.error)
-        })
-
-    } else if (color.length !== 0 && style.length === 0 && size.length === 0) {
-        console.log('~~~~ entering into color option in inventory dao  ', color);
-        models.FinishedGoods.count({
-            where: {
-                StatusName: 'Active',
-                CompanyCode: companyCode,
-                StyleColor: {
-                    $in: [color]
-                }
-            }
-        }).then(function (count) {
-            console.log('#### count values are ----- ', count);
-            models.FinishedGoods.findAll({
-                offset: offsetValue,
-                limit: parseInt(pageSize),
-                where: {
-                    StatusName: 'Active',
-                    CompanyCode: companyCode,
-                    StyleColor: {
-                        $in: [color]
-                    }
-                },
-                order: [
-                    [sortLabel, sortDirection]
-                ],
-                include: [{
-                    model: models.FinishedGoodsAdjustment
-                }]
-            }).then(function (response) {
-                console.log('response value are -- ', response.length)
-                if (response.length != 0) {
-                    callback({
-                        "count": count,
-                        "response": response
-                    }, statusCode.ok);
-                } else {
-                    callback("There is no Inventory", statusCode.no_content)
-                }
-            }).catch(function (error) {
-                console.log('error in count ---- ', error)
-                callback(error, statusCode.error)
-            })
-        }).catch(function (error) {
-            callback(error, statusCode.error)
-        })
-
-    } else if (size.length !== 0 && style.length === 0 && color.length === 0) {
-        console.log('~~~~ entering into size option in inventory dao  ', style);
-        models.FinishedGoods.count({
-            where: {
-                StatusName: 'Active',
-                GarmentSize: {
-                    $in: [size]
-                }
-            }
-        }).then(function (count) {
-            console.log('#### count values are ----- ', count);
-            models.FinishedGoods.findAll({
-                offset: offsetValue,
-                limit: parseInt(pageSize),
-                where: {
-                    StatusName: 'Active',
-                    GarmentSize: {
-                        $in: [size]
-                    }
-                },
-                order: [
-                    [sortLabel, sortDirection]
-                ],
-                include: [{
-                    model: models.FinishedGoodsAdjustment
-                }]
-            }).then(function (response) {
-                console.log('response value are -- ', response.length)
-                if (response.length != 0) {
-                    callback({
-                        "count": count,
-                        "response": response
-                    }, statusCode.ok);
-                } else {
-                    callback("There is no Inventory", statusCode.no_content)
-                }
-            }).catch(function (error) {
-                console.log('error in count ---- ', error)
-                callback(error, statusCode.error)
-            })
-        }).catch(function (error) {
-            callback(error, statusCode.error)
-        })
-
-    } else {
-        console.log('nothing if condition is called')
-    }
-}
-
-
-module.exports.deleteinventory = function (inventoryID, callback) {
-    models.FinishedGoods.destroy({
-        where: {
-            uuid: inventoryID
-        }
-    }).then(function (response) {
-        callback(response, statusCode.ok)
-    }).catch(function (error) {
-        callback(error, statusCode.error)
-    })
-}
-
-module.exports.updateinventory = function (InventoryDetails, callback) {
-    models.FinishedGoods.update(InventoryDetails, {
-        where: {
-            uuid: InventoryDetails.uuid
-        }
-    }).then(function (response) {
-        callback(response, statusCode.ok)
-    }).catch(function (error) {
-        callback(error, statusCode.error)
-    })
-}
-
-module.exports.getinventorybyid = function (inventoryID, callback) {
-    models.FinishedGoods.findOne({
-
-        where: {
-            FinishedGoodsID: inventoryID
-        },
-        order: [
-            ['StyleNumber', 'DESC']
-        ],
-        include: [{
-            model: models.FinishedGoodsAdjustment
-        }]
-
-    }).then(function (response) {
-        if (response.length != 0) {
-            callback(response, statusCode.ok)
-        } else {
-            callback("There is no Inventory", statusCode.no_content)
-        }
-    }).catch(function (error) {
-        callback(error, statusCode.error)
-    })
-}

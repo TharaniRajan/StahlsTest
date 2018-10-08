@@ -88,6 +88,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   public nodataTicket = false;
   public nodataTopSelling = false;
+  delayGraph: any;
+  earilerGraph: any;
+  ONTimeGraph: any;
 
   constructor(private router: Router, private dashboardService: DashboardService, private spinnerService: Ng4LoadingSpinnerService) {
     if (JSON.parse(sessionStorage.getItem('currentUser')).user.organization !== null) {
@@ -138,19 +141,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     if (this.companyCode !== undefined && this.companyCode !== 'STAHLS') {
       this.dashboardService.get_ordersTopSellingOrg(this.topSellingDays, this.companyCode).subscribe(
         data => {
-          console.log("top data-------->", data);
+          console.log('top data-------->', data);
           if (data.length !== 0) {
-            this.nodataTopSelling = false
+            this.nodataTopSelling = false;
             this.topSelling = data;
           } else {
-            this.nodataTopSelling = true
+            this.nodataTopSelling = true;
           }
         }
       );
     } else {
       this.dashboardService.get_ordersTopSelling(this.topSellingDays).subscribe(
         data => {
-          console.log("top data-------->", data);
+          console.log('top data-------->', data);
           this.topSelling = data;
         }
       );
@@ -165,23 +168,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   onTime() {
     console.log('entering into on time values are --- ');
- if (this.companyCode !== undefined && this.companyCode !== 'STAHLS') {
-          this.dashboardService.get_ordersOnTimeOrg(this.companyCode).subscribe(
-            data2 => {
-              console.log('--organization------on time top-----', data2);  
-              if (data2 !== null){
-                this.orderOnTimeToday = data2.onTime;
-                this.orderOnTimePercent = data2.percent.toFixed(2);
-              }
-            }
-          );
+    if (this.companyCode !== undefined && this.companyCode !== 'STAHLS') {
+      this.dashboardService.get_ordersOnTimeOrg(this.companyCode).subscribe(
+        data2 => {
+          console.log('--organization------on time top-----', data2);
+          if (data2 !== null) {
+            this.orderOnTimeToday = data2.onTime;
+            this.orderOnTimePercent = data2.percent.toFixed(2);
+          }
+        }
+      );
     } else {
-          this.dashboardService.get_ordersOnTime().subscribe(
-            data2 => {
-              this.orderOnTimeToday = data2.onTime;
-              this.orderOnTimePercent = data2.percent.toFixed(2);
-              console.log('--normal------on time top-----', data2);
-            }
+      this.dashboardService.get_ordersOnTime().subscribe(
+        data2 => {
+          this.orderOnTimeToday = data2.onTime;
+          this.orderOnTimePercent = data2.percent.toFixed(2);
+          console.log('--normal------on time top-----', data2);
+        }
       );
     }
   }
@@ -222,12 +225,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     if (this.companyCode !== undefined && this.companyCode !== 'STAHLS') {
       this.dashboardService.get_priorityOrg(this.ticketDays, this.organizationId).subscribe(
         data => {
-          console.log("ticket data----#####---->",data);
+          console.log('ticket data----#####---->', data);
           if (data.PriorityTickets === 'No data!' || data.length === 0) {
-            this.nodataTicket = true
+            this.nodataTicket = true;
           } else {
-            this.nodataTicket = false
-            this.ticketlist = data.PriorityTickets;  
+            this.nodataTicket = false;
+            this.ticketlist = data.PriorityTickets;
             this.dataSource = new MatTableDataSource(this.ticketlist);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
@@ -237,7 +240,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     } else {
       this.dashboardService.get_priority(this.ticketDays).subscribe(
         data => {
-          console.log("ticket data---222222----->",data);
+          console.log('ticket data---222222----->', data);
           this.ticketlist = data.PriorityTickets;
           this.dataSource = new MatTableDataSource(this.ticketlist);
           this.dataSource.paginator = this.paginator;
@@ -257,9 +260,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         data => {
           this.orderReceived = data;
           console.log('----------------getOrdersReceived---->>>>', this.orderReceived);
-            this.orderReceivedToday = this.orderReceived.TodayOrder;
-            if(this.orderReceived.percent !== undefined){
-            this.orderReceivedPercent = this.orderReceived.percent.toFixed(2)  
+          this.orderReceivedToday = this.orderReceived.TodayOrder;
+          if (this.orderReceived.percent !== undefined) {
+            this.orderReceivedPercent = this.orderReceived.percent.toFixed(2);
           }
           // this.dashboardService.get_ordersReceivedTodayOrg(this.companyCode).subscribe(
           //   data2 => {
@@ -279,9 +282,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         data => {
           this.orderReceived = data;
           console.log('----------------data---->>>>', this.orderReceived);
-          if (this.orderReceived !== null){
+          if (this.orderReceived !== null) {
             this.orderReceivedToday = this.orderReceived.TodayOrder;
-            this.orderReceivedPercent = this.orderReceived.percent.toFixed(2)  
+            this.orderReceivedPercent = this.orderReceived.percent.toFixed(2);
           }
           console.log('--------Percent---------', this.orderReceivedToday);
           this.dashboardService.get_ordersReceivedToday().subscribe(
@@ -308,9 +311,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           this.orderShipped = data;
           this.dashboardService.get_orderShippedTodayOrg(this.companyCode).subscribe(
             data2 => {
-              console.log("ship data--2->", data2)
+              console.log('ship data--2->', data2);
               this.orderShippedToday = data2.TodayShipped;
-              if (data2.percent !== undefined){
+              if (data2.percent !== undefined) {
                 this.orderShippedPercent = data2.percent.toFixed(2);
               }
               // const percent = (this.orderShippedToday / this.orderShipped) * 100;
@@ -325,10 +328,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.dashboardService.get_orderShipped().subscribe(
         data => {
           this.orderShipped = data;
-          console.log("ship data-1-->", data)
+          console.log('ship data-1-->', data);
           this.dashboardService.get_orderShippedToday().subscribe(
             data2 => {
-              console.log("ship data--2->", data2)
+              console.log('ship data--2->', data2);
               this.orderShippedToday = data2.TodayShipped;
               this.orderShippedPercent = data2.percent.toFixed(2);
               // const percent = (this.orderShippedToday / this.orderShipped) * 100;
@@ -372,20 +375,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           this.barGraphDataRecived = data.Shipped;
           console.log('-----bargraphShipped---------------->>>>', this.barGraphDataRecived);
           this.barOrderShipped2();
-        })
+        });
     } else {
       this.dashboardService.get_barGraphDataShipped(this.barGraphDays).subscribe(
         data => {
           this.barGraphDataRecived = data.Shipped;
           console.log('-----bargraphShipped---------------->>>>', this.barGraphDataRecived);
           this.barOrderShipped2();
-        })
+        });
     }
   }
 
   barOrderShipped2() {
     if (this.barGraphDays.toString() === '7') {
-     
+
       this.dayGraph = ['1', '2', '3', '4', '5', '6', '7'];
     }
     if (this.barGraphDays.toString() === '30') {
@@ -562,14 +565,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     if (this.companyCode !== undefined && this.companyCode !== 'STAHLS') {
       this.dashboardService.get_timeGraphDataOrg(this.timeGraphDays, this.companyCode).subscribe(
         data => {
-          this.timeGraphData = data
+          this.timeGraphData = data;
           console.log('----organizaiton-----TimeGraph------->>>>>>', this.timeGraphData);
           this.timeGraph2();
         });
     } else {
       this.dashboardService.get_timeGraphData(this.timeGraphDays).subscribe(
         data => {
-          this.timeGraphData = data
+          this.timeGraphData = data;
           console.log('---normal------TimeGraph------->>>>>>', this.timeGraphData);
           this.timeGraph2();
         });
@@ -578,17 +581,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   timeGraph2() {
     if (this.timeGraphDays.toString() === '7') {
-       this.ForecastdayGraph = ['1', '2', '3', '4', '5', '6', '7'];
-      
+      this.ForecastdayGraph = ['1', '2', '3', '4', '5', '6', '7'];
+
     }
     if (this.timeGraphDays.toString() === '30') {
-       this.ForecastdayGraph = ['4', '8', '12', '16', '20', '24', '30'];
+      this.ForecastdayGraph = ['4', '8', '12', '16', '20', '24', '30'];
 
     }
 
     if (this.timeGraphDays.toString() === '90') {
-     this.ForecastdayGraph = ['15', '30', '45', '60', '75', '90'];
-     
+      this.ForecastdayGraph = ['15', '30', '45', '60', '75', '90'];
+
     }
 
     if (this.timeGraphDays.toString() === '90') {
@@ -663,26 +666,35 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       {
         name: 'Forcast',
 
-        data: this.timeGraphData.Forcast  
+        data: this.timeGraphData.Forcast
       }
       ]
 
 
     });
-this.spinnerService.hide();
+    this.spinnerService.hide();
 
   }
 
+  // onTimeDaysChange() {
+  //   console.log('entering into test values ')
+  //   this.onTimeGraph();
+  // }
+
   onTimeGraph() {
+    console.log('entering into on time graph are ');
     this.showGraph = 'ontime';
     if (this.companyCode !== undefined && this.companyCode !== 'STAHLS') {
       this.dashboardService.get_ordersOnTimeShippedOrg(this.onTimeDays, this.companyCode).subscribe(
         data => {
           // this.onTimeShipped = data;
           console.log('organization on time ----- ', data);
-          this.onTimeShipped = data.ShippedGraphCount;
-          this.onTimeForecasted = data.ForcastGraphCount;
-          this.onTimeGraph2()
+          // this.onTimeShipped = data.ShippedGraphCount;
+          // this.onTimeForecasted = data.ForcastGraphCount;
+          this.earilerGraph = data.earilerGraph;
+          this.ONTimeGraph = data.onTimeGraph;
+          this.delayGraph = data.delayGraph;
+          this.onTimeGraph2();
           // this.dashboardService.get_ordersOnTimeForecastOrg(this.onTimeDays, this.companyCode).subscribe(
           //   data2 => {
           //     this.onTimeForecasted = data2;
@@ -692,10 +704,13 @@ this.spinnerService.hide();
     } else {
       this.dashboardService.get_ordersOnTimeShipped(this.onTimeDays).subscribe(
         data => {
-          console.log("normal on time ------ ", data);
-          this.onTimeShipped = data.ShippedGraphCount;
-          this.onTimeForecasted = data.ForcastGraphCount;
-          this.onTimeGraph2()
+          console.log('####### normal on time --graph---- ', data);
+          // this.onTimeShipped = data.ShippedGraphCount;
+          // this.onTimeForecasted = data.ForcastGraphCount;
+          this.earilerGraph = data.earilerGraph;
+          this.ONTimeGraph = data.onTimeGraph;
+          this.delayGraph = data.delayGraph;
+          this.onTimeGraph2();
           // this.dashboardService.get_ordersOnTimeForecast(this.onTimeDays).subscribe(
           //   data2 => {
           //     this.onTimeForecasted = data2;
@@ -709,14 +724,14 @@ this.spinnerService.hide();
   onTimeGraph2() {
 
     if (this.onTimeDays.toString() === '7') {
-      //this.onTimedayGraph = ['7', '6', '5', '4', '3', '2', '1'];
+      // this.onTimedayGraph = ['7', '6', '5', '4', '3', '2', '1'];
       this.onTimedayGraph = ['1', '2', '3', '4', '5', '6', '7'];
-      
+
     }
     if (this.onTimeDays.toString() === '30') {
-      //this.onTimedayGraph = ['30', '24', '20', '16', '12', '8', '4'];
+      // this.onTimedayGraph = ['30', '24', '20', '16', '12', '8', '4'];
       this.onTimedayGraph = ['4', '8', '12', '16', '20', '24', '30'];
-      
+
     }
 
     if (this.onTimeDays.toString() === '90') {
@@ -724,10 +739,65 @@ this.spinnerService.hide();
       this.onTimedayGraph = ['15', '30', '45', '60', '75', '90'];
     }
 
+    // Highcharts.chart('container2', {
+    //   chart: {
+    //     type: 'column',
+    //     height: '80%',
+    //     backgroundColor:
+    //     {
+    //       linearGradient: [500, 500, 500, 0],
+    //       stops: [
+    //         [0, 'transparent'],
+    //         [1, '#FFFFFF']
+    //       ]
+    //     },
+    //   },
+    //   title: {
+    //     text: ''
+    //   },
+    //   xAxis: {
+    //     categories: this.onTimedayGraph,
+    //     crosshair: true,
+    //     title: {
+    //       text: 'Days'
+    //     },
+    //   },
+    //   yAxis: {
+    //     min: 0,
+    //     title: {
+    //       text: 'Orders'
+    //     }
+    //   },
+    //   tooltip: {
+    //     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+    //     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+    //       '<td style="padding:0"><b>{point.y}</b></td></tr>',
+    //     footerFormat: '</table>',
+    //     shared: true,
+    //     useHTML: true
+    //   },
+    //   plotOptions: {
+    //     column: {
+    //       pointPadding: 0.2,
+    //       borderWidth: 0
+    //     }
+    //     // series: {
+    //     //   color: '#64b448'
+    //     // }
+    //   },
+    //   series: [{
+    //     name: 'Total Shipped',
+    //     data: this.onTimeShipped,
+    //     color: '#64b448'
+
+    //   }, {
+    //     name: 'Total Forecasted',
+    //     data: this.onTimeForecasted
+
+    //   }]
+    // });
     Highcharts.chart('container2', {
       chart: {
-        type: 'column',
-        height: '80%',
         backgroundColor:
         {
           linearGradient: [500, 500, 500, 0],
@@ -736,7 +806,21 @@ this.spinnerService.hide();
             [1, '#FFFFFF']
           ]
         },
+        type: 'column',
+        height: '80%'
       },
+      // title: {
+      //   text: 'Stacked bar chart'
+      // },
+      // xAxis: {
+      //   categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+      // },
+      // yAxis: {
+      //   min: 0,
+      //   title: {
+      //     text: 'Total fruit consumption'
+      //   }
+      // },
       title: {
         text: ''
       },
@@ -753,32 +837,30 @@ this.spinnerService.hide();
           text: 'Orders'
         }
       },
-      tooltip: {
-        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-          '<td style="padding:0"><b>{point.y}</b></td></tr>',
-        footerFormat: '</table>',
-        shared: true,
-        useHTML: true
+      legend: {
+        reversed: true
       },
       plotOptions: {
-        column: {
-          pointPadding: 0.2,
-          borderWidth: 0
+        series: {
+          stacking: 'normal'
         }
-        // series: {
-        //   color: '#64b448'
-        // }
+        // column: {
+        //         pointPadding: 0.2,
+        //         borderWidth: 0
+        //       }
       },
       series: [{
-        name: 'Total Shipped',
-        data: this.onTimeShipped,
-        color: '#64b448'
-
+        name: 'earlier',
+        data: this.earilerGraph,
+        color: '#44B029'
       }, {
-        name: 'Total Forecasted',
-        data: this.onTimeForecasted
-
+        name: 'onTime',
+        data: this.ONTimeGraph,
+        color: 'DeepSkyBlue'
+      }, {
+        name: 'delay',
+        data: this.delayGraph,
+        color: 'OrangeRed'
       }]
     });
   }
