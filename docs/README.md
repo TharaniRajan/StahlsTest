@@ -37,7 +37,9 @@
 
 ### Ticket ERD Diagram
 
-<img src = "GeppettoSoftware/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.png">
+ ![TicketImage](StahlsTest/docs/Tickets ER Diagram.jpg)
+      
+
 
 ### SalesOrder Sequence Diagram
 
