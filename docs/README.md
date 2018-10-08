@@ -36,7 +36,7 @@
 
 
 ### Ticket ERD Diagram
-[Image of Ticket ERD Diagram](https://github.com/KishanRavindran/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.jpg)
+[Image of Ticket ERD Diagram](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/jonas-verstuyft-787869-unsplash.jpg)
       
 
 ### SalesOrder Sequence Diagram
