@@ -40,5 +40,5 @@
       
 
 ### SalesOrder Sequence Diagram
-![Image of Sales Order Sequence Diagram](https://github.com/KishanRavindran/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).jpg)
+![](https://github.com/KishanRavindran/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).jpg)
 
