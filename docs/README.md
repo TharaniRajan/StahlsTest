@@ -1,7 +1,9 @@
 # Content 
 1. Table of Figures 
 1. Stake Holders 
-1. Glossary 
+1. Glossary
+1. [Ticket](#ticket-erd-diagram)
+1. [Salesorder Sequence](#salesorder-sequence-diagram)
 1. Revision History 
   1. Section 1. Overview<br/>
     1.1 Purpose<br/>
@@ -41,43 +43,3 @@
 
 ### SalesOrder Sequence Diagram
 ![Test](https://github.com/KishanRavindran/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).jpg?raw=true"Test")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[Ticket](#ticket-erd-diagram)
