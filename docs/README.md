@@ -5,7 +5,7 @@
 1. Glossary
 1. [Ticket](#ticket-erd-diagram)
 1. Revision History 
-  1. SalesOrder
+  1. SalesOrder<br/>
     1.1 [Salesorder Sequence](#salesorder-sequence-diagram)
     1.2 [Salesorder](#salesorder-backend)
   1. Section 1. Overview<br/>
@@ -48,7 +48,11 @@
 ![Test](https://github.com/KishanRavindran/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).jpg?raw=true"Test")
 
 ## SalesOrder Backend 
- **api/SalesOrder/getsalesordercountname** <br/>
- gets all the status count of the order from the backend.<br/>The process starts with **Salesorderrouter** which points to the controller file of **controller.getcountbystatusname()** where it takes the request and response and goes to the service file of **service.getcountbystatusname()** and from service goes to the DAO file in **dao.getcountbystatusname()** and in the DAO file we use the **model** of salesorder from **SalesOrder.js** file.
-  
+
+ **Get Request of Url(api/SalesOrder/getsalesordercountname)** <br/>
+ Gets all the status count of the order from the backend.<br/>The process starts with **Salesorderrouter** which points to the controller file **controller.getcountbystatusname()** method where it takes the request and goes to the service file of **service.getcountbystatusname()** and from service goes to the DAO file in **dao.getcountbystatusname()** and in the DAO file we use the **model** of salesorder from **SalesOrder.js** file.
+  <br/>
+  **Post request of Url (api/SalesOrder/getall)** <br/>
+    Get the SalesOrder data from the UI as per the pagesize and pagenumber value from the request body. The process starts with the **Salesorderrouter** which points to the controller file **controller.getAllSalesOrder()** method from there it takes the request data pass it to the service file which is **service.getAllSalesOrder()** method from there it goes to the DAO file in the **dao.getAllSalesOrder()** and from the DAO we point the model file of **SalesOrder.js** file.
+   <br/>
 
