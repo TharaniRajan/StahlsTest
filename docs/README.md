@@ -4,9 +4,10 @@
 1. Stake Holders 
 1. Glossary
 1. [Ticket](#ticket-erd-diagram)
-1. [Salesorder Sequence](#salesorder-sequence-diagram)
-1. [Salesorder](#salesorder-backend)
 1. Revision History 
+  1. SalesOrder
+    1.1 [Salesorder Sequence](#salesorder-sequence-diagram)
+    1.2 [Salesorder](#salesorder-backend)
   1. Section 1. Overview<br/>
     1.1 Purpose<br/>
     1.2 Scope <br/>
