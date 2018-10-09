@@ -1,3 +1,4 @@
+![Logo](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/favicon.ico?raw=true"Logo")
 # Content 
 1. Table of Figures 
 1. Stake Holders 
