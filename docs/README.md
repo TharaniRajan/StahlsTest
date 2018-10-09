@@ -5,7 +5,7 @@
 1. Glossary
 1. [Ticket](#ticket-erd-diagram)
 1. [Salesorder Sequence](#salesorder-sequence-diagram)
-1. [Salesorder](#salesorder)
+1. [Salesorder](#salesorder-backend)
 1. Revision History 
   1. Section 1. Overview<br/>
     1.1 Purpose<br/>
@@ -48,6 +48,6 @@
 
 #### SalesOrder Backend 
   ###SalesOrderstatuscountname
- getsalesordercountname api gets all the status count from the backend.<br/>The process starts with Salesorderrouter**bold** which points to the controller method of the controller.getcountbystatusname()**bold** where the it takes the request and response and goes to the service file of service.getcountbystatusname()**bold** and from service goes to the DAO file in dao.getcountbystatusname()**bold**
+ getsalesordercountname api gets all the status count from the backend.<br/>The process starts with **Salesorderrouter** which points to the controller method of the **controller.getcountbystatusname()** where the it takes the request and response and goes to the service file of **service.getcountbystatusname()** and from service goes to the DAO file in **dao.getcountbystatusname()**
   
 
