@@ -67,3 +67,7 @@
     <br/>
 **Post Request of Url (api/SalesOrder/getExportSalesOrder)**<br/>
   Get the Salesorder data for export process. The process starts with the **Router** which is **getExportSalesOrder** which pass to the **Salesorderrouter** which pass to the controller file **controller.getExportSalesOrder()** method from there it takes the request to the service file which is **service.getExportSalesOrder()** method and from there it goes to the DAO file in the **dao.getExportSalesOrder()** and in the DAO file we point the model file of the **SalesOrder.js** file and store the values to the database.
+  <br/>
+  <br/>
+**Get Request of Url (api/SalesOrder/get/:OrderID)**<br/>
+  Gets the specific SalesOrder data. The process starts with the **Router** which is **get/:OrderId/** which pass the to the **Salesorderrouter** which then goes to the controller file **controller.getSalesOrderById()** method which gets the request value and passes to the service file which is **service.getSalesOrderById()** method and from there it goes to the DAO file in the **dao.getSalesOrderById()** and in the DAO we point the model file of the **SalesOrder.js** file and find that requested orderid.
