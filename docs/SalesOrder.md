@@ -3,7 +3,7 @@
 1. SalesOrder<br/>
     1. SalesOrder Diagrams<br/>
     1.1 [Salesorder Sequence](#salesorder-sequence-diagram)<br/>
-    1.1.2 [Salesorder Qrganization Sequence](#salesorder-organization-sequence-diagram)<br/>
+    1.1.2 [Salesorder Organization Sequence](#salesorder-organization-sequence-diagram)<br/>
   1.2 [Salesorder Admin_Flow](#salesorder-backend)<br/>
   1.3 [Salesorder Organization_Flow](#salesorder-by-organization-backend)
    <br/>
