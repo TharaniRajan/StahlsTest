@@ -1,13 +1,10 @@
 ![Logo](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/favicon.ico?raw=true"Logo")
 # Content 
-1. Table of Figures 
-1. Stake Holders 
-1. Glossary
 1. [Ticket](#ticket-erd-diagram)
-1. Revision History 
-  1. SalesOrder<br/>
+1. SalesOrder<br/>
+    1. SalesOrder Diagrams<br/>
     1.1 [Salesorder Sequence](#salesorder-sequence-diagram)<br/>
-    1.2 [Salesorder](#salesorder-backend)
+   1.2 [Salesorder](#salesorder-backend)
   1. Section 1. Overview<br/>
     1.1 Purpose<br/>
     1.2 Scope <br/>
