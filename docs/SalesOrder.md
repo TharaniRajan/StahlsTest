@@ -6,7 +6,7 @@
     1.1.2 [Salesorder Qrganization Sequence](#salesorder-organization-sequence-diagram)<br/>
   1.2 [Salesorder](#salesorder-backend)
    <br/>
-### SalesOrder Sequence Diagram
+## SalesOrder Sequence Diagram
 ![AdminFlow](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).jpg?raw=true"AdminFlow")
 <br/>
 
@@ -41,9 +41,10 @@
 
 
 
-### SalesOrder Organization Sequence Diagram
+## SalesOrder Organization Sequence Diagram
 ![OrganizationFlow](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ORGANIZATION).jpg?raw=true"OrganizationFlow")
 
+## Salesorder By Organization Backend
 
 **Get Request of Url(api/SalesOrder/getStatusNameCountByCode/:code)** <br/>
  Gets all the status count of the Salesorder based on the **CompanyCode** from the backend.<br/>The process starts with **Salesorderrouter** which points to the controller file **controller.getSalesOrderByCompanyCode()** method where it takes the request and passes it to the service file of **service.getSalesOrderByCompanyCode()** and from service goes to the DAO file in **dao.getSalesOrderByCompanyCode()** and in the DAO file we use the **model** of salesorder from **SalesOrder.js** file and get the values from the database.
