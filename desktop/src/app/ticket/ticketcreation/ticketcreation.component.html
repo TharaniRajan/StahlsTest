@@ -13,7 +13,7 @@
   </div>
 
   <div class="row orders">
-    Orders included:
+    <span>Orders included:</span>
     <span *ngIf="!displayAdded">&nbsp;0</span>
     <div *ngIf="displayAdded">
       <span class="lastSpan" *ngFor="let item of selectedTableValue">&nbsp;{{item.OrderNumber}}&nbsp;</span>
@@ -122,7 +122,7 @@
       *Enter 500 Characters Only
     </div>
   </div>
-  <div class="row">
+  <div class="row buttons-action">
     <div class="uploadFileDiv">
       <div class="upload">
         <button (click)="fileInput.click()" class="btn btn-default button">Upload</button>

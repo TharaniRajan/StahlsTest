@@ -166,3 +166,66 @@
   margin-left: 13%;
 }
 }
+
+@media only screen and (max-width: 420px) {
+  .container h1 {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .filterName {
+    line-height: 50px !important;
+  }
+
+  .mat-table {
+    width: 600px;
+    overflow-y: auto;
+  }
+
+  .mat-select-trigger {
+    text-align: center !important;
+  }
+
+  .mat-paginator {
+    width: 600px;
+  }
+
+  .page-no {
+    background: white;
+    margin: 0 !important;
+    position: relative !important;
+    text-align: center;
+    width: 600px;
+  }
+
+  .searchOrderDiv {
+    display: block;
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .searchOrderDiv>:first-child {
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    font-size: 18px;
+    justify-content: center;
+    margin-top: 10px !important;
+    padding: 10px 0;
+  }
+
+  .searchOrderDiv>:first-child input {
+    margin-top: 0;
+    margin-left: 10px;
+    width: 100%;
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: normal;
+  }
+
+  .ticket-container {
+    overflow-y: scroll;
+  }
+}

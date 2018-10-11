@@ -68,3 +68,16 @@ padding-right: 14%;
     background-color: lightgray;
     margin-right: 3%;
 }
+
+
+@media only screen and (max-width:420px) {
+    .auth-block {
+        margin: 20% auto 0;
+        width: 95%;
+    }
+
+    .forgotpassword {
+        margin-left: 0;
+        text-align: center;
+    }
+}

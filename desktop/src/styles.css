@@ -89,4 +89,109 @@
         margin-right: 36% !important;
     }   
   }
+ 
   
+@media only screen and (max-width:420px) {
+    .cdk-overlay-pane {
+        width: 80% !important;
+    }
+
+    .main {
+        margin-top: 65px !important;
+    }
+
+    .mat-card {
+        margin: 10px 0;
+    }
+
+    .mat-form-field {
+        display: inline !important;
+    }
+
+    .mat-header-cell {
+        text-align: center !important;
+    }
+
+    .mat-paginator-container {
+        justify-content: center !important;
+    }
+
+    .mat-select-trigger {
+        text-align: center !important;
+    }
+
+    .mat-sort-header-container {
+        justify-content: center;
+    }
+
+    .mat-table .element-row {
+        text-align: center !important;
+    }
+
+    .navbar {
+        align-items: center;
+        justify-content: center;
+        position: fixed !important;
+        top: 0;
+        width: 100%;
+        z-index: 1;
+    }
+
+    .navbar-header {
+        align-items: center;
+    }
+
+    .navbar .navbar-toggle,
+    .navbar .bell {
+        width: 40px;
+        height: 40px;
+        font-size: 25px !important;
+        margin-top: 0 !important;
+    }
+
+    .navbar-toggle .icon-bar {
+        width: auto !important;
+    }
+
+    .searchbar .filterName {
+        line-height: 35px;
+    }
+
+    .searchbar .mat-form-field-infix {
+        padding: 0 !important;
+        text-align: left;
+    }
+    
+    .searchbar .ng-star-inserted,
+    .searchbar .mat-select {
+        margin: 10px 0;
+    }
+    
+    .searchbar .pull-right {
+        margin-left: 0 !important;
+    }
+
+    .searchbar>:first-child {
+        align-items: center;
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        font-size: 18px;
+        justify-content: center;
+        margin-top: 10px !important;
+        padding: 10px 0;
+    }
+
+    .searchbar>:first-child input {
+        margin-top: 0;
+        margin-left: 10px;
+        width: 100%;
+    }
+
+    .text-center {
+        margin-left: 0 !important;
+    }
+
+    .ticket-container {
+        overflow-y: scroll;;
+    }
+}

@@ -197,3 +197,83 @@ display: grid;
         margin-top: -13%;
     }
 }
+
+@media only screen and (max-width: 420px) {
+    .createByMainDiv {
+        width: 100%;
+    }
+
+    .createByFirstRow {
+        justify-content: center;
+    }
+
+    .descriptionDiv {
+        width: 100%;
+    }
+
+    .divBtnAssign {
+        margin-top: 20px;
+    }
+
+    .downloadDiv {
+        display: grid !important;
+        width: 100%;
+    }
+
+    .ticketDetailsRow {
+        text-align: center;
+    }
+
+    .priority {
+        margin-left: 6em !important;
+    }
+
+    .addOrderBtn {
+        justify-self: center;
+        margin: 10px 0 !important;
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .addCommentBtn {
+        justify-self: center;
+        margin: 10px 0 !important;
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .lastTable {
+        margin: 10px 0 !important;
+        width: 100%;
+    }
+
+    .tickerHistoryBtn {
+        justify-self: center;
+        margin: 10px 0 !important;
+        grid-column: 2;
+        grid-row: 2;
+    }
+    
+    .uploadFileDiv {
+        justify-self: center;
+        margin: 10px 0 !important;
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .addOrderBtn button,
+    .addCommentBtn button,
+    .tickerHistoryBtn button,
+    .uploadFileDiv button{
+        margin-left: 0 !important;
+        align-self: center;
+    }
+
+    .closeTicketBtn {
+        margin: 0 !important;
+        grid-column-start: 1;
+        grid-row: 3;
+        grid-column-end: 3;
+        justify-self: center;
+    }
+}

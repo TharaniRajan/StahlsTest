@@ -433,3 +433,59 @@ margin-bottom: -6%;
     left: 85.5%;
     }
   }
+
+@media only screen and (max-width:420px) {
+
+  .mat-horizontal-stepper-content {
+    text-align: center;
+  }
+
+  .mat-table,
+  .mat-paginator {
+    width: 600px;
+  }
+  
+  .ng-tns-c2-0 {
+    text-align: center;
+    margin-left: 0 !important;
+  }
+
+  .new-btn1 {
+    margin: 10px 0 !important;
+  }
+
+  .orderTicketText {
+    text-align: center;
+  }
+
+  .steper {
+    width: 100%;
+    float: none;
+    margin: 0;
+  }
+
+  .stepper-css span {
+    margin-left: 0 !important;
+  }
+
+  .stepper-css .mat-horizontal-stepper-content {
+    text-align: center !important;
+  }
+
+  .table-detail-ticket {
+    display: block !important;
+  }
+
+  .ticket-container {
+    overflow-y: scroll;
+  }
+
+  .top {
+    display: block !important;
+  }
+
+  .top-right {
+    width: auto;
+    text-align: center;
+  }
+}

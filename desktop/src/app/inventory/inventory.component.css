@@ -193,3 +193,58 @@
   margin-left: 13%;
 }
 }
+
+@media only screen and (max-width: 420px) {
+  .container h1 {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .exportButton {
+    margin: 10px 0 !important;
+  }
+
+  .mat-table {
+    width: 900px;
+    overflow-y: auto;
+  }
+
+  .mat-select-trigger {
+    text-align: center !important;
+  }
+
+  .mat-paginator {
+    width: 900px;
+  }
+
+  .page-no {
+    background: white;
+    margin: 0 !important;
+    position: relative !important;
+    text-align: center;
+    width: 900px;
+  }
+
+  .mat-input-element {
+    margin: 10px 0 !important;
+    text-align: center !important;
+  }
+
+  .mat-select-trigger,
+  .mat-select-value {
+    text-align: center !important;
+  }
+
+  .pull-right-code {
+    margin: 0 !important;
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: normal;
+  }
+
+  .ticket-container {
+    overflow-y: scroll;
+  }
+}

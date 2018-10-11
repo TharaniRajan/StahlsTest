@@ -93,7 +93,7 @@
                   </mat-option>
                 </mat-select>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-2 divBtnAssign">
                 <button mat-raised-button color="primary" *ngIf="organizationname !== 'Stahls'" [disabled]="ticketDetails?.Status === 'Closed'"
                   (click)="saveAssignedUserTicket()">Assign</button>
               </div>
@@ -131,12 +131,12 @@
             </div> -->
     </div>
     <div class="row downloadDiv">
-      <div style="margin-left:-44px">
+      <div style="margin-left:-44px" class="addOrderBtn">
         <button class="closeButton1" mat-raised-button (click)="Showdetails()" [disabled]="ticketDetails?.Status === 'Closed'">Add
           Orders
         </button>
       </div>
-      <div style="margin-left:-46px">
+      <div style="margin-left:-46px" class="addCommentBtn">
         <button style="margin-left:52px" class="closeButton1" mat-raised-button (click)="Addcomment()" [disabled]="ticketDetails?.Status === 'Closed'">Add
           Comment
         </button>
@@ -159,10 +159,10 @@
       <!-- <div class="col-lg-2">
                 <button style="margin-left:-23px" mat-raised-button class="update" (click)="Viewcomment()">Comments History</button>
             </div> -->
-      <div class="rowButton">
+      <div class="rowButton tickerHistoryBtn">
         <button style="margin-left:8%" mat-raised-button class="update" (click)="ViewHistory()">Ticket History</button>
       </div>
-      <div class="rowButton" style="margin-left:20px;margin-right: 37px">
+      <div class="rowButton closeTicketBtn" style="margin-left:20px;margin-right: 37px">
         <div *ngIf="ticketDetails?.Status === 'Open' || ticketDetails?.Status === 'Assigned' || ticketDetails?.Status === 'Reopen'">
           <button mat-raised-button class="closeButton" (click)="openCloseTicketModal()">Close Ticket
           </button>
@@ -179,7 +179,7 @@
       <!-- *ngIf="ticketDetails?.Status !== 'Closed'" -->
     </div>
     <br>
-    <div class="row">
+    <div class="row descriptionDiv">
       <mat-card class="descriptionCard">
         <div>
           <span>
@@ -280,7 +280,7 @@
         </div>
     </div> -->
   <br>
-  <div style="margin-top: -5em;margin-left: 50px;width: 80%" class="ticket-container mat-elevation-z8 col-xs-12">
+  <div style="margin-top: -5em;margin-left: 50px;width: 80%" class="ticket-container mat-elevation-z8 col-xs-12 lastTable">
 
     <mat-table [dataSource]="dataSource" matSort matSortActive="OrderNumber" matSortDirection="desc"
       matSortDisableClear>

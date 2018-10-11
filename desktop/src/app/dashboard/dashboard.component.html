@@ -138,7 +138,7 @@
                 <!-- <div class="col-lg-4 " *ngIf="allowedScreens.indexOf('Inventory') > -1"> -->
                 <mat-card class="card third-card">
                     <mat-card-content>
-                        <p class="header-text textFont" style="margin-bottom:-3%;width:45%">
+                        <p class="header-text textFont topSellingText" style="margin-bottom:-3%;width:45%">
                             <strong>Top Selling Design</strong>
                         </p>
                        
@@ -165,7 +165,7 @@
             <div class="col-lg-8 " id="prg3">
                 <mat-card class="card third-card">
                     <mat-card-content>
-                        <p class="header-text textFont" style="width:50%">
+                        <p class="header-text textFont prioritytText" style="width:50%">
                             <strong>Priority Ticket Status</strong>
                         </p>
                         <mat-form-field style="margin-top: -6%;" class="day-dropdown">
@@ -174,7 +174,7 @@
                             </mat-select>
                         </mat-form-field>
                         <br>
-                       <div *ngIf="!nodataTicket">
+                       <div *ngIf="!nodataTicket" class="tableTickets">
                         <mat-table [dataSource]="dataSource" matSort>
 
                             <!-- ID Column -->

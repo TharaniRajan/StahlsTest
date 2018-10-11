@@ -178,3 +178,56 @@
   margin-left: 87%;
 }
 
+@media only screen and (max-width:420px) {
+  .container .ng-star-inserted {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .mat-table {
+    width: 800px;
+    overflow-y: scroll;
+  }
+
+  .mat-select-trigger {
+    text-align: center !important;
+  }
+
+  .mat-paginator {
+    width: 800px;
+  }
+
+  .mat-paginator-container {
+    justify-content: center;
+  }
+
+  .ng-star-inserted {
+    margin-top: 20px;
+  }
+
+  .orderTicketText {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .optionDiv>:first-child {
+    display: block !important;
+  }
+  
+  .optionDiv .mat-accent .mat-input-element {
+    text-align: center;
+  }
+
+  .page-no {
+    background: white;
+    margin: 0 !important;
+    position: relative !important;
+    text-align: center;
+    width: 800px;
+  }
+
+  .table-orders {
+    overflow-y: scroll;
+  }
+  
+}

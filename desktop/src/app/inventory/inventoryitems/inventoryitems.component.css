@@ -29,4 +29,33 @@
     margin-left: 69%;
     margin-top: -4%;
   }
-        
+
+@media only screen and (max-width:420px) {
+  .container h1 {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .mat-row,
+  .mat-select-trigger {
+    text-align: center !important;
+  }
+
+  .mat-table {
+    width: 600px;
+    overflow-y: auto;
+  }
+
+  .mat-paginator {
+    width: 600px;
+  }
+
+  .ticket-container {
+    overflow-y: scroll;
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: normal;
+  }
+}
