@@ -2,10 +2,7 @@
 # Content 
 1. [Ticket](#ticket-erd-diagram)
 1. [SalesOrder](SalesOrder.md)<br/>
-  1. Inventory <br/>
-    1. Inventory Diagrams<br/>
-    1.1 Inventory Sequence <br/>
-   1.2 Inventory <br/> 
+1. [Inventory](Inventory.md)<br/>
   1. Purchase Order<br/>
     1. Purchaseorder Diagram<br/>
     1.1 Purchaseorder Sequence<br/>
