@@ -5,6 +5,7 @@
 1. [Inventory](Inventory.md)<br/>
 1. [Purchase Order](Purchaseorder.md)<br/>
 1. [Shipments](Shipments.md)<br/>
+1. [Deployment](Deployment.md)<br/>
   1. Section 
     2. System Architecture<br/>
     2.1 Architectural components<br/>
