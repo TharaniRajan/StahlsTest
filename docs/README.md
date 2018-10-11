@@ -3,14 +3,8 @@
 1. [Ticket](#ticket-erd-diagram)
 1. [SalesOrder](SalesOrder.md)<br/>
 1. [Inventory](Inventory.md)<br/>
-  1. Purchase Order<br/>
-    1. Purchaseorder Diagram<br/>
-    1.1 Purchaseorder Sequence<br/>
-   1.2 Purchaseorder <br/>
-  1. Shipments<br/>
-    1. Shipments Diagram<br/>
-   1.1 Shipments Sequence<br/>
-  1.2 Shipments <br/>
+1. [Purchase Order](Purchaseorder.md)<br/>
+1. [Shipments](Shipments.md)<br/>
   1. Section 
     2. System Architecture<br/>
     2.1 Architectural components<br/>
