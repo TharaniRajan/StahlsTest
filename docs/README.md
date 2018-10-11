@@ -4,7 +4,7 @@
 1. SalesOrder<br/>
     1. SalesOrder Diagrams<br/>
     1.1 [Salesorder Sequence](#salesorder-sequence-diagram)<br/>
-    1.1.2 [Salesorder Qrganization Sequence](#salesorder-organization-sequence-diagram)
+    1.1.2 [Salesorder Qrganization Sequence](#salesorder-organization-sequence-diagram)<br/>
    1.2 [Salesorder](#salesorder-backend)
   1. Inventory <br/>
     1. Inventory Diagrams<br/>
