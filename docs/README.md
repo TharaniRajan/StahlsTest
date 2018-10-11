@@ -4,6 +4,7 @@
 1. SalesOrder<br/>
     1. SalesOrder Diagrams<br/>
     1.1 [Salesorder Sequence](#salesorder-sequence-diagram)<br/>
+    1.1.2 [Salesorder Qrganization Sequence](#salesorder-organization-sequence-diagram)
    1.2 [Salesorder](#salesorder-backend)
   1. Inventory <br/>
     1. Inventory Diagrams<br/>
@@ -51,7 +52,7 @@
       
 
 ### SalesOrder Sequence Diagram
-![Test](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).jpg?raw=true"Test")
+![AdminFlow](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).jpg?raw=true"AdminFlow")
 
 ## Salesorder Backend 
 
@@ -77,3 +78,7 @@
   <br/>
 **Get Request of Url (api/SalesOrder/get/:OrderID)**<br/>
   Gets the specific SalesOrder data. The process starts with the **Router** which is **get/:OrderId/** which pass the to the **Salesorderrouter** which then goes to the controller file **controller.getSalesOrderById()** method which gets the request value and passes to the service file which is **service.getSalesOrderById()** method and from there it goes to the DAO file in the **dao.getSalesOrderById()** and in the DAO we point the model file of the **SalesOrder.js** file and find that requested orderid.
+
+
+### SalesOrder Organization Sequence Diagram
+![OrganizationFlow](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ORGANIZATION).jpg?raw=true"OrganizationFlow")
