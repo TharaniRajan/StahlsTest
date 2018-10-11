@@ -5,9 +5,18 @@
     1. SalesOrder Diagrams<br/>
     1.1 [Salesorder Sequence](#salesorder-sequence-diagram)<br/>
    1.2 [Salesorder](#salesorder-backend)
-  1. Section 1. Overview<br/>
-    1.1 Purpose<br/>
-    1.2 Scope <br/>
+  1. Inventory <br/>
+    1. Inventory Diagrams<br/>
+    1.1 Inventory Sequence <br/>
+   1.2 Inventory <br/> 
+  1. Purchase Order<br/>
+    1. Purchaseorder Diagram<br/>
+    1.1 Purchaseorder Sequence<br/>
+   1.2 Purchaseorder <br/>
+  1. Shipments<br/>
+    1. Shipments Diagram<br/>
+   1.1 Shipments Sequence<br/>
+  1.2 Shipments <br/>
   1. Section 
     2. System Architecture<br/>
     2.1 Architectural components<br/>
