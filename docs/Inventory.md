@@ -4,8 +4,8 @@
     1. Inventory Diagrams<br/>
     1.1 [Inventory Sequence](#inventory-sequence-diagram)<br/>
     1.1.2 [Inventory Qrganization Sequence](#inventory-organization-sequence-diagram)<br/>
-  1.2 [Inventory Admin_Flow](#inventory-backend)<br/>
-  1.3 [Inventory Organization_Flow](#inventory-by-organization-backend)</br>
+  1.2 [Inventory Admin_Flow](#inventory-admin_flow)<br/>
+  1.3 [Inventory Organization_Flow](#inventory-organization_flow)</br>
    <br/>
 
 ## Inventory Sequence Diagram
