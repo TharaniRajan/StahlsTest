@@ -44,7 +44,7 @@
 ### SalesOrder Sequence Diagram
 ![Test](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/salesOrderSequenceDiagram(ADMIN).jpg?raw=true"Test")
 
-## SalesOrder Backend 
+## Salesorder Backend 
 
  **Get Request of Url(api/SalesOrder/getsalesordercountname)** <br/>
  Gets all the status count of the order from the backend.<br/>The process starts with **Salesorderrouter** which points to the controller file **controller.getcountbystatusname()** method where it takes the request and passes it to the service file of **service.getcountbystatusname()** and from service goes to the DAO file in **dao.getcountbystatusname()** and in the DAO file we use the **model** of salesorder from **SalesOrder.js** file and store the values to the database.
