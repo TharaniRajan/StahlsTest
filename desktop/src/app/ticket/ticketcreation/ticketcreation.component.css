@@ -231,6 +231,10 @@
     width: 80vw;
   }
 
+  .textAreaField textarea {
+    margin-top: 20px;
+  }
+
   .ticket-container {
     overflow-y: scroll;
   }
