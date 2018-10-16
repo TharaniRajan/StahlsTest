@@ -7,6 +7,8 @@
 1. [Shipments](Shipments.md)<br/>
 1. [Deployment](Deployment.md)<br/>
 1. [Invoice](Invoices.md)<br/>
+1. [Organization](Organization.md)<br/>
+1. [User](User.md)<br/>
   1. Section 
     2. System Architecture<br/>
     2.1 Architectural components<br/>
