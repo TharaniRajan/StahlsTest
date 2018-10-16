@@ -11,6 +11,15 @@
 ## Shipments ERD Diagram
 
 ![ERD](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Shipments%20ER%20Diagaram.jpg?raw=true"ERD")
+
+## ShipmentItem ERD Diagram
+
+![ERD1](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/ShipmentItems%20ER%20Diagram.jpg?raw=true"ERD1")
+
+## PackedItem ERD Diagram
+
+![ERD2](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/PackedItems%20ER%20Diagram.jpg?raw=true"ERD2")
+
    <br/>
 ## Shipments Sequence Diagram
 The list of file involved in the Shipments are 
