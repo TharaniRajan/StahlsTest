@@ -14,7 +14,7 @@
 
 ## Inventory ERD Diagram 
 
-![ERD](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Finished%20Goods%20ER%20Diagram.jpg?raw=true"ERD")
+![ERD](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/InventorySequenceDiagram(Admin_Flow)%20(1).jpg?raw=true"ERD")
 
 ## Inventory Sequence Diagram
 The list files involed in the Sequence Diagram are
