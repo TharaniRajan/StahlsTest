@@ -3,8 +3,8 @@
 1. SalesOrder<br/>
     1. SalesOrder Diagrams<br/>
     1.1 [Salesorder ERD](#salesorder-erd-daigram)<br/>
-    1.2 [Salesorder Item ERD](#salesorder-item-erd)<br/>
-    1.3 [Salesorder Details ERD](#salesorder-details-erd)<br/>
+    1.2 [Salesorder Item ERD](#salesorder-item-erd-diagram)<br/>
+    1.3 [Salesorder Details ERD](#salesorder-details-erd-diagram)<br/>
     1.1 [Salesorder Sequence](#salesorder-sequence-diagram)<br/>
     1.1.2 [Salesorder Organization Sequence](#salesorder-organization-sequence-diagram)<br/>
   
