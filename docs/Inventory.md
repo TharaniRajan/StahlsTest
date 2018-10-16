@@ -2,10 +2,15 @@
 # Content 
 1. Inventory<br/>
     1. Inventory Diagrams<br/>
+    1.1 [Inventory Items ERD](#inventory-item-erd-diagram)<br/>
     1.2 [Inventroy ERD](#inventory-erd-diagram)<br/>
     1.1 [Inventory Sequence](#inventory-sequence-diagram)<br/>
     1.1.2 [Inventory Qrganization Sequence](#inventory-organization-sequence-diagram)<br/>
    <br/>
+
+## Inventory Item ERD Diagram 
+
+![ERD1](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Finished%20Goods%20Adjustment%20ER%20Diagram.jpg?raw=true"ERD1")
 
 ## Inventory ERD Diagram 
 
