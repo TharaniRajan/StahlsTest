@@ -3,6 +3,8 @@
 1. SalesOrder<br/>
     1. SalesOrder Diagrams<br/>
     1.1 [Salesorder ERD](#salesorder-erd-daigram)<br/>
+    1.2 [Salesorder Item ERD](#salesorder-item-erd)<br/>
+    1.3 [Salesorder Details ERD](#salesorder-details-erd)<br/>
     1.1 [Salesorder Sequence](#salesorder-sequence-diagram)<br/>
     1.1.2 [Salesorder Organization Sequence](#salesorder-organization-sequence-diagram)<br/>
   
@@ -11,6 +13,14 @@
 ## SalesOrder ERD Daigram
 
 ![ERD](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/SalesOrder%20ER%20Diagram.jpg?raw=true"ERD")
+
+## Salesorder Item ERD Diagram
+
+![ERD1](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/SalesOrderItems%20ER%20Diagaram.jpg?raw=true"ERD1")
+
+## Salesorder Details ERD Diagram
+
+![ERD2](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/SalesOrderDetails%20ER%20Diagram.jpg?raw=true"ERD2")
 
 ## SalesOrder Sequence Diagram
 The list of files involved in Admin Sequence Diagram
