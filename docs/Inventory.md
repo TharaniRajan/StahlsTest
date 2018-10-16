@@ -5,7 +5,7 @@
     1.1 [Inventory Items ERD](#inventory-item-erd-diagram)<br/>
     1.2 [Inventroy ERD](#inventory-erd-diagram)<br/>
     1.1 [Inventory Sequence](#inventory-sequence-diagram)<br/>
-    1.1.2 [Inventory Qrganization Sequence](#inventory-organization-sequence-diagram)<br/>
+    1.1.2 [Inventory Organization Sequence](#inventory-organization-sequence-diagram)<br/>
    <br/>
 
 ## Inventory Item ERD Diagram 
