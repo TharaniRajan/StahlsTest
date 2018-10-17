@@ -72,8 +72,16 @@ The Stahls application utilizes the components below for development, build/depl
     -  Jenkins
 
 ### Application Components
+The Stahl's portal consists of an AngularJS UI and and three distict NodeJs applications whose names and purpose is explained below.
 
-here is where you explain the 3 apps and each rest service with the  3 layers
+Node application one - StahlsPortal
+
+Node application  two - AnalyticsService
+
+Node application  three - SynchService
+
+
+
 
 ### Ticket ERD Diagram
 ![ERD](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.jpg?raw=true"ERD")
