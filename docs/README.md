@@ -14,17 +14,6 @@
 1. [Invoice](Invoices.md)<br/>
 1. [Organization](Organization.md)<br/>
 1. [User](User.md)<br/>
-  1. Section 
-    2. System Architecture<br/>
-    2.1 Architectural components<br/>
-  1. Section 
-    3. Data Dictionary<br/>
-  1. Section 
-    5. Data Design<br/>
-    5.1 Persistent/Static Data<br/> 
-    5.2 Transient/Dynamic Data<br/> 
-    5.3 External Interface Data<br/> 
-    5.4 Transformation of Data<br/>
  1. Section 
     6. User Interface Design<br/>
     6.1 User Interface Design Overview<br/>
