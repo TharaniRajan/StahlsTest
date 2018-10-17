@@ -2,9 +2,9 @@
 # Content 
 1. [Overview](#overview)<br/>
 1. System Architecture<br/>
-1.1 [Salesorder ERD](#salesorder-erd-daigram)<br/>
-    1.2 [Salesorder Item ERD](#salesorder-item-erd-diagram)<br/>
-    1.3 [Salesorder Details ERD](#salesorder-details-erd-diagram)<br/>
+2.1 [sub section 2.1](#salesorder-erd-daigram)<br/>
+    2.2 [sub section 2.2](#salesorder-item-erd-diagram)<br/>
+    2.3 [sub section 2.3](#salesorder-details-erd-diagram)<br/>
  
     
 1. [Tickets](#ticket-erd-diagram)
