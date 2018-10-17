@@ -53,7 +53,8 @@ An advanatge of this method of integration is that it allows for other Stahls sy
 
 ### Technical Components
 The Stahls application utilizes the components below for development, build/deploy and runtime.
-
+1 [Development Language]
+    1.1 [Javascript]
 
 ### Ticket ERD Diagram
 ![ERD](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.jpg?raw=true"ERD")
