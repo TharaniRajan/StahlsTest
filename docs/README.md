@@ -74,11 +74,11 @@ The Stahls application utilizes the components below for development, build/depl
 ### Application Components
 The Stahl's portal consists of an AngularJS UI and and three distict NodeJs applications whose names and purpose is explained below.
 
-Node application one - StahlsPortal
+#Node application one - StahlsPortal
 
-Node application  two - AnalyticsService
+#Node application  two - AnalyticsService
 
-Node application  three - SynchService
+#Node application  three - SynchService
 
 
 
