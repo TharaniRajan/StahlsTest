@@ -58,7 +58,20 @@ The Stahls application utilizes the components below for development, build/depl
 - Frameworks
     -  AngularJS version 5
     -  NodeJs version 8?
-    
+- Libraries - front end
+    - bootstrap - versions
+- Libraries - back end
+    -  Sequalize what version?
+    -  we used a security
+    -  have the guys add the rest
+-  Testing
+    -  Jmeter version?
+    -  Jasmine
+    -  Karma
+-  Build and Deployment
+    -  Jenkins
+
+
 
 ### Ticket ERD Diagram
 ![ERD](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.jpg?raw=true"ERD")
