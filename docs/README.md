@@ -33,20 +33,22 @@
 
 
 ### Overview
-line 1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</br>
-line 2 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC</br>
-line 3 TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT</br>
-line 4 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</br>
-line 5 dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd<br/>
+line 1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+line 2 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+line 3 TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+line 4 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+line 5 dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
 
 ### System Architecture
 jaskdhfljkasdhfjklahsdfjkhasjkldfhajklsdfhjklasdhfjklahsdfjhasdjkfhajsdkfhlajksdhfljkashdfjahsdlfjasdh
 ashdfajksdhfjkasdhfjklahsdfjkhasdjklfhajlksdfhajsdfhajlksdhflajsdhfljashdfljkahsdlfjkhalsdfjkhaljdfhlak
 
 ### High Level Components
-The Stahls application is depicted by three main components.
+The Stahls application is composed of three main components depicted by the diagram below.
 
 ![HighLevelComps](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/high-level-components.jpg?raw=true"HighLevelComps")
+
+The interaction/intgeration between the PolyPM system and the Stahs Portal application is via an MS Sql PaaS database.
 
 ### Ticket ERD Diagram
 ![ERD](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.jpg?raw=true"ERD")
