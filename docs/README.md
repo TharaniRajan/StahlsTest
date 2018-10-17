@@ -1,6 +1,6 @@
 ![Logo](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/favicon.ico?raw=true"Logo")
 # Content 
-1. [Overview](#ticket-erd-diagram)<br/>
+1. [Overview](#overview)<br/>
 1. System Architecture
 1. [Tickets](#ticket-erd-diagram)
 1. [SalesOrder](SalesOrder.md)<br/>
