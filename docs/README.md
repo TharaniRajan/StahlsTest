@@ -2,10 +2,11 @@
 # Content 
 1. [Overview](#overview)<br/>
 1. System Architecture<br/>
- 1. Tests stuff<br/>
-    1.1 [Salesorder ERD](#salesorder-erd-daigram)<br/>
+1.1 [Salesorder ERD](#salesorder-erd-daigram)<br/>
     1.2 [Salesorder Item ERD](#salesorder-item-erd-diagram)<br/>
     1.3 [Salesorder Details ERD](#salesorder-details-erd-diagram)<br/>
+ 
+    
 1. [Tickets](#ticket-erd-diagram)
 1. [SalesOrder](SalesOrder.md)<br/>
 1. [Inventory](Inventory.md)<br/>
