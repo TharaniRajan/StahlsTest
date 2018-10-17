@@ -1,7 +1,7 @@
 ![Logo](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/favicon.ico?raw=true"Logo")
 # Content 
 1. [Overview](#overview)
-1. System Architecture
+1. System Architecture<br/>
 2.1 [sub section 2.1](#salesorder-erd-daigram)<br/>
     2.2 [sub section 2.2](#salesorder-item-erd-diagram)<br/>
     2.3 [sub section 2.3](#salesorder-details-erd-diagram)<br/>
