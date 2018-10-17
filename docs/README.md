@@ -53,7 +53,7 @@ An advanatge of this method of integration is that it allows for other Stahls sy
 
 ### Technical Components
 The Stahls application utilizes the components below for development, build/deploy and runtime.<br/>
-1 [Development Language]
+1 [Development Language]<br/>
     1.1 [Javascript]
 
 ### Ticket ERD Diagram
