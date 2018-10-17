@@ -39,9 +39,12 @@ line 3 TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 line 4 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</br>
 line 5 dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd<br/>
 
-#### System Architecture
+### System Architecture
+jaskdhfljkasdhfjklahsdfjkhasjkldfhajklsdfhjklasdhfjklahsdfjhasdjkfhajsdkfhlajksdhfljkashdfjahsdlfjasdh
+ashdfajksdhfjkasdhfjklahsdfjkhasdjklfhajlksdfhajsdfhajlksdhflajsdhfljashdfljkahsdlfjkhalsdfjkhaljdfhlak
 
-### high-level-components
+### High Level Components
+The Stahls application is depicted by three main components.
 
 
 ### Ticket ERD Diagram
