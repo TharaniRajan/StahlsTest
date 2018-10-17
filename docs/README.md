@@ -3,7 +3,7 @@
 1. [Overview](#overview)
 1. [System Architecture](#system-architecture)<br/>
 2.1 [High Level Components](#high-level-components)<br/>
-    2.2 [sub section 2.2](#salesorder-item-erd-diagram)<br/>
+    2.2 [Technical Componets](#technical-components)<br/>
     2.3 [sub section 2.3](#salesorder-details-erd-diagram)<br/>
 1. [Tickets](#ticket-erd-diagram)
 1. [SalesOrder](SalesOrder.md)
@@ -49,6 +49,11 @@ The interaction/intgeration between the PolyPM system and the Stahs Portal appli
 An advanatge of this method of integration is that it allows for other Stahls system that which to display information on the portal to do so by utilizing the same PaaS DB
 
 ![HighLevelComps](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/high-level-components.jpg?raw=true"HighLevelComps")
+
+
+### Technical Components
+The Stahls application utilizes the components below for development, build/deploy and runtime.
+
 
 ### Ticket ERD Diagram
 ![ERD](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.jpg?raw=true"ERD")
