@@ -2,7 +2,7 @@
 # Content 
 1. [Overview](#overview)
 1. [System Architecture](#system-architecture)<br/>
-2.1 [sub section 2.1](#salesorder-erd-daigram)<br/>
+2.1 [High Level Components](#high-level-components)<br/>
     2.2 [sub section 2.2](#salesorder-item-erd-diagram)<br/>
     2.3 [sub section 2.3](#salesorder-details-erd-diagram)<br/>
 1. [Tickets](#ticket-erd-diagram)
@@ -40,6 +40,9 @@ line 4 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 line 5 dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd<br/>
 
 #### System Architecture
+
+### high-level-components
+
 
 ### Ticket ERD Diagram
 ![ERD](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.jpg?raw=true"ERD")
