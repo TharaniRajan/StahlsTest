@@ -46,7 +46,7 @@ ashdfajksdhfjkasdhfjklahsdfjkhasdjklfhajlksdfhajsdfhajlksdhflajsdhfljashdfljkahs
 ### High Level Components
 The Stahls application is depicted by three main components.
 
-https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/high-level-components.jpg
+![HighLevelComps](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/high-level-components.jpg?raw=true"HighLevelComps")
 
 ### Ticket ERD Diagram
 ![ERD](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Tickets%20ER%20Diagram.jpg?raw=true"ERD")
