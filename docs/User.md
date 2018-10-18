@@ -1,6 +1,8 @@
 ![Logo](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/favicon.ico?raw=true"Logo")
 # Content 
-1. User <br/>
+1. User, Authentication and Authorirzation <br/>
+
+
   1. User Diagram <br/>
   1. [User Sequence](#user-sequence)<br/>
   1. [User ERD](#user-erd)<br/>
