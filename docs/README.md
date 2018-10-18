@@ -42,7 +42,7 @@ The business objective of the Stahls Portal system is to provide clients of Stah
 ### High Level Components
 The Stahls application is composed of three main components depicted by the diagram below.
 The interaction/integration between the PolyPM system and the Stahs Portal application is via an MS Sql PaaS database.
-An advanatge of this method of integration is that it allows for other Stahls system that which to display information on the portal to do so by utilizing the same PaaS DB
+An advanatge of this method of integration is that it allows for other Stahls systems, that which to display information on the portal, to do so by utilizing the same PaaS DB
 
 ![HighLevelComps](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/high-level-components.jpg?raw=true"HighLevelComps")
 
