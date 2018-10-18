@@ -1,7 +1,7 @@
 ![Logo](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/favicon.ico?raw=true"Logo")
 # Content 
 1. User, Authentication and Authorirzation <br/>
-
+#### _ we need to describe that we are going to talk about how we autheticate the users and provide a sequence digram of this
 
   1. User Diagram <br/>
   1. [User Sequence](#user-sequence)<br/>
