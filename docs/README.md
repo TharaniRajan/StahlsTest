@@ -5,7 +5,7 @@
 2.1 [High Level Components](#high-level-components)<br/>
     2.2 [Technical Componets](#technical-components)<br/>
     2.3 [Application Components](#application-components)<br/>
-1. Application Functions - Technical Description
+1. Application Functions - Technical Description<br/>
 3.1 [Tickets](#ticket-erd-diagram)
 3.2 [SalesOrder](SalesOrder.md)
 3.3 [Inventory](Inventory.md)
