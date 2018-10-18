@@ -33,11 +33,9 @@
 
 
 ### Overview
-line 1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-line 2 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-line 3 TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-line 4 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-line 5 dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+The purpose of this document is to describe the architecture and high level technical specifications of the Stahls Portal system. 
+
+The business objective of the Stahls Portal system is to provide clients of Stahls with a one stop shop, to view their invoroty, orders, and enter problem tickets.
 
 ### System Architecture
 jaskdhfljkasdhfjklahsdfjkhasjkldfhajklsdfhjklasdhfjklahsdfjhasdjkfhajsdkfhlajksdhfljkashdfjahsdlfjasdh
@@ -91,14 +89,14 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 At a high level all of the NodeJs service to make up the three applications are composed of three layers who's function are listed below.
 
 ###### Layer One - Controller
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+The controller layer handles the interactions with incoming requests, and can do pre-processimhg of the request, if needed before handing/calling the service layer and passing the incoing request.
 
 ###### Layer two - Service
 
-This is reposible for any business logic that must need to be performed by the the function and to call and aggrgate any data by calling the data access layer (DAO)
+This is reposible for any business logic that needs to be performed by the business function and to call and aggregate any data by calling the data access layer (DAO)
 
 ###### Layer three - DAO
-the data access layer
+the data access layers function is to interact with the data base or any other future data repositories such as other services. Once the data access layer obtains the necessary informatiom return the information to the calling service layer.
 
 
 
