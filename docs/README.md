@@ -13,7 +13,7 @@
 1. [Deployment](Deployment.md)<br/>
 1. [Invoice](Invoices.md)<br/>
 1. [Organization](Organization.md)<br/>
-1. [User](User.md)<br/>
+1. [Users, Authentication and Authorization](User.md)<br/>
  1. Section 
     6. User Interface Design<br/>
     6.1 User Interface Design Overview<br/>
