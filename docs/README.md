@@ -6,16 +6,17 @@
     2.2 [Technical Componets](#technical-components)<br/>
     2.3 [Application Components](#application-components)<br/>
 1. Application Functions - Technical Description
-1. [Tickets](#ticket-erd-diagram)
-1. [SalesOrder](SalesOrder.md)
-1. [Inventory](Inventory.md)
-1. [Purchase Order](Purchaseorder.md)
-1. [Shipments](Shipments.md)<br/>
+3.1 [Tickets](#ticket-erd-diagram)
+3.2 [SalesOrder](SalesOrder.md)
+3.3 [Inventory](Inventory.md)
+3.4 [Purchase Order](Purchaseorder.md)
+3.5 [Shipments](Shipments.md)<br/>
+3.7 [Invoice](Invoices.md)<br/>
+3.8 [Organization](Organization.md)<br/>
+3.9 [Users, Authentication and Authorization](User.md)<br/>
 1. [Deployment](Deployment.md)<br/>
-1. [Invoice](Invoices.md)<br/>
-1. [Organization](Organization.md)<br/>
-1. [Users, Authentication and Authorization](User.md)<br/>
- 1. Section 
+
+1. Section 
     6. User Interface Design<br/>
     6.1 User Interface Design Overview<br/>
     6.2 User Interface Navigation Hierarchy<br/>
