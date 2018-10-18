@@ -444,6 +444,48 @@ margin-bottom: -6%;
   .mat-paginator {
     width: 600px;
   }
+
+  .mat-left,
+  .mat-right {
+    margin: 0 !important;
+    padding: 16px 24px !important;
+    max-width: 100% !important;
+    display: block !important;
+    float: none !important;
+    width: 100% !important;
+    top: 0;
+  }
+
+  .mat-left .mat-card-content {
+    margin-left: 0 !important;
+  }
+
+  .mat-left h5 {
+    text-align: left !important;
+  }
+
+  .mat-right {
+    margin-top: 10px !important;
+  }
+  
+  .mat-right .mat-card-content {
+    justify-content: space-around;
+  }
+
+  .mat-right .mat-no {
+    padding-left: 0 !important;
+    text-align: center;
+  }
+
+  .mat-right .new-btn {
+    margin-left: 0 !important;
+  }
+
+  .mat-right .badge {
+    margin: 5px !important;
+    position: relative;
+    display: block;
+  }
   
   .ng-tns-c2-0 {
     text-align: center;
