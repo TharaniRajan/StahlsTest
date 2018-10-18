@@ -85,3 +85,21 @@ The SynchService is responsible for updating the table/data base used by the Sta
 
 ##### AngularJS
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+#### Application Components Structure
+##### NodeJs
+At a high level all of the NodeJs service to make up the three applications are composed of three layers who's function are listed below.
+
+###### Layer One - Controller
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+###### Layer two - Service
+
+This is reposible for any business logic that must need to be performed by the the function and to call and aggrgate any data by calling the data access layer (DAO)
+
+###### Layer three - DAO
+the data access layer
+
+
+
+
