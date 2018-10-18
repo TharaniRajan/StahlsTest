@@ -53,22 +53,22 @@ An advanatge of this method of integration is that it allows for other Stahls sy
 
 ### Technical Components
 The Stahls application utilizes the components below for development, build/deploy and runtime.<br/>
-- #### Development Language<br/>
+- ###### Development Language
     - Javscript
-- #### Frameworks
+- ###### Frameworks
     -  AngularJS version 5
     -  NodeJs version 8?
-- Libraries - front end
+- ###### Libraries - front end
     - bootstrap - versions
-- Libraries - back end
+- ###### Libraries - back end
     -  Sequalize what version?
     -  we used a security
     -  have the guys add the rest
--  Testing
+-  ###### Testing
     -  Jmeter version?
     -  Jasmine
     -  Karma
--  Build and Deployment
+-  ###### Build and Deployment
     -  Jenkins
 
 ### Application Components
