@@ -53,9 +53,9 @@ An advanatge of this method of integration is that it allows for other Stahls sy
 
 ### Technical Components
 The Stahls application utilizes the components below for development, build/deploy and runtime.<br/>
-- Development Language<br/>
+- #### Development Language<br/>
     - Javscript
-- Frameworks
+- #### Frameworks
     -  AngularJS version 5
     -  NodeJs version 8?
 - Libraries - front end
