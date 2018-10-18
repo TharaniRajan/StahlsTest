@@ -73,14 +73,15 @@ The Stahls application utilizes the components below for development, build/depl
 
 ### Application Components
 The Stahl's portal consists of an AngularJS UI and and three distict NodeJs applications whose names and purpose are explained below.
-
-#### Node application one - StahlsPortal
+##### NodeJs
+###### application one - StahlsPortal
 The StalhsPortal application is responsible for handling all of functionality of the Portal project _**except**_ the landing page that displays the graphs/analytics for the system
 
-#### Node application  two - AnalyticsService
+###### application  two - AnalyticsService
 The Analytics application's purpose is to handle the landing page of the application and seperate out the procesing of the analytics function. The reason for having a seperate application, to only handle analytics, is so that this function can be scaled seperately as needed. Furtheremore, analytics in general, can be complex and changing, this seperation allows for a portion of the overall sysem to change without affecting the base functionality.
 
-#### Node application  three - SynchService
+###### application  three - SynchService
 The SynchService is responsible for updating the table/data base used by the StalhsPortal, and AnalyticsService. 
 
-
+##### AngularJS
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
