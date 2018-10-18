@@ -35,7 +35,7 @@
 ### Overview
 The purpose of this document is to describe the architecture and high level technical specifications of the Stahls Portal system. 
 
-The business objective of the Stahls Portal system is to provide clients of Stahls with a one stop shop, to view their invoroty, orders, and enter problem tickets.
+The business objective of the Stahls Portal system is to provide clients of Stahls with a one stop shop, to view their inventory, orders, and enter problem tickets.
 
 ### System Architecture
 jaskdhfljkasdhfjklahsdfjkhasjkldfhajklsdfhjklasdhfjklahsdfjhasdjkfhajsdkfhlajksdhfljkashdfjahsdlfjasdh
