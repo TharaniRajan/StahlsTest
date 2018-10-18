@@ -14,6 +14,7 @@
 3.7 [Invoice](Invoices.md)<br/>
 3.8 [Organization](Organization.md)<br/>
 3.9 [Users, Authentication and Authorization](User.md)<br/>
+3.10[Settings](User.md)<br/>
 1. [Deployment](Deployment.md)<br/>
 
 1. Section 
