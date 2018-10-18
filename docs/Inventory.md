@@ -61,4 +61,4 @@ The list files involed in the Sequence Diagram are
 1. getInventoryFilterValueByCompanyCode <br/>
 1. getinventoryitembyid <br/>
 
-![Organization](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/InventorySequenceDiagram(Organization_Flow).jpg?raw=true"Organization")
+![Organization](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/InventorySequenceDiagram(Organization_Flow)%20(1).jpg?raw=true"Organization")
