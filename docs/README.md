@@ -84,17 +84,17 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 #### Application Components Structure
 ##### NodeJs
-At a high level all of the NodeJs service to make up the three applications are composed of three layers who's function are listed below.
+At a high level, all of the NodeJs services that make up the three applications are composed of three layers who's functions are listed below.
 
 ###### Layer One - Controller
-The controller layer handles the interactions with incoming requests, and can do pre-processimhg of the request, if needed before handing/calling the service layer and passing the incoing request.
+The controller layer handles the interactions with incoming requests, and can do pre-processing of the request, if needed, before handing/calling the business/service layer and passing the incoming request.
 
 ###### Layer two - Service
 
 This is reposible for any business logic that needs to be performed by the business function and to call and aggregate any data by calling the data access layer (DAO)
 
 ###### Layer three - DAO
-the data access layers function is to interact with the data base or any other future data repositories such as other services. Once the data access layer obtains the necessary informatiom return the information to the calling service layer.
+the data access layers function is to interact with the data base or any other future data repositories such as other services. Once the data access layer obtains the necessary informatiom it returns the information to the calling service layer.
 
 
 
