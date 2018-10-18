@@ -74,7 +74,7 @@ The Stahl's portal consists of an AngularJS UI and and three distict NodeJs appl
 The StalhsPortal application is responsible for handling all of functionality of the Portal project _**except**_ the landing page that displays the graphs/analytics for the system
 
 ###### application  two - AnalyticsService
-The Analytics application's purpose is to handle the landing page of the application and seperate out the procesing of the analytics function. The reason for having a seperate application, to only handle analytics, is so that this function can be scaled seperately as needed. Furtheremore, analytics in general, can be complex and changing, this seperation allows for a portion of the overall sysem to change without affecting the base functionality.
+The Analytics application's purpose is to handle the landing page of the application and seperate out the procesing of the analytics function. The reason for having a seperate application, to only handle analytics, is so that this function can be scaled seperately as needed. Furtheremore, analytics in general, can be complex and changing, this seperation allows for a portion of the overall system to change without affecting the base functionality.
 
 ###### application  three - SynchService
 The SynchService is responsible for updating the table/data base used by the StalhsPortal, and AnalyticsService. 
