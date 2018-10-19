@@ -17,6 +17,7 @@
 3.10 [Settings](Settings.md)<br/>
 1. [Infrastructure](Deployment.md)<br/>
    4.1 [Azure configuration](Deployment.md)<br/>
+        4.1.1 [Application logs](Deployment.md)<br/>
    4.2.[Deployment](Deployment.md)<br/>
 
 1. Section 
