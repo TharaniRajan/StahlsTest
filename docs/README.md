@@ -97,7 +97,7 @@ The controller layer handles the interactions with incoming requests, and can do
 This is reposible for any business logic that needs to be performed by the business function and to call and aggregate any data by calling the data access layer (DAO)
 
 ###### Layer Four - DAO
-the data access layers function is to interact with the data base or any other future data repositories such as other services. Once the data access layer obtains the necessary informatiom it returns the information to the calling service layer.
+The data access layers function is to interact with the data base or any other future data repositories such as other services. Once the data access layer obtains the necessary informatiom it returns the information to the calling service layer.
 
 
 
