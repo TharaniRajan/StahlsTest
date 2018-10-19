@@ -79,7 +79,11 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 #### Application Components Structure
 ##### NodeJs
-At a high level, all of the NodeJs services that make up the three applications are composed of three layers who's functions are listed below.
+At a high level, all of the NodeJs services that make up the three applications are composed of four layers who's functions are listed below.
+
+# DAN TO INSERT A SEQUENCE DIAGRAM IN HERE
+
+###### Layer One - Router
 
 ###### Layer One - Controller
 The controller layer handles the interactions with incoming requests, and can do pre-processing of the request, if needed, before handing/calling the business/service layer and passing the incoming request.
