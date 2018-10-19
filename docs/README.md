@@ -6,7 +6,7 @@
     2.2 [Technical Componets](#technical-components)<br/>
     2.3 [Application Components](#application-components)<br/>
 1. Application Functions - Technical Description<br/>
-3.1 [Tickets](#ticket-erd-diagram)<br/>
+3.1 [Tickets](Tickets.md)<br/>
 3.2 [SalesOrder](SalesOrder.md)<br/>
 3.3 [Inventory](Inventory.md)<br/>
 3.4 [Purchase Order](Purchaseorder.md)<br/>
