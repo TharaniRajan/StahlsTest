@@ -51,6 +51,7 @@ The Stahls application utilizes the components below for development, build/depl
 - ###### Libraries - front end
     - bootstrap - versions
 - ###### Libraries - back end
+    -  Express -version??
     -  Sequalize what version?
     -  we used a security
     -  have the guys add the rest
@@ -79,11 +80,12 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 #### Application Components Structure
 ##### NodeJs
-At a high level, all of the NodeJs services that make up the three applications are composed of four layers who's functions are listed below.
+At a high level, all of the NodeJs services that make up the three applications are composed of four layers depicted in the digram below.
 
-# DAN TO INSERT A SEQUENCE DIAGRAM IN HERE
+![HighLevelComps](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Node-component-arch.jpg.jpg?raw=true"HighLevelComps")
 
 ###### Layer One - Router
+The application uses the nodeJs Express package in order to implement [routes](https://expressjs.com/en/guide/routing.html)
 
 ###### Layer One - Controller
 The controller layer handles the interactions with incoming requests, and can do pre-processing of the request, if needed, before handing/calling the business/service layer and passing the incoming request.
