@@ -46,12 +46,12 @@ The Stahls application utilizes the components below for development, build/depl
 - ###### Development Language
     - Javscript
 - ###### Frameworks
-    -  AngularJS version 5
-    -  NodeJs version 8?
+    -  [Angular](https://angular.io/) version 5
+    -  [NodeJs](https://nodejs.org/en/) version 8?
 - ###### Libraries - front end
     - [bootstrap](https://getbootstrap.com/) - versions
 - ###### Libraries - back end
-    -  Express -version??
+    -  [Express](https://expressjs.com/) -version??
     -  [Passport](http://www.passportjs.org/) what version?
     -  [Sequelize](http://docs.sequelizejs.com/) what version?
     -  we used a security
