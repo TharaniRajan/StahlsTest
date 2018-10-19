@@ -1,9 +1,14 @@
 ![Logo](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/favicon.ico?raw=true"Logo")
+# Overview
+   The inventory or the Finishedgoods in this section explains about the database connectivity and code flow through the sequence diagram.The data for this comes from the P_FinishedGoods which is been handled by the PloyPm.
+   <br/>
 # Content 
 1. Inventory<br/>
-    1. Inventory Diagrams<br/>
+    1. Parent Component<br/>
+    1.1 [Inventroy ERD](#inventory-erd-diagram)<br/>
+    1. Child Component<br/>
     1.1 [Inventory Items ERD](#inventory-item-erd-diagram)<br/>
-    1.2 [Inventroy ERD](#inventory-erd-diagram)<br/>
+    1. Sequence Flow<br/>
     1.1 [Inventory Sequence](#inventory-sequence-diagram)<br/>
     1.1.2 [Inventory Organization Sequence](#inventory-organization-sequence-diagram)<br/>
    <br/>
