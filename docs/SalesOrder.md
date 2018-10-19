@@ -4,7 +4,7 @@
 <br/>
 # Content 
 1. SalesOrder<br/>
-    1. SalesOrder Diagrams<br/>
+   
     1. Parent Component<br/>
     1.1 [Salesorder ERD](#salesorder-erd-daigram)<br/>
     1. Child Component<br/>
