@@ -49,20 +49,21 @@ The Stahls application utilizes the components below for development, build/depl
     -  AngularJS version 5
     -  NodeJs version 8?
 - ###### Libraries - front end
-    - bootstrap - versions
+    - [bootstrap](https://getbootstrap.com/) - versions
 - ###### Libraries - back end
     -  Express -version??
     -  [Passport](http://www.passportjs.org/) what version?
-    -  Sequalize what version?
+    -  [Sequelize](http://docs.sequelizejs.com/) what version?
     -  we used a security
     -  have the guys add the rest
 -  ###### Testing
-    -  Jmeter version?
-    -  Jasmine
-    -  Karma
+    -  [Jmeter](https://jmeter.apache.org/) version?
+    -  [Jasmine](https://jasmine.github.io/)
+    -  [Karma](https://karma-runner.github.io/2.0/index.html)
 -  ###### Build and Deployment
-    -  Jenkins
-    -  Nexus
+    -  [Jenkins](https://jenkins.io/)
+    -  [Nexus](https://www.sonatype.com/nexus-repository-sonatype)
+
 
 ### Application Components
 The Stahl's portal consists of an AngularJS UI and and three distict NodeJs applications whose names and purpose are explained below.
