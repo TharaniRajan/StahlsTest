@@ -1,10 +1,16 @@
 ![Logo](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/favicon.ico?raw=true"Logo")
+# Overview
+   The Salesorder section explains about the Database structure and the code flow and the relationship between SalesorderDetails and SalesorderItems and its bussiness logic.
+<br/>
 # Content 
 1. SalesOrder<br/>
     1. SalesOrder Diagrams<br/>
+    1. Parent Component<br/>
     1.1 [Salesorder ERD](#salesorder-erd-daigram)<br/>
+    1. Child Component<br/>
     1.2 [Salesorder Item ERD](#salesorder-item-erd-diagram)<br/>
     1.3 [Salesorder Details ERD](#salesorder-details-erd-diagram)<br/>
+    1. Sequence Flow <br/>
     1.1 [Salesorder Sequence](#salesorder-sequence-diagram)<br/>
     1.1.2 [Salesorder Organization Sequence](#salesorder-organization-sequence-diagram)<br/>
   
