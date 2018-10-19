@@ -1,7 +1,9 @@
 ![Logo](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/favicon.ico?raw=true"Logo")
+# Overview
+  This section explains about the Organization database structure and code flow through sequence diagram.
+  
 # Content 
 1. Organization <br/>
-  1.1 Organization Diagram <br/>
   1.1.1 [Organization ERD](#organization-erd)<br/>
   1.1.2 [Organization Sequence](#organization-sequence)<br/>
   
