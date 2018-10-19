@@ -20,6 +20,7 @@
        4.1.1. [Application logs](Deployment.md)<br/>
     4.2. [Deployment](Deployment.md)<br/>
     4.3. [Local setup](Deployment.md)<br/>
+1. [Testing](Deployment.md)<br/>
 
 1. Section 
     6. User Interface Design<br/>
