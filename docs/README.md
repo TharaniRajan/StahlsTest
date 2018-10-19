@@ -66,7 +66,7 @@ The Stahls application utilizes the components below for development, build/depl
 
 
 ### Application Components
-The Stahl's portal consists of an AngularJS UI and and three distict NodeJs applications whose names and purpose are explained below.
+The Stahl's portal consists of an Angular UI and and three distict NodeJs applications whose names and purpose are explained below.
 ##### NodeJs
 ###### application one - StahlsPortal
 The StalhsPortal application is responsible for handling all of functionality of the Portal project _**except**_ the landing page that displays the graphs/analytics for the system
