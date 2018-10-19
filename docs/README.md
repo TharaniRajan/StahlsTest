@@ -22,10 +22,6 @@
     4.3. [Local setup](Deployment.md)<br/>
 1. [Testing](Deployment.md)<br/>
 
-
-9. Requirements Traceability Matrix<br/>
-
-
 ### Overview
 The purpose of this document is to describe the architecture and high level technical specifications of the Stahls Portal system. 
 
