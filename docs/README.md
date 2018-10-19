@@ -22,22 +22,8 @@
     4.3. [Local setup](Deployment.md)<br/>
 1. [Testing](Deployment.md)<br/>
 
-1. Section 
-    6. User Interface Design<br/>
-    6.1 User Interface Design Overview<br/>
-    6.2 User Interface Navigation Hierarchy<br/>
-    6.3 User Function Categories(or Use Cases)<br/>
- 1. Section
-    7. Other Interfaces<br/>
-    7.x Interface X
- 1. Section 
-    8. Other Design Feature<br/>
- 1. Section
-    9. Requirements Traceability Matrix<br/>
- 1. Section
-    10. References<br/>
- 1. Section
-    11. Appendices<br/>
+
+9. Requirements Traceability Matrix<br/>
 
 
 ### Overview
