@@ -52,6 +52,7 @@ The Stahls application utilizes the components below for development, build/depl
     - bootstrap - versions
 - ###### Libraries - back end
     -  Express -version??
+    -  [Passport](http://www.passportjs.org/) what version?
     -  Sequalize what version?
     -  we used a security
     -  have the guys add the rest
