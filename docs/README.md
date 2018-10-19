@@ -60,6 +60,7 @@ The Stahls application utilizes the components below for development, build/depl
     -  Karma
 -  ###### Build and Deployment
     -  Jenkins
+    -  Nexus
 
 ### Application Components
 The Stahl's portal consists of an AngularJS UI and and three distict NodeJs applications whose names and purpose are explained below.
