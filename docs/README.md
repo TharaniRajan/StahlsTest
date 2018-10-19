@@ -89,14 +89,14 @@ At a high level, all of the NodeJs services that make up the three applications 
 ###### Layer One - Router
 The application uses the nodeJs Express package in order to implement [routes](https://expressjs.com/en/guide/routing.html)
 
-###### Layer One - Controller
+###### Layer Two - Controller
 The controller layer handles the interactions with incoming requests, and can do pre-processing of the request, if needed, before handing/calling the business/service layer and passing the incoming request.
 
-###### Layer two - Service
+###### Layer Three - Service
 
 This is reposible for any business logic that needs to be performed by the business function and to call and aggregate any data by calling the data access layer (DAO)
 
-###### Layer three - DAO
+###### Layer Four - DAO
 the data access layers function is to interact with the data base or any other future data repositories such as other services. Once the data access layer obtains the necessary informatiom it returns the information to the calling service layer.
 
 
