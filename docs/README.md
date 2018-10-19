@@ -82,7 +82,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ##### NodeJs
 At a high level, all of the NodeJs services that make up the three applications are composed of four layers depicted in the digram below.
 
-![NodeConponents](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Node-component-arch.jpg.jpg?raw=true"NodeConponents")
+![NodeConponents](https://github.com/GeppettoSoftware/StahlsTest/blob/master/docs/Node-component-arch.jpg?raw=true"NodeConponents")
 
 ###### Layer One - Router
 The application uses the nodeJs Express package in order to implement [routes](https://expressjs.com/en/guide/routing.html)
