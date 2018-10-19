@@ -16,7 +16,7 @@
 3.9 [Users, Authentication and Authorization](User.md)<br/>
 3.10 [Settings](Settings.md)<br/>
 1. [Infrastructure](Deployment.md)<br/>
-   4.1 [Azure configuration]
+   4.1 [Azure configuration]<br/>
    4.2.[Deployment](Deployment.md)<br/>
 
 1. Section 
